@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import useFetch from '../../hooks/useFetch';
 
 const EmailValidation = () => {
+  const [email, setEmail] = useState('a');
   const [checkingEmail, setCheckingEmail] = useState(false);
+  const [emailExistenceStatus, setEmailExistenceStatus] = useState({
+    exists: 'unknown',
+  });
+
+  const { performFetch, cancelFetch } = useFetch(
+    `/user/checkemail/${email}`,
+    response => {
+      setEmailExistenceStatus({ exists: response.exists });
+      setCheckingEmail(false);
+    }
+  );
+
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   // email validation function
   const validateEmail = email => {
@@ -18,15 +35,25 @@ const EmailValidation = () => {
         type='email'
         onChange={e => {
           const email = e.target.value;
+          console.log(emailExistenceStatus);
+          setEmail(email);
           if (validateEmail(email)) {
             setCheckingEmail(true);
-            console.log('Valid email');
+            // after having a valid email, we can check if it exists in the database
+            setTimeout(() => {
+              performFetch();
+            }, 1500);
           } else {
             console.log('Invalid email');
           }
         }}
       />
       {checkingEmail && <div>Checking email...</div>}
+      {emailExistenceStatus.exists === true ? (
+        <div>Login...</div>
+      ) : (
+        <div>Sign up</div>
+      )}
     </div>
   );
 };
