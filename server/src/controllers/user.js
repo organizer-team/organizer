@@ -38,7 +38,7 @@ const verifyUserCredentials = async (user, password) => {
 };
 
 // Function to generate a token based on user ID
-const generateToken = (userId) => {
+const generateToken = userId => {
   return new Promise((resolve, reject) => {
     jwt.sign({ id: userId }, secret, {}, (error, token) => {
       if (error) {
@@ -155,7 +155,7 @@ export const login = async (request, response) => {
       if (userInDB) {
         const verificationResult = await verifyUserCredentials(
           user,
-          userInDB.password,
+          userInDB.password
         );
         if (verificationResult) {
           const token = await generateToken(userInDB._id);
@@ -257,7 +257,7 @@ export const updateUser = async (request, response) => {
             response.status(400).json({
               success: false,
               message: `Provide a 'user' object. Received: ${JSON.stringify(
-                user,
+                user
               )}`,
             });
 
@@ -322,7 +322,7 @@ export const updatePassword = async (request, response) => {
             response.status(400).json({
               success: false,
               message: `Provide a 'user' object. Received: ${JSON.stringify(
-                request.body,
+                request.body
               )}`,
             });
 
@@ -332,7 +332,7 @@ export const updatePassword = async (request, response) => {
           const allowedFields = ['oldPassword', 'newPassword'];
           const invalidFields = [];
 
-          Object.keys(user).forEach((field) => {
+          Object.keys(user).forEach(field => {
             if (!allowedFields.includes(field)) {
               invalidFields.push(field);
             }
@@ -346,7 +346,7 @@ export const updatePassword = async (request, response) => {
             response.status(400).json({
               success: false,
               message: `Provide a 'user' object containing oldPassword and newPassword. The following properties are not allowed to be set: ${invalidFields.join(
-                ', ',
+                ', '
               )}`,
             });
           } else {
@@ -358,7 +358,7 @@ export const updatePassword = async (request, response) => {
             // Check if the old password matches the one in the database
             const isPasswordMatch = await bcryptjs.compare(
               oldPassword,
-              userInDB.password,
+              userInDB.password
             );
 
             if (!isPasswordMatch) {
@@ -418,7 +418,7 @@ export const deleteUser = async (request, response) => {
             response.status(400).json({
               success: false,
               message: `Provide a 'user' object. Received: ${JSON.stringify(
-                user,
+                user
               )}`,
             });
 
@@ -440,7 +440,7 @@ export const deleteUser = async (request, response) => {
           // Check if the password matches the one in the database
           const isPasswordMatch = await bcryptjs.compare(
             user.password,
-            userInDB.password,
+            userInDB.password
           );
 
           if (!isPasswordMatch) {
@@ -470,5 +470,43 @@ export const deleteUser = async (request, response) => {
     response
       .status(500)
       .json({ success: false, message: 'Failed to update user password' });
+  }
+};
+
+/** CHECK IF USER EMAIL EXISTS
+ *
+ * @route GET /api/user/checkemail/:email
+ * @desc Checks email and returns boolean
+ */
+export const checkEmail = async (request, response) => {
+  try {
+    const { email } = request.params;
+
+    if (!email) {
+      response.status(400).json({
+        success: false,
+        message: 'Provide an email',
+      });
+      return;
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      response.status(200).json({
+        success: true,
+        exists: true,
+      });
+    } else {
+      response.status(200).json({
+        success: true,
+        exists: false,
+      });
+    }
+  } catch (error) {
+    logError(error);
+    response
+      .status(500)
+      .json({ success: false, message: 'Failed to check email' });
   }
 };
