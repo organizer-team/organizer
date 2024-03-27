@@ -93,7 +93,7 @@ export const createUser = async (request, response) => {
         message: validationErrorMessage(errorList),
       });
     } else {
-      const { email, password } = user;
+      const { userName, email, password } = user;
 
       // Check if a user with the same email already exists
       const existingUser = await User.findOne({ email });
@@ -108,6 +108,7 @@ export const createUser = async (request, response) => {
       const hashedPassword = bcryptjs.hashSync(password, salt);
 
       const newUser = await User.create({
+        userName,
         email,
         password: hashedPassword,
       });
