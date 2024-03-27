@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 
+import { UserContext } from '../../../context/UserContext';
 import CredentialsInput from '../../../components/CredentialsInput/CredentialsInput';
 import useFetch from '../../../hooks/useFetch';
 import TEST_ID from './CreateUser.testid';
@@ -14,6 +15,8 @@ const styles = {
 };
 
 const CreateUser = () => {
+  const { emailAfterValidation } = useContext(UserContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -26,14 +29,15 @@ const CreateUser = () => {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     '/user/register',
-    onSuccess,
+    onSuccess
   );
 
   useEffect(() => {
+    setEmail(emailAfterValidation);
     return cancelFetch;
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     performFetch({
       method: 'POST',
@@ -57,11 +61,11 @@ const CreateUser = () => {
     );
   }
 
-  const handleEmailChange = (event) => {
+  const handleEmailChange = event => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = event => {
     setPassword(event.target.value);
   };
 
@@ -71,21 +75,21 @@ const CreateUser = () => {
       <form onSubmit={handleSubmit} className={styles.FORM}>
         <h1>What should the user be?</h1>
         <CredentialsInput
-          name="email"
-          placeholder="email"
+          name='email'
+          placeholder='email'
           value={email}
           onChange={handleEmailChange}
           data-testid={TEST_ID.emailInput}
         />
         <CredentialsInput
-          name="password"
-          placeholder="password"
+          name='password'
+          placeholder='password'
           value={password}
           onChange={handlePasswordChange}
           data-testid={TEST_ID.passwordInput}
         />
         <button
-          type="submit"
+          type='submit'
           data-testid={TEST_ID.submitButton}
           className={styles.SUBMIT_BUTTON}
         >
