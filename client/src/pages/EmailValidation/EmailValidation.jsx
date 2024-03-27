@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import useFetch from '../../hooks/useFetch';
+import CreateUser from '../User/CreateUser/CreateUser';
+import LoginPage from '../User/LoginPage/LoginPage';
 
 const EmailValidation = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [checkingEmail, setCheckingEmail] = useState(false);
   const [emailExistenceStatus, setEmailExistenceStatus] = useState({
@@ -13,22 +18,44 @@ const EmailValidation = () => {
     return re.test(email);
   };
 
+  // Give some time to the user before redirecting to the login or sign up page
+  let timeoutId;
+  const handleTypingStop = () => {
+    if (validateEmail(email)) {
+      setCheckingEmail(true);
+      timeoutId = setTimeout(() => {
+        performFetch();
+      }, 3000);
+    }
+  };
+  const handleTyping = () => {
+    clearTimeout(timeoutId);
+  };
+
   const { performFetch, cancelFetch } = useFetch(
     `/user/checkemail/${email}`,
     response => {
       setEmailExistenceStatus({ exists: response.exists });
       setCheckingEmail(false);
+      response.exists
+        ? navigate('../../user/login')
+        : navigate('../../user/create');
     }
   );
 
   useEffect(() => {
-    if (validateEmail(email)) {
-      performFetch();
-    }
-    return cancelFetch;
-  }, [email]);
+    handleTypingStop();
+    handleTyping();
 
-  // email validation function
+    if (validateEmail(email)) {
+      handleTypingStop();
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+      cancelFetch();
+    };
+  }, [email]);
 
   return (
     <div className='flex flex-col justify-center items-center h-screen p-4 gap-y-8'>
@@ -41,21 +68,11 @@ const EmailValidation = () => {
         onChange={e => {
           const email = e.target.value;
           setEmail(email);
-          if (validateEmail(email)) {
-            setCheckingEmail(true);
-          } else {
-            console.log('Invalid email');
-          }
         }}
+        onKeyUp={handleTypingStop}
+        onKeyDown={handleTyping}
       />
       {checkingEmail && <div>Checking email...</div>}
-      {emailExistenceStatus.exists === 'unknown' ? (
-        <div>Not an email</div>
-      ) : emailExistenceStatus.exists === true ? (
-        <div>Login...</div>
-      ) : (
-        <div>Sign up</div>
-      )}
     </div>
   );
 };
