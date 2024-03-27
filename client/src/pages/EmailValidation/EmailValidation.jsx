@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import useFetch from '../../hooks/useFetch';
 
 const EmailValidation = () => {
-  const [email, setEmail] = useState('a');
+  const [email, setEmail] = useState('');
   const [checkingEmail, setCheckingEmail] = useState(false);
   const [emailExistenceStatus, setEmailExistenceStatus] = useState({
     exists: 'unknown',
   });
+
+  const validateEmail = email => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
 
   const { performFetch, cancelFetch } = useFetch(
     `/user/checkemail/${email}`,
@@ -17,14 +22,13 @@ const EmailValidation = () => {
   );
 
   useEffect(() => {
+    if (validateEmail(email)) {
+      performFetch();
+    }
     return cancelFetch;
-  }, []);
+  }, [email]);
 
   // email validation function
-  const validateEmail = email => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
 
   return (
     <div className='flex flex-col justify-center items-center h-screen p-4 gap-y-8'>
@@ -33,23 +37,21 @@ const EmailValidation = () => {
         className='border-2 border-[#9747FF] p-2 rounded w-full'
         placeholder='Enter your email'
         type='email'
+        value={email}
         onChange={e => {
           const email = e.target.value;
-          console.log(emailExistenceStatus);
           setEmail(email);
           if (validateEmail(email)) {
             setCheckingEmail(true);
-            // after having a valid email, we can check if it exists in the database
-            setTimeout(() => {
-              performFetch();
-            }, 1500);
           } else {
             console.log('Invalid email');
           }
         }}
       />
       {checkingEmail && <div>Checking email...</div>}
-      {emailExistenceStatus.exists === true ? (
+      {emailExistenceStatus.exists === 'unknown' ? (
+        <div>Not an email</div>
+      ) : emailExistenceStatus.exists === true ? (
         <div>Login...</div>
       ) : (
         <div>Sign up</div>
