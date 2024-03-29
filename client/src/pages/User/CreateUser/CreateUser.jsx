@@ -20,11 +20,13 @@ const CreateUser = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
 
   const onSuccess = () => {
     setUserName('');
     setPassword('');
+    setConfirmPassword('');
     setEmail('');
     setRedirect(true);
   };
@@ -41,6 +43,10 @@ const CreateUser = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
     performFetch({
       method: 'POST',
       headers: {
@@ -75,6 +81,10 @@ const CreateUser = () => {
     setPassword(event.target.value);
   };
 
+  const handleConfirmPasswordChange = event => {
+    setConfirmPassword(event.target.value);
+  };
+
   return (
     <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
       {redirect && <Navigate to={'/user/list'} />}
@@ -100,6 +110,13 @@ const CreateUser = () => {
           value={password}
           onChange={handlePasswordChange}
           data-testid={TEST_ID.passwordInput}
+        />
+        <CredentialsInput
+          name='confirmPassword'
+          placeholder='confirm password'
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+          data-testid={TEST_ID.confirmPasswordInput}
         />
         <button
           type='submit'
