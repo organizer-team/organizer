@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { Navigate, Link } from 'react-router-dom';
+import { UserContext } from '../../../context/UserContext';
 import useFetch from '../../../hooks/useFetch';
 import CredentialsInput from '../../../components/CredentialsInput/CredentialsInput';
 
@@ -14,19 +15,21 @@ const styles = {
 };
 
 export default function LoginPage() {
+  const { emailAfterValidation } = useContext(UserContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     '/user/login',
-    (jsonResult) => {
+    jsonResult => {
       if (jsonResult.success) {
         setRedirect(true);
       } else {
         alert('Login failed');
       }
-    },
+    }
   );
 
   async function login(event) {
@@ -44,6 +47,7 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
+    setEmail(emailAfterValidation);
     return cancelFetch;
   }, []);
 
@@ -73,11 +77,11 @@ export default function LoginPage() {
     );
   }
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  // const handleEmailChange = (event) => {
+  //   setEmail(event.target.value);
+  // };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = event => {
     setPassword(event.target.value);
   };
 
@@ -86,19 +90,18 @@ export default function LoginPage() {
       {redirect && <Navigate to={'/'} />}
       <form data-testid={TEST_ID.form} className={styles.FORM}>
         <h1>Login</h1>
-        <CredentialsInput
-          data-testid={TEST_ID.emailInput}
-          type="text"
-          placeholder="email"
-          name="email"
-          value={email}
-          onChange={handleEmailChange}
-        />
+        <div className='text-[#9747FF]'> {email}</div>
+        <div>
+          This is not your email?{' '}
+          <Link className='text-red-500' to={'../../email-validation'}>
+            Go Back
+          </Link>{' '}
+        </div>
         <CredentialsInput
           data-testid={TEST_ID.passwordInput}
-          type="password"
-          placeholder="password"
-          name="password"
+          type='password'
+          placeholder='password'
+          name='password'
           value={password}
           onChange={handlePasswordChange}
         />
