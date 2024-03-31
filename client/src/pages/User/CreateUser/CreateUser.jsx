@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
+import { UserContext } from '../../../context/UserContext';
 import CredentialsInput from '../../../components/CredentialsInput/CredentialsInput';
 import useFetch from '../../../hooks/useFetch';
 import TEST_ID from './CreateUser.testid';
@@ -14,33 +15,44 @@ const styles = {
 };
 
 const CreateUser = () => {
+  const { emailAfterValidation } = useContext(UserContext);
+
+  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
 
   const onSuccess = () => {
+    setUserName('');
     setPassword('');
+    setConfirmPassword('');
     setEmail('');
     setRedirect(true);
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     '/user/register',
-    onSuccess,
+    onSuccess
   );
 
   useEffect(() => {
+    setEmail(emailAfterValidation);
     return cancelFetch;
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
     performFetch({
       method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ user: { email, password } }),
+      body: JSON.stringify({ user: { userName, password, email } }),
     });
   };
 
@@ -57,12 +69,20 @@ const CreateUser = () => {
     );
   }
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  // const handleEmailChange = event => {
+  //   setEmail(event.target.value);
+  // };
+
+  const handleUserNameChange = event => {
+    setUserName(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = event => {
     setPassword(event.target.value);
+  };
+
+  const handleConfirmPasswordChange = event => {
+    setConfirmPassword(event.target.value);
   };
 
   return (
@@ -70,22 +90,36 @@ const CreateUser = () => {
       {redirect && <Navigate to={'/user/list'} />}
       <form onSubmit={handleSubmit} className={styles.FORM}>
         <h1>What should the user be?</h1>
+        <div className='text-[#9747FF]'> {email}</div>
+        <div>
+          This is not your email?{' '}
+          <Link className='text-red-500' to={'../../email-validation'}>
+            Go Back
+          </Link>{' '}
+        </div>
         <CredentialsInput
-          name="email"
-          placeholder="email"
-          value={email}
-          onChange={handleEmailChange}
-          data-testid={TEST_ID.emailInput}
+          name='userName'
+          placeholder='enter your name'
+          value={userName}
+          onChange={handleUserNameChange}
+          data-testid={TEST_ID.userNameInput}
         />
         <CredentialsInput
-          name="password"
-          placeholder="password"
+          name='password'
+          placeholder='password'
           value={password}
           onChange={handlePasswordChange}
           data-testid={TEST_ID.passwordInput}
         />
+        <CredentialsInput
+          name='confirmPassword'
+          placeholder='confirm password'
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+          data-testid={TEST_ID.confirmPasswordInput}
+        />
         <button
-          type="submit"
+          type='submit'
           data-testid={TEST_ID.submitButton}
           className={styles.SUBMIT_BUTTON}
         >
