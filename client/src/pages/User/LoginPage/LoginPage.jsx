@@ -8,10 +8,12 @@ import TEST_ID from './LoginPage.testid';
 
 /* Styles */
 const styles = {
-  CONTAINER: 'flex flex-col w-64 relative my-0 mx-auto gap-2 min-w-fit p-2',
-  SUBMIT_BUTTON:
-    'w-full block bg-slate-400 border-none text-white rounded py-2',
-  FORM: 'flex flex-col w-64 relative my-0 mx-auto gap-2 min-w-fit p-2 box-border',
+  CONTAINER:
+    'flex flex-col items-center justify-center min-h-screen p-4 bg-[#F2F2F2]',
+  FORM: 'flex flex-col w-full max-w-md p-4 rounded gap-4',
+  SUBMIT_BUTTON: 'w-full py-2 bg-purple-600 text-white rounded',
+  LINK: 'text-red-400 hover:underline',
+  STATUS_CONTAINER: 'mt-4 text-red-500',
 };
 
 export default function LoginPage() {
@@ -54,13 +56,21 @@ export default function LoginPage() {
   let statusComponent = null;
   if (error != null) {
     statusComponent = (
-      <div data-testid={TEST_ID.errorContainer}>
+      <div
+        data-testid={TEST_ID.errorContainer}
+        className={styles.STATUS_CONTAINER}
+      >
         Error while trying to login: {error.toString()}
       </div>
     );
   } else if (isLoading) {
     statusComponent = (
-      <div data-testid={TEST_ID.loadingContainer}>Logging in...</div>
+      <div
+        data-testid={TEST_ID.loadingContainer}
+        className={styles.STATUS_CONTAINER}
+      >
+        Logging in...
+      </div>
     );
   }
 
@@ -77,10 +87,6 @@ export default function LoginPage() {
     );
   }
 
-  // const handleEmailChange = (event) => {
-  //   setEmail(event.target.value);
-  // };
-
   const handlePasswordChange = event => {
     setPassword(event.target.value);
   };
@@ -89,11 +95,8 @@ export default function LoginPage() {
     <div className={styles.CONTAINER} data-testid={TEST_ID.container}>
       {redirect && <Navigate to={'/'} />}
       <form data-testid={TEST_ID.form} className={styles.FORM}>
-        <h1>Login</h1>
-        <div className='text-[#9747FF]' data-testid={TEST_ID.emailInput}>
-          {' '}
-          {email}
-        </div>
+        <h1 className='text-xl font-bold'>Login</h1>
+        <div className='text-[#B580FF]'>{email}</div>
         <div>
           This is not your email?{' '}
           <Link className='text-red-500' to={'../../email-validation'}>

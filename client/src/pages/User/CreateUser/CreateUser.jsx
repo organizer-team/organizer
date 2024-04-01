@@ -6,12 +6,14 @@ import CredentialsInput from '../../../components/CredentialsInput/CredentialsIn
 import useFetch from '../../../hooks/useFetch';
 import TEST_ID from './CreateUser.testid';
 
-/* Styles */
+// Styles
 const styles = {
-  CONTAINER: 'flex flex-col w-64 relative my-0 mx-auto gap-2 min-w-fit p-2',
-  FORM: 'flex flex-col w-64 relative my-0 mx-auto gap-2 min-w-fit p-2 box-border',
-  SUBMIT_BUTTON:
-    'w-full block bg-slate-400 border-none text-white rounded py-2',
+  CONTAINER:
+    'flex flex-col items-center justify-center min-h-screen p-4 bg-[#F2F2F2]',
+  FORM: 'flex flex-col w-full max-w-md p-4 rounded gap-4',
+  SUBMIT_BUTTON: 'w-full py-2 bg-purple-600 text-white rounded',
+  LINK: 'text-red-400 hover:underline',
+  STATUS_CONTAINER: 'mt-4 text-red-500',
 };
 
 const CreateUser = () => {
@@ -59,19 +61,23 @@ const CreateUser = () => {
   let statusComponent = null;
   if (error != null) {
     statusComponent = (
-      <div data-testid={TEST_ID.errorContainer}>
+      <div
+        data-testid={TEST_ID.errorContainer}
+        className={styles.STATUS_CONTAINER}
+      >
         Error while trying to create user: {error.toString()}
       </div>
     );
   } else if (isLoading) {
     statusComponent = (
-      <div data-testid={TEST_ID.loadingContainer}>Creating user....</div>
+      <div
+        data-testid={TEST_ID.loadingContainer}
+        className={styles.STATUS_CONTAINER}
+      >
+        Creating user....
+      </div>
     );
   }
-
-  // const handleEmailChange = event => {
-  //   setEmail(event.target.value);
-  // };
 
   const handleUserNameChange = event => {
     setUserName(event.target.value);
@@ -89,31 +95,31 @@ const CreateUser = () => {
     <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
       {redirect && <Navigate to={'/user/list'} />}
       <form onSubmit={handleSubmit} className={styles.FORM}>
-        <h1>What should the user be?</h1>
-        <div className='text-[#9747FF]'> {email}</div>
-        <div>
+        <h1 className='text-xl font-bold mb-4'>Sign up</h1>
+        <div className='text-[#B580FF] mb-4'>{email}</div>
+        <div className='text-[#9747FF] mb-2'>
           This is not your email?{' '}
-          <Link className='text-red-500' to={'../../email-validation'}>
+          <Link className={styles.LINK} to={'../../email-validation'}>
             Go Back
-          </Link>{' '}
+          </Link>
         </div>
         <CredentialsInput
           name='userName'
-          placeholder='enter your name'
+          placeholder='Enter your name'
           value={userName}
           onChange={handleUserNameChange}
           data-testid={TEST_ID.userNameInput}
         />
         <CredentialsInput
           name='password'
-          placeholder='password'
+          placeholder='Password'
           value={password}
           onChange={handlePasswordChange}
           data-testid={TEST_ID.passwordInput}
         />
         <CredentialsInput
           name='confirmPassword'
-          placeholder='confirm password'
+          placeholder='Confirm password'
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           data-testid={TEST_ID.confirmPasswordInput}

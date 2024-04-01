@@ -9,9 +9,12 @@ import LoginPage from '../User/LoginPage/LoginPage';
 
 // styles
 const styles = {
-  CONTAINER: 'flex flex-col justify-center items-center h-screen p-4 gap-y-8',
-  INPUT: 'border-2 border-[#9747FF] p-2 rounded w-full',
-  PARAGRAPH: 'text-xl',
+  CONTAINER:
+    'flex flex-col justify-center items-center h-screen p-4 gap-y-16 bg-[#F2F2F2]',
+  INPUT:
+    'text-center border-2 border-[#C996FF] p-2 rounded w-full max-w-md focus:outline-[#9747FF]',
+  PARAGRAPH: 'text-lg text-center text-[#6E24B1] mb-4',
+  CHECKING_EMAIL: 'text-[#9747FF] text-sm mt-2',
 };
 
 // component
@@ -88,7 +91,9 @@ const EmailValidation = () => {
         onKeyUp={handleTypingStop}
         onKeyDown={handleTyping}
       />
-      {checkingEmail && <div>Checking email...</div>}
+      {checkingEmail && (
+        <div className={styles.CHECKING_EMAIL}>Checking email...</div>
+      )}
     </div>
   );
 };
