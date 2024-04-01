@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import TEST_ID from './EmailValidation.testid';
 import { UserContext } from '../../context/UserContext';
 import useFetch from '../../hooks/useFetch';
 import CreateUser from '../User/CreateUser/CreateUser';
@@ -70,11 +71,12 @@ const EmailValidation = () => {
   }, [email]);
 
   return (
-    <div className={styles.CONTAINER}>
+    <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
       <p className={styles.PARAGRAPH}>
         Let’s check what you are going to do today!
       </p>
       <input
+        data-testid={TEST_ID.emailInput}
         className={styles.INPUT}
         placeholder='Enter your email'
         type='email'
