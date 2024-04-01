@@ -51,7 +51,7 @@ const EmailValidation = () => {
       setEmailAfterValidation(email);
       response.exists
         ? navigate('../../user/login')
-        : navigate('../../user/create');
+        : navigate('../../user/signup');
     }
   );
 

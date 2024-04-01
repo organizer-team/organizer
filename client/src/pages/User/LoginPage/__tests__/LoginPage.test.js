@@ -24,7 +24,7 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
     // Check if the email input is rendered
@@ -52,34 +52,25 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
-    const testEmail = 'test@mail.com';
     const testPassword = 'testPassword';
 
-    const emailInput = component.root.findByProps({
-      'data-testid': TEST_ID.emailInput,
-    });
     const passwordInput = component.root.findByProps({
       'data-testid': TEST_ID.passwordInput,
     });
 
     act(() => {
-      emailInput.props.onChange({
-        target: { value: testEmail },
-      });
       passwordInput.props.onChange({
         target: { value: testPassword },
       });
     });
 
-    expect(emailInput.props.value).toBe(testEmail);
     expect(passwordInput.props.value).toBe(testPassword);
   });
 
   it('render loading message when login is in progress', async () => {
-    const testEmail = 'test@mail.com';
     const testPassword = 'testPassword';
 
     // Mock our fetch with a user
@@ -90,20 +81,14 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
-    const emailInput = component.root.findByProps({
-      'data-testid': TEST_ID.emailInput,
-    });
     const passwordInput = component.root.findByProps({
       'data-testid': TEST_ID.passwordInput,
     });
 
     await act(async () => {
-      emailInput.props.onChange({
-        target: { value: testEmail },
-      });
       passwordInput.props.onChange({
         target: { value: testPassword },
       });
@@ -120,7 +105,6 @@ describe('LoginPage', () => {
   });
 
   it('renders error message when login fails', async () => {
-    const testEmail = 'test@mail.com';
     const testPassword = 'testPassword';
 
     // Mock our fetch with a user
@@ -131,20 +115,14 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
-    const emailInput = component.root.findByProps({
-      'data-testid': TEST_ID.emailInput,
-    });
     const passwordInput = component.root.findByProps({
       'data-testid': TEST_ID.passwordInput,
     });
 
     await act(() => {
-      emailInput.props.onChange({
-        target: { value: testEmail },
-      });
       passwordInput.props.onChange({
         target: { value: testPassword },
       });

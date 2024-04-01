@@ -22,77 +22,114 @@ import {
   createUserFailedMock,
 } from '../../../../__testUtils__/fetchUserMocks';
 
+// Mock UserContext module
+jest.mock('../../../context/UserContext.jsx', () => ({
+  UserContext: {
+    Provider: ({ children }) => <div>{children}</div>,
+    Consumer: ({ children }) => children({}),
+  },
+}));
+
 beforeEach(() => {
   fetch.resetMocks();
 });
 
 describe('CreateUser', () => {
   it('Renders without a problem', () => {
-    render(<CreateUser />);
+    render(
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
+    );
 
     expect(
-      screen.getByTestId(TEST_ID_CREATE_USER.container),
+      screen.getByTestId(TEST_ID_CREATE_USER.container)
     ).toBeInTheDocument();
   });
 
-  it('Should be able to change password and email input', () => {
+  it('Should be able to change user name, password and confirm password input', () => {
+    const testUserName = 'John Smith';
     const testPassword = 'John';
-    const testEmail = 'john@doe.com';
+    const testPasswordConfirm = 'John';
 
-    render(<CreateUser />);
+    render(
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
+    );
 
     // Check initially fields are empty
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput).value).toEqual(
+      ''
+    );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
-      '',
+      ''
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      '',
-    );
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
+    ).toEqual('');
 
     // Change fields
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: testUserName },
+    });
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
       target: { value: testPassword },
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.emailInput), {
-      target: { value: testEmail },
-    });
+    fireEvent.change(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+      {
+        target: { value: testPasswordConfirm },
+      }
+    );
 
     // Check fields have changed value
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput).value).toEqual(
+      testUserName
+    );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
-      testPassword,
+      testPassword
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      testEmail,
-    );
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
+    ).toEqual(testPasswordConfirm);
   });
 
   it('Should send the input values to the server on clicking submit and indicate loading states', async () => {
+    const testUserName = 'John Smith';
     const testPassword = 'John';
+    const testPasswordConfirm = 'John';
     const testEmail = 'john@doe.com';
 
     // Mock our fetch
     fetch.mockResponseOnce(createUserSuccessMock());
 
     render(
-      <MemoryRouter history={history} initialEntries={['/user/create']}>
+      <MemoryRouter history={history} initialEntries={['/user/signup']}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Fill in our fields
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: testUserName },
+    });
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
       target: { value: testPassword },
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.emailInput), {
-      target: { value: testEmail },
-    });
+    fireEvent.change(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+      {
+        target: { value: testPasswordConfirm },
+      }
+    );
 
     // Make sure fetch hasn't been called yet
     expect(fetch.mock.calls.length).toEqual(0);
 
     // Check that there is no loading indicator initially
     expect(
-      await screen.queryByTestId(TEST_ID_CREATE_USER.loadingContainer),
+      await screen.queryByTestId(TEST_ID_CREATE_USER.loadingContainer)
     ).not.toBeInTheDocument();
 
     // Click submit
@@ -100,12 +137,12 @@ describe('CreateUser', () => {
 
     // Wait for the loading to be shown
     expect(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer),
+      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
     ).toBeInTheDocument();
 
     // Wait for the loading state to be removed
     await waitForElementToBeRemoved(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer),
+      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
     );
 
     // Check that the right endpoint was called
@@ -114,31 +151,47 @@ describe('CreateUser', () => {
     expect(fetch.mock.calls[0][1].body).toEqual(
       // We need to stringify as we send the information as a string
       JSON.stringify({
-        user: { email: testEmail, password: testPassword },
-      }),
+        user: {
+          userName: testUserName,
+          password: testPassword,
+          email: testEmail,
+        },
+      })
     );
   });
 
   it('Should show an error state if the creation is unsuccessful', async () => {
+    const testUserName = 'John Doe';
     const testPassword = 'John';
+    const testPasswordConfirm = 'John';
     const testEmail = 'john@doe.com';
 
     // Mock our fetch
     fetch.mockResponseOnce(createUserFailedMock());
 
-    render(<CreateUser />);
+    render(
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
+    );
 
     // Fill in our fields
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: testUserName },
+    });
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
       target: { value: testPassword },
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.emailInput), {
-      target: { value: testEmail },
-    });
+    fireEvent.change(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+      {
+        target: { value: testPasswordConfirm },
+      }
+    );
 
     // Check that there is no error indicator initially
     expect(
-      screen.queryByTestId(TEST_ID_CREATE_USER.errorContainer),
+      screen.queryByTestId(TEST_ID_CREATE_USER.errorContainer)
     ).not.toBeInTheDocument();
 
     // Click submit
@@ -147,16 +200,19 @@ describe('CreateUser', () => {
     // Wait to see the error component
     waitFor(() =>
       expect(
-        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer),
-      ).toBeInTheDocument(),
+        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer)
+      ).toBeInTheDocument()
     );
 
     // Check to see that the fields are still filled in
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput).value).toEqual(
+      testUserName
+    );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
-      testPassword,
+      testPassword
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      testEmail,
-    );
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
+    ).toEqual(testPasswordConfirm);
   });
 });

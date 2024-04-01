@@ -90,7 +90,10 @@ export default function LoginPage() {
       {redirect && <Navigate to={'/'} />}
       <form data-testid={TEST_ID.form} className={styles.FORM}>
         <h1>Login</h1>
-        <div className='text-[#9747FF]'> {email}</div>
+        <div className='text-[#9747FF]' data-testid={TEST_ID.emailInput}>
+          {' '}
+          {email}
+        </div>
         <div>
           This is not your email?{' '}
           <Link className='text-red-500' to={'../../email-validation'}>

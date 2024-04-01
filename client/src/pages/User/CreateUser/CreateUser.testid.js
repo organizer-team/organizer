@@ -12,6 +12,11 @@ const TEST_ID = {
     'User',
     'CreateUser'
   )}-passwordInput`,
+  confirmPasswordInput: `${createTestIdFilePath(
+    'pages',
+    'User',
+    'CreateUser'
+  )}-confirmPasswordInput`,
   emailInput: `${createTestIdFilePath(
     'pages',
     'User',
