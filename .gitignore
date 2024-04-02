@@ -1,9 +1,6 @@
 # MacOS creates these files
 .DS_Store
 
-# vsCode
-.vscode
-
 # Never push environment variables
 .env
 
