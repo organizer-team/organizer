@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { GrBladesVertical, GrAdd, GrCalendar, GrList } from 'react-icons/gr';
 import PropTypes from 'prop-types';
@@ -25,10 +25,24 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
   const isCalendar = location.pathname === routes.calendar;
 
   const [showPopup, setShowPopup] = useState(false);
+  const popupRef = useRef();
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopup(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className={styles.navWrapper}>
@@ -40,7 +54,7 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
           <GrAdd size={iconSize} />
         </button>
         {showPopup && (
-          <div className={styles.popupMenu}>
+          <div ref={popupRef} className={styles.popupMenu}>
             <button onClick={togglePopup} className={styles.popupButton}>
               Task
             </button>
