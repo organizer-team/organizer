@@ -26,13 +26,18 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
 
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef();
+  const buttonRef = useRef();
 
-  const togglePopup = () => {
+  const togglePopup = (event) => {
+    event.stopPropagation();
     setShowPopup(!showPopup);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (buttonRef.current && buttonRef.current.contains(event.target)) {
+        return;
+      }
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setShowPopup(false);
       }
@@ -50,7 +55,11 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
         <button onClick={toggleLeftSideMenu} className={styles.navButton}>
           <GrList size={iconSize} />
         </button>
-        <button onClick={togglePopup} className={styles.navButton}>
+        <button
+          ref={buttonRef}
+          onClick={togglePopup}
+          className={styles.navButton}
+        >
           <GrAdd size={iconSize} />
         </button>
         {showPopup && (
