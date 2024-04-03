@@ -7,5 +7,5 @@ import AppWrapper from './AppWrapper.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AppWrapper>
     <App />
-  </AppWrapper>,
+  </AppWrapper>
 );

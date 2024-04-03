@@ -1,4 +1,5 @@
 import { create, act } from 'react-test-renderer';
+import React from 'react';
 
 import useFetch from '../useFetch';
 import {
@@ -22,9 +23,8 @@ describe('useFetch', () => {
       return null;
     };
 
-    let component;
     act(() => {
-      component = create(<TestComponent />);
+      create(<TestComponent />);
     });
 
     // Nothing is performed yet
@@ -63,9 +63,8 @@ describe('useFetch', () => {
       return null;
     };
 
-    let component;
     act(() => {
-      component = create(<TestComponent />);
+      create(<TestComponent />);
     });
 
     // Nothing is performed yet

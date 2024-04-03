@@ -43,7 +43,7 @@ const CreateUser = () => {
     return cancelFetch;
   }, []);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match');
@@ -83,15 +83,15 @@ const CreateUser = () => {
   //   setEmail(event.target.value);
   // };
 
-  const handleUserNameChange = event => {
+  const handleUserNameChange = (event) => {
     setUserName(event.target.value);
   };
 
-  const handlePasswordChange = event => {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const handleConfirmPasswordChange = event => {
+  const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
 
@@ -99,37 +99,37 @@ const CreateUser = () => {
     <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
       {redirect && <Navigate to={'/user/list'} />}
       <form onSubmit={handleSubmit} className={styles.FORM}>
-        <h1 className='text-xl font-bold mb-4'>Sign up</h1>
-        <div className='text-[#B580FF] mb-4'>{email}</div>
-        <div className='text-red-400 mb-2'>
+        <h1 className="text-xl font-bold mb-4">Sign up</h1>
+        <div className="text-[#B580FF] mb-4">{email}</div>
+        <div className="text-red-400 mb-2">
           This is not your email?{' '}
           <Link className={styles.LINK} to={'../../email-validation'}>
             Go Back
           </Link>{' '}
         </div>
         <CredentialsInput
-          name='userName'
-          placeholder='Enter your name'
+          name="userName"
+          placeholder="Enter your name"
           value={userName}
           onChange={handleUserNameChange}
           data-testid={TEST_ID.userNameInput}
         />
         <CredentialsInput
-          name='password'
-          placeholder='Password'
+          name="password"
+          placeholder="Password"
           value={password}
           onChange={handlePasswordChange}
           data-testid={TEST_ID.passwordInput}
         />
         <CredentialsInput
-          name='confirmPassword'
-          placeholder='Confirm password'
+          name="confirmPassword"
+          placeholder="Confirm password"
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           data-testid={TEST_ID.confirmPasswordInput}
         />
         <button
-          type='submit'
+          type="submit"
           data-testid={TEST_ID.submitButton}
           className={styles.SUBMIT_BUTTON}
         >

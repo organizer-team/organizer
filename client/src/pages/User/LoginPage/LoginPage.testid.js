@@ -5,27 +5,27 @@ const TEST_ID = {
   loadingContainer: `${createTestIdFilePath(
     'pages',
     'User',
-    'LoginPage',
+    'LoginPage'
   )}-loadingContainer`,
   errorContainer: `${createTestIdFilePath(
     'pages',
     'User',
-    'LoginPage',
+    'LoginPage'
   )}-errorContainer`,
   passwordInput: `${createTestIdFilePath(
     'pages',
     'User',
-    'LoginPage',
+    'LoginPage'
   )}-passwordInput`,
   emailInput: `${createTestIdFilePath(
     'pages',
     'User',
-    'LoginPage',
+    'LoginPage'
   )}-emailInput`,
   loginButton: `${createTestIdFilePath(
     'pages',
     'User',
-    'LoginPage',
+    'LoginPage'
   )}-loginButton`,
   form: `${createTestIdFilePath('pages', 'User', 'LoginPage')}-form`,
 };

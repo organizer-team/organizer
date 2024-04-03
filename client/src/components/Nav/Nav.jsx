@@ -52,7 +52,7 @@ const Nav = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const updatedLinks = links.map(link => {
+    const updatedLinks = links.map((link) => {
       return {
         ...link,
         current: location.pathname === link.path,
@@ -62,10 +62,10 @@ const Nav = () => {
     setLinks(updatedLinks);
   }, [location.pathname]);
 
-  const handleClick = link => {
+  const handleClick = (link) => {
     navigate(link.path);
 
-    const updatedLinks = links.map(item => {
+    const updatedLinks = links.map((item) => {
       return {
         ...item,
         current: item.dataTestId === link.dataTestId,
@@ -79,7 +79,7 @@ const Nav = () => {
     <nav className={styles.NAV}>
       <Disclosure>
         {({ open, setOpen }) => (
-          <div onMouseLeave={event => setOpen(false)}>
+          <div onMouseLeave={() => setOpen(false)}>
             {/* Mobile menu button */}
             <button
               className={styles.MENU_BUTTON}
@@ -93,7 +93,7 @@ const Nav = () => {
               data-testid={TEST_ID.linksContainer}
               className={`md:flex ${open ? 'block' : 'hidden'} md:block`}
             >
-              {links.map(item => (
+              {links.map((item) => (
                 <button
                   key={item.name}
                   className={classNames(

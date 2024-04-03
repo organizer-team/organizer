@@ -65,21 +65,21 @@ describe('GET /api/user/', () => {
 
       const passwordCheck1 = bcryptjs.compareSync(
         testUser1.password,
-        user1.password,
+        user1.password
       );
       expect(passwordCheck1).toBe(true);
 
       const passwordCheck2 = bcryptjs.compareSync(
         testUser2.password,
-        user2.password,
+        user2.password
       );
       expect(passwordCheck2).toBe(true);
 
       expect(
-        users.filter((user) => user.email === testUser1.email),
+        users.filter((user) => user.email === testUser1.email)
       ).toHaveLength(1);
       expect(
-        users.filter((user) => user.email === testUser2.email),
+        users.filter((user) => user.email === testUser2.email)
       ).toHaveLength(1);
     });
   });

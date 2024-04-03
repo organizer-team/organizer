@@ -24,7 +24,7 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
     // Check if the email input is rendered
@@ -52,7 +52,7 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
     const testEmail = 'test@mail.com';
@@ -90,7 +90,7 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
     const emailInput = component.root.findByProps({
@@ -131,7 +131,7 @@ describe('LoginPage', () => {
         <Router>
           <LoginPage />
         </Router>
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
     const emailInput = component.root.findByProps({
