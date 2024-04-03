@@ -15,24 +15,25 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 
-import CreateUser from '../CreateUser';
+import CreateUser from '../CreateUser.jsx';
 import TEST_ID_CREATE_USER from '../CreateUser.testid.js';
 import {
   createUserSuccessMock,
   createUserFailedMock,
 } from '../../../../__testUtils__/fetchUserMocks';
 
-// Mock UserContext module
-jest.mock('../../../context/UserContext.jsx', () => ({
-  UserContext: {
-    Provider: ({ children }) => <div>{children}</div>,
-    Consumer: ({ children }) => children({}),
-  },
-}));
-
+// Remove the mock for BrowserRouter
 beforeEach(() => {
   fetch.resetMocks();
 });
+
+// Mock UserContext module
+// jest.mock('../../../../context/UserContext.jsx', () => ({
+//   UserContext: {
+//     Provider: ({ children }) => <div>{children}</div>,
+//     Consumer: ({ children }) => children({}),
+//   },
+// }));
 
 describe('CreateUser', () => {
   it('Renders without a problem', () => {
@@ -51,6 +52,7 @@ describe('CreateUser', () => {
     const testUserName = 'John Smith';
     const testPassword = 'John';
     const testPasswordConfirm = 'John';
+    const testEmail = 'test@example.com';
 
     render(
       <MemoryRouter>
@@ -99,14 +101,20 @@ describe('CreateUser', () => {
     const testUserName = 'John Smith';
     const testPassword = 'John';
     const testPasswordConfirm = 'John';
-    const testEmail = 'john@doe.com';
+    const testEmail = 'test@example.com';
 
     // Mock our fetch
-    fetch.mockResponseOnce(createUserSuccessMock());
+    fetch.mockResponseOnce(
+      createUserSuccessMock({
+        userName: testUserName,
+        password: testPassword,
+        email: testEmail,
+      })
+    );
 
     render(
       <MemoryRouter history={history} initialEntries={['/user/signup']}>
-        <App />
+        <CreateUser />
       </MemoryRouter>
     );
 
@@ -164,10 +172,16 @@ describe('CreateUser', () => {
     const testUserName = 'John Doe';
     const testPassword = 'John';
     const testPasswordConfirm = 'John';
-    const testEmail = 'john@doe.com';
+    const testEmail = 'test@example.com';
 
     // Mock our fetch
-    fetch.mockResponseOnce(createUserFailedMock());
+    fetch.mockResponseOnce(
+      createUserFailedMock({
+        userName: testUserName,
+        password: testPassword,
+        email: testEmail,
+      })
+    );
 
     render(
       <MemoryRouter>

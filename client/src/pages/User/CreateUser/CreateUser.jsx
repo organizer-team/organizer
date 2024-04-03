@@ -96,7 +96,9 @@ const CreateUser = () => {
       {redirect && <Navigate to={'/user/list'} />}
       <form onSubmit={handleSubmit} className={styles.FORM}>
         <h1 className='text-xl font-bold mb-4'>Sign up</h1>
-        <div className='text-[#B580FF] mb-4'>{email}</div>
+        <div data-testid={TEST_ID.emailInput} className='text-[#B580FF] mb-4'>
+          {email}
+        </div>
         <div className='text-[#9747FF] mb-2'>
           This is not your email?{' '}
           <Link className={styles.LINK} to={'../../email-validation'}>
