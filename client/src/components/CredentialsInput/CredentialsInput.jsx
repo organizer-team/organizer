@@ -4,9 +4,9 @@ import classNames from '../../utils/classNames';
 
 /* Styles */
 const styles = {
-  INPUT_1: 'flexbox w-full p-2 rounded max-w-sm text-center',
+  INPUT_1: 'w-full p-2 rounded max-w-md text-center text-[#9747FF]',
   INPUT_2:
-    'border-2 border-solid bg-white border-neutral-100 hover:border-neutral-200',
+    'border-2 border-solid border-purple-600 focus:border-[#9747FF] outline-none',
 };
 
 const CredentialsInput = ({ ...rest }) => {
