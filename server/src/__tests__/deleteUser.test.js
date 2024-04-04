@@ -38,7 +38,7 @@ describe('DELETE /api/user/delete', () => {
 
     return request
       .delete('/api/user/delete')
-      .set('Cookie', [`token=`])
+      .set('Cookie', ['token='])
       .send({ user: testUser })
       .then((response) => {
         expect(response.status).toBe(499);

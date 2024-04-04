@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import CredentialsInput from '../CredentialsInput';
 
 describe('CredentialsInput', () => {
   it('renders with the correct props', () => {
     const { getByDisplayValue } = render(
-      <CredentialsInput name="test" value="test value" onChange={() => {}} />,
+      <CredentialsInput name="test" value="test value" onChange={() => {}} />
     );
 
     expect(getByDisplayValue('test value')).toBeInTheDocument();
@@ -13,7 +13,7 @@ describe('CredentialsInput', () => {
 
   it('has the correct classes', () => {
     const { getByDisplayValue } = render(
-      <CredentialsInput name="test" value="test value" onChange={() => {}} />,
+      <CredentialsInput name="test" value="test value" onChange={() => {}} />
     );
 
     const input = getByDisplayValue('test value');

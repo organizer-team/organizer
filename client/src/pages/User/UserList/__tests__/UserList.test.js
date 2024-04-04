@@ -30,15 +30,15 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     // Check that the page has rendered
@@ -60,15 +60,15 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     // Check the information is on the page.
@@ -84,16 +84,16 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(
-      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer),
+      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer)
     ).toBeInTheDocument();
 
     // Loading div should be removed after the load is complete
     await waitForElementToBeRemoved(() =>
-      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer),
+      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer)
     );
   });
 
@@ -104,18 +104,18 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(
-      screen.queryByTestId(TEST_ID_USER_LIST.errorContainer),
+      screen.queryByTestId(TEST_ID_USER_LIST.errorContainer)
     ).not.toBeInTheDocument();
 
     // Wait to see that the error container is being shown
     await waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_USER_LIST.errorContainer),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_USER_LIST.errorContainer)
+      ).toBeInTheDocument()
     );
   });
 
@@ -131,21 +131,21 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     // Check that the delete button is rendered for each user
     users.forEach((user) => {
       expect(
-        screen.getByTestId(`${TEST_ID_USER_LIST.deleteUserButton}-${user._id}`),
+        screen.getByTestId(`${TEST_ID_USER_LIST.deleteUserButton}-${user._id}`)
       ).toBeInTheDocument();
     });
   });
@@ -165,19 +165,19 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     let deleteButton = screen.getByTestId(
-      `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`,
+      `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`
     );
 
     // Click the delete button
@@ -186,12 +186,12 @@ describe('UserList', () => {
     // Check that the delete modal is opened
     await waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container)
+      ).toBeInTheDocument()
     );
 
     let cancelButton = screen.getByTestId(
-      TEST_ID_DELETE_USER_MODAL.cancelButton,
+      TEST_ID_DELETE_USER_MODAL.cancelButton
     );
 
     // Check that the delete modal is opened
@@ -203,8 +203,8 @@ describe('UserList', () => {
     // Check that the delete modal is closed
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container),
-      ).not.toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container)
+      ).not.toBeInTheDocument()
     );
   });
 
@@ -223,29 +223,29 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     // Click the delete button
     fireEvent.click(
       screen.getByTestId(
-        `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`,
-      ),
+        `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`
+      )
     );
 
     // Check that the delete modal is opened
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container)
+      ).toBeInTheDocument()
     );
   });
 
@@ -264,29 +264,29 @@ describe('UserList', () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     // Click the delete button
     fireEvent.click(
       screen.getByTestId(
-        `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`,
-      ),
+        `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`
+      )
     );
 
     // Check that the delete modal is opened
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container)
+      ).toBeInTheDocument()
     );
 
     // Mock our fetch with users
@@ -297,43 +297,43 @@ describe('UserList', () => {
       screen.getByTestId(TEST_ID_DELETE_USER_MODAL.passwordInput),
       {
         target: { value: users[0].password },
-      },
+      }
     );
 
     // Click the confirm button
     fireEvent.click(
-      screen.getByTestId(TEST_ID_DELETE_USER_MODAL.confirmButton),
+      screen.getByTestId(TEST_ID_DELETE_USER_MODAL.confirmButton)
     );
 
     // Check that the delete modal is closed
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container),
-      ).not.toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_DELETE_USER_MODAL.container)
+      ).not.toBeInTheDocument()
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
 
     // Check that the user was removed from the list
     waitFor(() =>
       expect(
         screen.queryByTestId(
-          `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`,
-        ),
-      ).not.toBeInTheDocument(),
+          `${TEST_ID_USER_LIST.deleteUserButton}-${users[0]._id}`
+        )
+      ).not.toBeInTheDocument()
     );
 
     // Check that the other user is still there
     expect(
       screen.queryByTestId(
-        `${TEST_ID_USER_LIST.deleteUserButton}-${users[1]._id}`,
-      ),
+        `${TEST_ID_USER_LIST.deleteUserButton}-${users[1]._id}`
+      )
     ).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import useFetch from '../../../hooks/useFetch';
@@ -25,7 +25,7 @@ export default function LoginPage() {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     '/user/login',
-    jsonResult => {
+    (jsonResult) => {
       if (jsonResult.success) {
         setRedirect(true);
       } else {
@@ -87,7 +87,7 @@ export default function LoginPage() {
     );
   }
 
-  const handlePasswordChange = event => {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
@@ -95,12 +95,12 @@ export default function LoginPage() {
     <div className={styles.CONTAINER} data-testid={TEST_ID.container}>
       {redirect && <Navigate to={'/'} />}
       <form data-testid={TEST_ID.form} className={styles.FORM}>
-        <h1 className='text-xl font-bold'>Login</h1>
-        <div className='text-[#9747FF]' data-testid={TEST_ID.emailInput}>
+        <h1 className="text-xl font-bold">Login</h1>
+        <div className="text-[#9747FF]" data-testid={TEST_ID.emailInput}>
           {' '}
           {email}
         </div>
-        <div className='text-red-400'>
+        <div className="text-red-400">
           This is not your email?{' '}
           <Link className={styles.LINK} to={'../../email-validation'}>
             Go Back
@@ -108,9 +108,9 @@ export default function LoginPage() {
         </div>
         <CredentialsInput
           data-testid={TEST_ID.passwordInput}
-          type='password'
-          placeholder='password'
-          name='password'
+          type="password"
+          placeholder="password"
+          name="password"
           value={password}
           onChange={handlePasswordChange}
         />

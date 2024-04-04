@@ -36,7 +36,7 @@ describe('GET /api/user/profile', () => {
   it('Should return a bad request if no token is given', (done) => {
     request
       .get('/api/user/profile')
-      .set('Cookie', [`token=`])
+      .set('Cookie', ['token='])
       .then((response) => {
         expect(response.status).toBe(499);
 
@@ -114,7 +114,7 @@ describe('GET /api/user/profile', () => {
 
               const passwordCheck = bcryptjs.compareSync(
                 testUser.password,
-                userInDb.password,
+                userInDb.password
               );
 
               expect(passwordCheck).toBe(true);

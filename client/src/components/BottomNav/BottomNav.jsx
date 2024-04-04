@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { GrBladesVertical, GrAdd, GrCalendar, GrList } from 'react-icons/gr';
+import PropTypes from 'prop-types';
 
 /* Styles */
 const styles = {
@@ -42,4 +43,10 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
       </div>
     </div>
   );
+};
+
+// Props
+
+BottomNav.propTypes = {
+  toggleLeftSideMenu: PropTypes.func.isRequired,
 };

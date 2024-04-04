@@ -1,4 +1,6 @@
 import React from 'react';
+import PropsTypes from 'prop-types';
+
 import TEST_ID from './DeleteUserModal.testid';
 
 /* Styles */
@@ -86,3 +88,14 @@ const DeleteUserModal = ({
 };
 
 export default DeleteUserModal;
+
+/* Props */
+DeleteUserModal.propTypes = {
+  password: PropsTypes.string,
+  setPassword: PropsTypes.func,
+  handleConfirmDelete: PropsTypes.func,
+  handleModalClose: PropsTypes.func,
+  error: PropsTypes.string,
+  isLoading: PropsTypes.bool,
+  success: PropsTypes.bool,
+};
