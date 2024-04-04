@@ -5,7 +5,6 @@ import Home from './pages/Home/Home';
 import CreateUser from './pages/User/CreateUser/CreateUser';
 import UserList from './pages/User/UserList/UserList';
 import AuthLayout from './layout/AuthLayout';
-import { UserContextProvider } from './context/UserContext';
 import LoginPage from './pages/User/LoginPage/LoginPage';
 import EmailValidation from './pages/EmailValidation/EmailValidation';
 import Tasks from './pages/Tasks/Tasks';
