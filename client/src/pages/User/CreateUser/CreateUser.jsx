@@ -79,10 +79,6 @@ const CreateUser = () => {
     );
   }
 
-  // const handleEmailChange = event => {
-  //   setEmail(event.target.value);
-  // };
-
   const handleUserNameChange = (event) => {
     setUserName(event.target.value);
   };
@@ -97,7 +93,7 @@ const CreateUser = () => {
 
   return (
     <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
-      {redirect && <Navigate to={'/user/list'} />}
+      {redirect && <Navigate to={'/'} />}
       <form onSubmit={handleSubmit} className={styles.FORM}>
         <h1 className="text-xl font-bold mb-4">Sign up</h1>
         <div className="text-[#B580FF] mb-4">{email}</div>
