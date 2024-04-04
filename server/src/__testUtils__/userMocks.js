@@ -17,8 +17,8 @@ export const addUserToMockDB = async (newUser) => {
   if (validationResult.length > 0) {
     throw new Error(
       `Invalid user attempting to be added to the Database. User attempted to be added: ${JSON.stringify(
-        newUser,
-      )}. Received errors: ${validationResult.join(', ')}.`,
+        newUser
+      )}. Received errors: ${validationResult.join(', ')}.`
     );
   }
 
@@ -37,7 +37,7 @@ export const addUserToMockDB = async (newUser) => {
 export const findUserInMockDB = async (userId) => {
   if (typeof userId !== 'string') {
     throw new Error(
-      `Invalid userId given! Should be a string, but received: ${userId}`,
+      `Invalid userId given! Should be a string, but received: ${userId}`
     );
   }
 
@@ -48,11 +48,11 @@ export const findUserInMockDB = async (userId) => {
 
 export const verifyUserInMockDB = async (user, password) => {
   if (user == null) {
-    throw new Error(`User object has to be attached`);
+    throw new Error('User object has to be attached');
   }
 
   if (password == null) {
-    throw new Error(`Password to compare must be provided`);
+    throw new Error('Password to compare must be provided');
   }
 
   const validationResult = validateUser(user);
@@ -60,8 +60,8 @@ export const verifyUserInMockDB = async (user, password) => {
   if (validationResult.length > 0) {
     throw new Error(
       `Invalid user object: ${JSON.stringify(
-        user,
-      )}. Received errors: ${validationResult.join(', ')}.`,
+        user
+      )}. Received errors: ${validationResult.join(', ')}.`
     );
   }
 

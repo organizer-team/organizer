@@ -5,44 +5,44 @@ const TEST_ID = {
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-container`,
   loadingContainer: `${createTestIdFilePath(
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-loadingContainer`,
   errorContainer: `${createTestIdFilePath(
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-errorContainer`,
   successContainer: `${createTestIdFilePath(
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-successContainer`,
   userList: `${createTestIdFilePath('pages', 'User', 'UserList')}-userList`,
   cancelButton: `${createTestIdFilePath(
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-cancelButton`,
   confirmButton: `${createTestIdFilePath(
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-confirmButton`,
   passwordInput: `${createTestIdFilePath(
     'pages',
     'User',
     'UserList',
-    'DeleteUserModal',
+    'DeleteUserModal'
   )}-passwordInput`,
 };
 

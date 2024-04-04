@@ -35,7 +35,7 @@ describe('PUT /api/user/update', () => {
     await addUserToMockDB(testUserBase);
     return request
       .put('/api/user/update')
-      .set('Cookie', [`token=`])
+      .set('Cookie', ['token='])
       .send({ user: testUserBase }) // maintain the purity of the test
       .then((response) => {
         expect(response.status).toBe(499);

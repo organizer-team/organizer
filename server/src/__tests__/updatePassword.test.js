@@ -39,7 +39,7 @@ describe('PUT /api/user/password/update', () => {
 
     return request
       .put('/api/user/password/update')
-      .set('Cookie', [`token=`])
+      .set('Cookie', ['token='])
       .send({ user: { oldPassword, newPassword } })
       .then((response) => {
         expect(response.status).toBe(499);

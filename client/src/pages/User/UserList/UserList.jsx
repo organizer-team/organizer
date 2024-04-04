@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropsTypes from 'prop-types';
 
 import useFetch from '../../../hooks/useFetch';
 import DeleteUserModal from './components/DeleteUserModal/DeleteUserModal';
@@ -19,7 +20,7 @@ const DeleteButton = ({ onDelete, userId }) => (
   <button
     className={classNames(
       styles.DELETE_BUTTON_ANIMATION,
-      styles.DELETE_BUTTON_FORM,
+      styles.DELETE_BUTTON_FORM
     )}
     onClick={onDelete}
     data-testid={`${TEST_ID.deleteUserButton}-${userId}`}
@@ -124,7 +125,7 @@ const UserList = () => {
                   data-elementid={user._id}
                   className={classNames(
                     styles.USER_LIST_ITEM_ANIMATION,
-                    styles.USER_LIST_ITEM_FORM,
+                    styles.USER_LIST_ITEM_FORM
                   )}
                 >
                   {user.email}
@@ -159,3 +160,9 @@ const UserList = () => {
 };
 
 export default UserList;
+
+/* Props */
+DeleteButton.propTypes = {
+  onDelete: PropsTypes.func.isRequired,
+  userId: PropsTypes.string.isRequired,
+};

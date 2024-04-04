@@ -23,17 +23,17 @@ describe('Navigation', () => {
     render(
       <MemoryRouter history={history} initialEntries={['/user/list']}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(
-      screen.queryByTestId(TEST_ID_HOME.container),
+      screen.queryByTestId(TEST_ID_HOME.container)
     ).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId(TEST_ID_NAV.linkToHome));
 
     waitFor(() =>
-      expect(screen.getByTestId(TEST_ID_HOME.container)).toBeInTheDocument(),
+      expect(screen.getByTestId(TEST_ID_HOME.container)).toBeInTheDocument()
     );
   });
 
@@ -43,27 +43,27 @@ describe('Navigation', () => {
     render(
       <MemoryRouter history={history} initialEntries={['/']}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(
-      screen.queryByTestId(TEST_ID_USER_LIST.container),
+      screen.queryByTestId(TEST_ID_USER_LIST.container)
     ).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId(TEST_ID_NAV.linkToUsers));
 
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_USER_LIST.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_USER_LIST.container)
+      ).toBeInTheDocument()
     );
 
     // Wait until data is loaded
     waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         'data-loaded',
-        'true',
-      ),
+        'true'
+      )
     );
   });
 
@@ -71,7 +71,7 @@ describe('Navigation', () => {
     render(
       <MemoryRouter history={history} initialEntries={['/']}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(screen.getByTestId(TEST_ID_NAV.createUserLink)).toBeInTheDocument();
@@ -80,8 +80,8 @@ describe('Navigation', () => {
 
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_CREATE_USER.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_CREATE_USER.container)
+      ).toBeInTheDocument()
     );
   });
 
@@ -89,7 +89,7 @@ describe('Navigation', () => {
     render(
       <MemoryRouter history={history} initialEntries={['/']}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(screen.getByTestId(TEST_ID_NAV.loginLink)).toBeInTheDocument();
@@ -98,8 +98,8 @@ describe('Navigation', () => {
 
     waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_LOGIN_PAGE.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_LOGIN_PAGE.container)
+      ).toBeInTheDocument()
     );
   });
 
@@ -107,7 +107,7 @@ describe('Navigation', () => {
     render(
       <MemoryRouter>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     const menuButton = screen.getByTestId(TEST_ID_NAV.menuButton);
@@ -126,7 +126,7 @@ describe('Navigation', () => {
     render(
       <MemoryRouter>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     const menuButton = screen.getByTestId(TEST_ID_NAV.menuButton);
@@ -143,7 +143,7 @@ describe('Navigation', () => {
     render(
       <MemoryRouter>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     const menuButton = screen.getByTestId(TEST_ID_NAV.menuButton);

@@ -17,16 +17,16 @@ function App() {
     <>
       <UserContextProvider>
         <Routes>
-          <Route path='/email-validation' element={<EmailValidation />} />
-          <Route path='/' element={<MainLayout />}>
-            <Route path='/tasks' element={<Tasks />} />
-            <Route path='/calendar' element={<Calendar />} />
+          <Route path="/email-validation" element={<EmailValidation />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/calendar" element={<Calendar />} />
           </Route>
-          <Route path='/user' element={<AuthLayout />}>
+          <Route path="/user" element={<AuthLayout />}>
             <Route index element={<Home />} />
-            <Route path='/user/list' element={<UserList />} />
-            <Route path='/user/signup' element={<CreateUser />} />
-            <Route path='/user/login' element={<LoginPage />} />
+            <Route path="/user/list" element={<UserList />} />
+            <Route path="/user/signup" element={<CreateUser />} />
+            <Route path="/user/login" element={<LoginPage />} />
           </Route>
         </Routes>
       </UserContextProvider>

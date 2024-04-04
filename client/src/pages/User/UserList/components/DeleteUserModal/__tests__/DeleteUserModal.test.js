@@ -24,7 +24,7 @@ describe('Modal', () => {
         error={mockError}
         isLoading={mockIsLoading}
         success={mockSuccess}
-      />,
+      />
     );
 
     // Check that the password input field receives the correct props
@@ -53,7 +53,7 @@ describe('Modal', () => {
         setPassword={setPassword}
         handleConfirmDelete={() => {}}
         handleModalClose={() => {}}
-      />,
+      />
     );
 
     fireEvent.change(getByPlaceholderText('Enter password'), {
@@ -73,7 +73,7 @@ describe('Modal', () => {
         error={mockError}
         isLoading={true}
         success={mockSuccess}
-      />,
+      />
     );
     const loadingElement = getByTestId(TEST_ID.loadingContainer);
     expect(loadingElement).toBeInTheDocument();
@@ -91,7 +91,7 @@ describe('Modal', () => {
         error={mockError}
         isLoading={mockIsLoading}
         success={mockSuccess}
-      />,
+      />
     );
     const errorElement = getByTestId(TEST_ID.errorContainer);
     expect(errorElement).toBeInTheDocument();
@@ -108,7 +108,7 @@ describe('Modal', () => {
         error={mockError}
         isLoading={mockIsLoading}
         success={true}
-      />,
+      />
     );
     const successElement = getByTestId(TEST_ID.successContainer);
     expect(successElement).toBeInTheDocument();

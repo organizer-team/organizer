@@ -17,12 +17,12 @@ describe('UserContext', () => {
     render(
       <UserContextProvider>
         <TestComponent />
-      </UserContextProvider>,
+      </UserContextProvider>
     );
 
     await waitFor(() => {
       expect(screen.getByTestId('user-info').textContent).toEqual(
-        JSON.stringify({ name: 'test' }),
+        JSON.stringify({ name: 'test' })
       );
     });
   });
