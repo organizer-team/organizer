@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import TEST_ID from './EmailValidation.testid';
 import { UserContext } from '../../context/UserContext';
 import useFetch from '../../hooks/useFetch';
-import CreateUser from '../User/CreateUser/CreateUser';
-import LoginPage from '../User/LoginPage/LoginPage';
 
 // styles
 const styles = {
@@ -24,9 +22,6 @@ const EmailValidation = () => {
 
   const [email, setEmail] = useState('');
   const [checkingEmail, setCheckingEmail] = useState(false);
-  const [emailExistenceStatus, setEmailExistenceStatus] = useState({
-    exists: 'unknown',
-  });
 
   const validateEmail = email => {
     const re = /\S+@\S+\.\S+/;
@@ -50,12 +45,11 @@ const EmailValidation = () => {
   const { performFetch, cancelFetch } = useFetch(
     `/user/checkemail/${email}`,
     response => {
-      setEmailExistenceStatus({ exists: response.exists });
       setCheckingEmail(false);
       setEmailAfterValidation(email);
       response.exists
-        ? navigate('../../user/login')
-        : navigate('../../user/signup');
+        ? navigate('/../user/login')
+        : navigate('/../user/signup');
     }
   );
 
