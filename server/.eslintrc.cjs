@@ -27,6 +27,9 @@ module.exports = {
     'import/prefer-default-export': 'off',
     // turned off the rule that you should not have file extensions. For modules in node this is actually required
     'import/extensions': 'off',
+    // turned off the rule that you should not have a console.log
     'no-console': 'warn',
+    // added the rule that you should always have arrow parens
+    'arrow-parens': ['error', 'always'],
   },
 };
