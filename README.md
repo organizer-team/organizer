@@ -21,3 +21,15 @@ To manually run these tools, use the following npm scripts:
 - `npm run autofix`: Run Prettier and ESLint with the `--fix` option to automatically fix issues.
 
 Remember to run `npm run setup` to ensure that Husky, ESLint, and Prettier are installed and set up correctly.
+
+### Configured Rules
+
+The configuration files contain the following rules:
+
+- `"trailingComma": "es5"`: In ES5, trailing commas are allowed in array literals and object literals, but not in function calls and declarations.
+
+- `"singleQuote": true"`: This rule enforces the use of single quotes in JavaScript code. Note that this rule does not apply to JSX, where double quotes are preferred.
+
+- `"jsxSingleQuote": false"`: This rule enforces the use of double quotes in JSX. This is a common convention in the React community and helps distinguish JavaScript code from JSX.
+
+- `"arrowParens": "always"`: This rule enforces the use of parentheses around the argument in arrow functions, regardless of the number of arguments. For example, `(x) => x` instead of `x => x`.
