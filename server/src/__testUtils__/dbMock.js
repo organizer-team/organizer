@@ -2,8 +2,8 @@
  * Adapted from https://kimlehtinen.com/how-to-setup-jest-for-node-js-mongoose-typescript-projects/
  */
 
-import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 let mongoMemServer;
 

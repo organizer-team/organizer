@@ -2,15 +2,8 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import EmailValidation from '../EmailValidation';
 import TEST_ID from '../EmailValidation.testid.js';
-import App from '../../../App.jsx';
 
-import {
-  render,
-  fireEvent,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 describe('EmailValidation', () => {
   it('Renders without a problem', () => {

@@ -194,7 +194,7 @@ describe('POST /api/user/login', () => {
 
         const passwordCheck = bcryptjs.compareSync(
           testUser.password,
-          userInDb.password,
+          userInDb.password
         );
 
         expect(passwordCheck).toBe(true);

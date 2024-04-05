@@ -123,7 +123,7 @@ describe('POST /api/user/register', () => {
 
         const passwordCheck = bcryptjs.compareSync(
           testUser.password,
-          body.user.password,
+          body.user.password
         );
 
         expect(passwordCheck).toBe(true);
@@ -139,7 +139,7 @@ describe('POST /api/user/register', () => {
         const hashedPassword = userInMockDb.password;
         const passwordCheck = bcryptjs.compareSync(
           testUser.password,
-          hashedPassword,
+          hashedPassword
         );
         expect(passwordCheck).toBe(true);
       });

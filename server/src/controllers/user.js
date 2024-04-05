@@ -38,7 +38,7 @@ const verifyUserCredentials = async (user, password) => {
 };
 
 // Function to generate a token based on user ID
-const generateToken = userId => {
+const generateToken = (userId) => {
   return new Promise((resolve, reject) => {
     jwt.sign({ id: userId }, secret, {}, (error, token) => {
       if (error) {
@@ -337,7 +337,7 @@ export const updatePassword = async (request, response) => {
           const allowedFields = ['oldPassword', 'newPassword'];
           const invalidFields = [];
 
-          Object.keys(user).forEach(field => {
+          Object.keys(user).forEach((field) => {
             if (!allowedFields.includes(field)) {
               invalidFields.push(field);
             }
@@ -411,7 +411,7 @@ export const deleteUser = async (request, response) => {
     const { token } = request.cookies;
 
     if (token) {
-      jwt.verify(token, secret, {}, async (error, info) => {
+      jwt.verify(token, secret, {}, async (error) => {
         if (error) {
           response
             .status(498)

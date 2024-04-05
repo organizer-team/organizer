@@ -23,7 +23,7 @@ const EmailValidation = () => {
   const [email, setEmail] = useState('');
   const [checkingEmail, setCheckingEmail] = useState(false);
 
-  const validateEmail = email => {
+  const validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
@@ -75,10 +75,10 @@ const EmailValidation = () => {
       <input
         className={styles.INPUT}
         data-testid={TEST_ID.emailInput}
-        placeholder='Enter your email'
-        type='email'
+        placeholder="Enter your email"
+        type="email"
         value={email}
-        onChange={e => {
+        onChange={(e) => {
           const email = e.target.value;
           setEmail(email);
         }}
