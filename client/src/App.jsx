@@ -17,24 +17,24 @@ function App() {
   return (
     <Routes>
       <Route
-        path='/email-validation'
+        path="/email-validation"
         element={!token ? <EmailValidation /> : <Navigate to={'/'} />}
       />
       <Route
-        path='/'
+        path="/"
         element={token ? <MainLayout /> : <Navigate to={'/email-validation'} />}
       >
         <Route index element={<Home />} />
-        <Route path='/tasks' element={<Tasks />} />
-        <Route path='/calendar' element={<Calendar />} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/calendar" element={<Calendar />} />
       </Route>
       <Route
-        path='/user'
+        path="/user"
         element={!token ? <AuthLayout /> : <Navigate to={'/'} />}
       >
-        <Route path='/user/list' element={<UserList />} />
-        <Route path='/user/signup' element={<CreateUser />} />
-        <Route path='/user/login' element={<LoginPage />} />
+        <Route path="/user/list" element={<UserList />} />
+        <Route path="/user/signup" element={<CreateUser />} />
+        <Route path="/user/login" element={<LoginPage />} />
       </Route>
     </Routes>
   );
