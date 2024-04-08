@@ -3,6 +3,7 @@ import { Navigate, Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import useFetch from '../../../hooks/useFetch';
 import CredentialsInput from '../../../components/CredentialsInput/CredentialsInput';
+import getCookieValue from '../../../utils/getCookieValue';
 
 import TEST_ID from './LoginPage.testid';
 
@@ -17,7 +18,7 @@ const styles = {
 };
 
 export default function LoginPage() {
-  const { emailAfterValidation } = useContext(UserContext);
+  const { emailAfterValidation, setToken } = useContext(UserContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,6 +29,7 @@ export default function LoginPage() {
     (jsonResult) => {
       if (jsonResult.success) {
         setRedirect(true);
+        setToken(getCookieValue('token'));
       } else {
         alert('Login failed');
       }

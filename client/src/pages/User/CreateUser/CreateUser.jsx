@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-
 import { UserContext } from '../../../context/UserContext';
 import CredentialsInput from '../../../components/CredentialsInput/CredentialsInput';
 import useFetch from '../../../hooks/useFetch';
 import TEST_ID from './CreateUser.testid';
+import getCookieValue from '../../../utils/getCookieValue';
 
 /* Styles */
 const styles = {
@@ -17,7 +17,7 @@ const styles = {
 };
 
 const CreateUser = () => {
-  const { emailAfterValidation } = useContext(UserContext);
+  const { emailAfterValidation, setToken } = useContext(UserContext);
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -35,7 +35,14 @@ const CreateUser = () => {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     '/user/register',
-    onSuccess
+    jsonResult => {
+      if (jsonResult.success) {
+        onSuccess();
+        setToken(getCookieValue('token'));
+      } else {
+        alert('Sign up failed');
+      }
+    }
   );
 
   useEffect(() => {
@@ -43,7 +50,7 @@ const CreateUser = () => {
     return cancelFetch;
   }, []);
 
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match');
@@ -55,8 +62,9 @@ const CreateUser = () => {
         'content-type': 'application/json',
       },
       body: JSON.stringify({ user: { userName, password, email } }),
+      credentials: 'include', // save cookies inside react app
     });
-  };
+  }
 
   let statusComponent = null;
   if (error != null) {

@@ -22,11 +22,6 @@ const EmailValidation = () => {
 
   const [email, setEmail] = useState('');
   const [checkingEmail, setCheckingEmail] = useState(false);
-  /*
-  const [emailExistenceStatus, setEmailExistenceStatus] = useState({
-    exists: 'unknown',
-  });
-  */
 
   const validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
@@ -49,13 +44,12 @@ const EmailValidation = () => {
 
   const { performFetch, cancelFetch } = useFetch(
     `/user/checkemail/${email}`,
-    (response) => {
-      // setEmailExistenceStatus({ exists: response.exists });
+    response => {
       setCheckingEmail(false);
       setEmailAfterValidation(email);
       response.exists
-        ? navigate('../../user/login')
-        : navigate('../../user/signup');
+        ? navigate('/../user/login')
+        : navigate('/../user/signup');
     }
   );
 
