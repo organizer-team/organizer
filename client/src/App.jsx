@@ -13,7 +13,7 @@ import MainLayout from './layout/MainLayout';
 import { UserContext } from './context/UserContext';
 
 function App() {
-  const { token } = useContext(UserContext);
+  const { token, emailAfterValidation } = useContext(UserContext);
   return (
     <Routes>
       <Route
@@ -33,8 +33,8 @@ function App() {
         element={!token ? <AuthLayout /> : <Navigate to={'/'} />}
       >
         <Route path="/user/list" element={<UserList />} />
-        <Route path="/user/signup" element={<CreateUser />} />
-        <Route path="/user/login" element={<LoginPage />} />
+        <Route path="/user/signup" element={emailAfterValidation ? <CreateUser /> : <Navigate to={'/email-validation'} />} />
+        <Route path="/user/login" element={emailAfterValidation ? <LoginPage /> : <Navigate to={'/email-validation'} />} />
       </Route>
     </Routes>
   );
