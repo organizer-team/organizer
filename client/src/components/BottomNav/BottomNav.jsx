@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 
 /* Styles */
 const styles = {
-  navButton: 'p-2 bg-blue-500 text-white',
+  navButton: 'p-2 bg-accentDarkPurple text-white',
   navContainer:
     'fixed bottom-0 w-full flex justify-center items-center bg-gray-200 p-4',
   navWrapper: 'w-full flex justify-center',
-  popupButton: 'w-full bg-green-500 text-white rounded p-2 mb-2',
-  popupMenu: 'absolute bottom-full mb-2 w-32 bg-white shadow-lg rounded-lg p-2',
+  popupButton:
+    'w-full bg-accentDarkPurple text-white rounded p-2 mb-1 last:mb-0',
+  popupMenu:
+    'absolute bottom-full mb-2 w-32 bg-accentLightPurple shadow-lg rounded-lg p-2',
 };
 
 const routes = {

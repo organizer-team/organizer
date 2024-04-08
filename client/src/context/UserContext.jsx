@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React,{ createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import getCookieValue from '../utils/getCookieValue';
 
 export const UserContext = createContext({});
