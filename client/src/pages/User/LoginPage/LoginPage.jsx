@@ -10,10 +10,10 @@ import TEST_ID from './LoginPage.testid';
 /* Styles */
 const styles = {
   CONTAINER:
-    'flex flex-col items-center justify-center min-h-screen p-4 bg-neutralLightGray',
+    'flex flex-col items-center justify-center min-h-screen p-4 bg-organizerGray-light',
   FORM: 'flex flex-col w-full max-w-md p-4 rounded gap-4',
   SUBMIT_BUTTON: 'w-full py-2 bg-purple-600 text-white rounded',
-  LINK: 'text-lighterShade hover:underline',
+  LINK: 'text-organizerPurple-light hover:underline',
   STATUS_CONTAINER: 'mt-4 text-red-500',
 };
 
@@ -98,7 +98,7 @@ export default function LoginPage() {
       {redirect && <Navigate to={'/'} />}
       <form data-testid={TEST_ID.form} className={styles.FORM}>
         <h1 className="text-xl font-bold">Login</h1>
-        <div className="text-primaryColor" data-testid={TEST_ID.emailInput}>
+        <div className="text-organizerPurple-primary" data-testid={TEST_ID.emailInput}>
           {' '}
           {email}
         </div>

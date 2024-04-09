@@ -10,12 +10,12 @@ import getCookieValue from '../../../utils/getCookieValue';
 /* Styles */
 const styles = {
   CONTAINER:
-    'flex flex-col items-center justify-center min-h-screen p-4 bg-neutralLightGray',
+    'flex flex-col items-center justify-center min-h-screen p-4 bg-organizerGray-light',
   FORM: 'flex flex-col w-full max-w-md p-4 rounded gap-4',
   PASSWORD_CONTAINER: 'flex flex-row items-center justify-center gap-2',
   INFO_BUTTON: 'bg-green-500 w-6 h-6 text-white rounded-full flex items-center justify-center',
   SUBMIT_BUTTON: 'w-full py-2 bg-purple-600 text-white rounded',
-  LINK: 'text-lighterShade hover:underline',
+  LINK: 'text-organizerPurple-light hover:underline',
   STATUS_CONTAINER: 'mt-4 text-red-500',
 };
 
@@ -115,7 +115,7 @@ const CreateUser = () => {
       {redirect && <Navigate to={'/'} />}
       <form onSubmit={handleSubmit} className={styles.FORM}>
         <h1 className="text-xl font-bold mb-4">Sign up</h1>
-        <div className="text-lighterShade mb-4">{email}</div>
+        <div className="text-organizerPurple-light mb-4">{email}</div>
         <div className="text-red-400 mb-2">
           This is not your email?{' '}
           <Link className={styles.LINK} to={'../../email-validation'}>
