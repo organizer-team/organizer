@@ -8,11 +8,11 @@ import useFetch from '../../hooks/useFetch';
 // styles
 const styles = {
   CONTAINER:
-    'flex flex-col justify-center items-center h-screen p-4 gap-y-16 bg-[#F2F2F2]',
+    'flex flex-col justify-center items-center h-screen p-4 gap-y-16 bg-neutralLightGray',
   INPUT:
-    'text-center border-2 border-[#C996FF] p-2 rounded w-full max-w-md focus:outline-[#9747FF]',
-  PARAGRAPH: 'text-lg text-center text-[#6E24B1] mb-4',
-  CHECKING_EMAIL: 'text-[#9747FF] text-sm mt-2',
+    'text-center border-2 border-accentLightPurple p-2 rounded w-full max-w-md focus:outline-primaryColor',
+  PARAGRAPH: 'text-lg text-center text-darkerShade mb-4',
+  CHECKING_EMAIL: 'text-primaryColor text-sm mt-2',
 };
 
 // component
