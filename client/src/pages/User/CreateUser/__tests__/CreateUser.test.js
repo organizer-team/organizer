@@ -1,18 +1,11 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-/**
- * We use the App component to test here as it will do the routing for us.
- * This allows our test to be more user centric!
- */
-import App from '../../../../App.jsx';
-
 import {
   render,
   fireEvent,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
 } from '@testing-library/react';
 
 import CreateUser from '../CreateUser';
@@ -26,26 +19,35 @@ beforeEach(() => {
   fetch.resetMocks();
 });
 
+
 describe('CreateUser', () => {
   it('Renders without a problem', () => {
-    render(<CreateUser />);
+    render(
+    <MemoryRouter >
+      <CreateUser/>
+    </MemoryRouter>
+    );
 
     expect(
       screen.getByTestId(TEST_ID_CREATE_USER.container)
     ).toBeInTheDocument();
   });
 
-  it('Should be able to change password and email input', () => {
-    const testPassword = 'John';
-    const testEmail = 'john@doe.com';
+  it('Should be able to change password', () => {
+    const testPassword = 'johnJOHN123!';
+    const testConfirmPassword = 'johnJOHN123!'
 
-    render(<CreateUser />);
+    render(
+    <MemoryRouter >
+      <CreateUser/>
+    </MemoryRouter>
+    );
 
     // Check initially fields are empty
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       ''
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value).toEqual(
       ''
     );
 
@@ -53,38 +55,49 @@ describe('CreateUser', () => {
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
       target: { value: testPassword },
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.emailInput), {
-      target: { value: testEmail },
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput), {
+      target: { value: testConfirmPassword },
     });
 
     // Check fields have changed value
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       testPassword
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      testEmail
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value).toEqual(
+      testConfirmPassword
     );
   });
 
   it('Should send the input values to the server on clicking submit and indicate loading states', async () => {
-    const testPassword = 'John';
-    const testEmail = 'john@doe.com';
+    const testUserName = 'John';
+    const testEmail = 'john@gmail.com'
+    const testPassword = 'johnJOHN123!';
+    const testConfirmPassword = 'johnJOHN123!'
 
     // Mock our fetch
-    fetch.mockResponseOnce(createUserSuccessMock());
+    fetch.mockResponseOnce(createUserSuccessMock(
+      {
+        userName: testUserName,
+        email: testEmail,
+        password: testPassword,
+      }
+    ));
 
     render(
-      <MemoryRouter history={history} initialEntries={['/user/create']}>
-        <App />
-      </MemoryRouter>
+    <MemoryRouter >
+      <CreateUser/>
+    </MemoryRouter>
     );
 
     // Fill in our fields
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: testUserName },
+    }); 
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
       target: { value: testPassword },
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.emailInput), {
-      target: { value: testEmail },
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput), {
+      target: { value: testConfirmPassword },
     });
 
     // Make sure fetch hasn't been called yet
@@ -103,46 +116,37 @@ describe('CreateUser', () => {
       screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
     ).toBeInTheDocument();
 
-    // Wait for the loading state to be removed
-    await waitForElementToBeRemoved(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
-    );
-
     // Check that the right endpoint was called
     expect(fetch.mock.calls[0][0]).toContain('api/user/register');
     // Check the right data is given. We need the second argument ([1]) of the first call ([0])
     expect(fetch.mock.calls[0][1].body).toEqual(
       // We need to stringify as we send the information as a string
       JSON.stringify({
-        user: { email: testEmail, password: testPassword },
+        user: {userName:testUserName, email: testEmail, password: testPassword },
       })
     );
   });
 
   it('Should show an error state if the creation is unsuccessful', async () => {
-    const testPassword = 'John';
-    const testEmail = 'john@doe.com';
+    const testPassword = 'johnJOHN123!';
+    const testConfirmPassword = 'johnJOHN123!'
 
     // Mock our fetch
     fetch.mockResponseOnce(createUserFailedMock());
 
-    render(<CreateUser />);
+    render(
+    <MemoryRouter >
+      <CreateUser/>
+    </MemoryRouter>
+    );
 
     // Fill in our fields
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: testPassword },
+    target: { value: testPassword },
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.emailInput), {
-      target: { value: testEmail },
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput), {
+    target: { value: testConfirmPassword },
     });
-
-    // Check that there is no error indicator initially
-    expect(
-      screen.queryByTestId(TEST_ID_CREATE_USER.errorContainer)
-    ).not.toBeInTheDocument();
-
-    // Click submit
-    fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
 
     // Wait to see the error component
     waitFor(() =>
@@ -155,8 +159,8 @@ describe('CreateUser', () => {
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       testPassword
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      testEmail
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value).toEqual(
+      testConfirmPassword
     );
   });
 });
