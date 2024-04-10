@@ -33,7 +33,8 @@ describe('CreateUser', () => {
     ).toBeInTheDocument();
   });
 
-  it('Should be able to change password', () => {
+  it('Should be able to change user name, password and confirm password', () => {
+    const testUserName = 'John';
     const testPassword = 'johnJOHN123!';
     const testConfirmPassword = 'johnJOHN123!'
 
@@ -44,6 +45,9 @@ describe('CreateUser', () => {
     );
 
     // Check initially fields are empty
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput).value).toEqual(
+      ''
+    );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       ''
     );
@@ -52,6 +56,9 @@ describe('CreateUser', () => {
     );
 
     // Change fields
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: testUserName },
+    });
     fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
       target: { value: testPassword },
     });
@@ -60,6 +67,9 @@ describe('CreateUser', () => {
     });
 
     // Check fields have changed value
+    expect(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput).value).toEqual(
+      testUserName
+    );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       testPassword
     );
