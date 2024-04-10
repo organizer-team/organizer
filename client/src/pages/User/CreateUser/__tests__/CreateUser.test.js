@@ -9,6 +9,7 @@ import {
 } from '@testing-library/react';
 
 import CreateUser from '../CreateUser';
+import MockUserProvider from '../../../../__testUtils__/mockUserProvider.js';
 import TEST_ID_CREATE_USER from '../CreateUser.testid.js';
 import {
   createUserSuccessMock,
@@ -18,7 +19,6 @@ import {
 beforeEach(() => {
   fetch.resetMocks();
 });
-
 
 describe('CreateUser', () => {
   it('Renders without a problem', () => {
@@ -88,15 +88,17 @@ describe('CreateUser', () => {
     fetch.mockResponseOnce(createUserSuccessMock(
       {
         userName: testUserName,
-        email: testEmail,
         password: testPassword,
+        email: testEmail,
       }
     ));
 
     render(
-    <MemoryRouter >
-      <CreateUser/>
-    </MemoryRouter>
+      <MemoryRouter>
+        <MockUserProvider emailAfterValidation={testEmail}>
+          <CreateUser />
+        </MockUserProvider>
+      </MemoryRouter>
     );
 
     // Fill in our fields
@@ -132,7 +134,7 @@ describe('CreateUser', () => {
     expect(fetch.mock.calls[0][1].body).toEqual(
       // We need to stringify as we send the information as a string
       JSON.stringify({
-        user: {userName:testUserName, email: testEmail, password: testPassword },
+        user: {userName:testUserName, password: testPassword, email: testEmail },
       })
     );
   });
