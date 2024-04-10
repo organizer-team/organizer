@@ -44,7 +44,7 @@ const EmailValidation = () => {
 
   const { performFetch, cancelFetch } = useFetch(
     `/user/checkemail/${email}`,
-    response => {
+    (response) => {
       setCheckingEmail(false);
       setEmailAfterValidation(email);
       response.exists

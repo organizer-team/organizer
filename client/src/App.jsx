@@ -33,8 +33,26 @@ function App() {
         element={!token ? <AuthLayout /> : <Navigate to={'/'} />}
       >
         <Route path="/user/list" element={<UserList />} />
-        <Route path="/user/signup" element={emailAfterValidation ? <CreateUser /> : <Navigate to={'/email-validation'} />} />
-        <Route path="/user/login" element={emailAfterValidation ? <LoginPage /> : <Navigate to={'/email-validation'} />} />
+        <Route
+          path="/user/signup"
+          element={
+            emailAfterValidation ? (
+              <CreateUser />
+            ) : (
+              <Navigate to={'/email-validation'} />
+            )
+          }
+        />
+        <Route
+          path="/user/login"
+          element={
+            emailAfterValidation ? (
+              <LoginPage />
+            ) : (
+              <Navigate to={'/email-validation'} />
+            )
+          }
+        />
       </Route>
     </Routes>
   );
