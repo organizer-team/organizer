@@ -4,13 +4,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        primaryColor: '#9747FF',
-        lighterShade: '#B580FF',
-        darkerShade: '#6E24B1',
-        accentLightPurple: '#C996FF',
-        accentDarkPurple: '#7A1FC3',
-        neutralLightGray: '#F2F2F2',
-        neutralDarkGray: '#333333',
+        organizerPurple: {
+          primary:'#9747FF',
+          light: '#B580FF',
+          dark: '#6E24B1',
+          accentLight: '#C996FF',
+          accentDark: '#7A1FC3',},
+
+        organizerGray: {
+          primary:'#E5E5E5',
+          light: '#F2F2F2',
+          dark: '#333333',},
+          
+        organizerRed: {primary: '#FF5C5C',},
+        organizerBlue: {primary: '#4A90E2',},
+        organizerGreen: {primary: '#00C48C',},
+        
       },
     },
   },

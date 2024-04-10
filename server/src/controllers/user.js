@@ -112,7 +112,11 @@ export const createUser = async (request, response) => {
         email,
         password: hashedPassword,
       });
-      response.status(201).json({
+
+      // Generate token for the new user
+      const token = await generateToken(newUser._id);
+
+      response.status(201).cookie('token', token).json({
         success: true,
         user: newUser,
       });
