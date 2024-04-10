@@ -39,7 +39,7 @@ const CreateUser = () => {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     '/user/register',
-    jsonResult => {
+    (jsonResult) => {
       if (jsonResult.success) {
         onSuccess();
         setToken(getCookieValue('token'));
