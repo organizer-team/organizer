@@ -98,7 +98,10 @@ export default function LoginPage() {
       {redirect && <Navigate to={'/'} />}
       <form data-testid={TEST_ID.form} className={styles.FORM}>
         <h1 className="text-xl font-bold">Login</h1>
-        <div className="text-organizerPurple-primary" data-testid={TEST_ID.emailInput}>
+        <div
+          className="text-organizerPurple-primary"
+          data-testid={TEST_ID.emailInput}
+        >
           {' '}
           {email}
         </div>

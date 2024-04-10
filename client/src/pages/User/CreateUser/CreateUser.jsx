@@ -13,7 +13,8 @@ const styles = {
     'flex flex-col items-center justify-center min-h-screen p-4 bg-organizerGray-light',
   FORM: 'flex flex-col w-full max-w-md p-4 rounded gap-4',
   PASSWORD_CONTAINER: 'flex flex-row items-center justify-center gap-2',
-  INFO_BUTTON: 'bg-green-500 w-6 h-6 text-white rounded-full flex items-center justify-center',
+  INFO_BUTTON:
+    'bg-green-500 w-6 h-6 text-white rounded-full flex items-center justify-center',
   SUBMIT_BUTTON: 'w-full py-2 bg-purple-600 text-white rounded',
   LINK: 'text-organizerPurple-light hover:underline',
   STATUS_CONTAINER: 'mt-4 text-red-500',
@@ -62,8 +63,9 @@ const CreateUser = () => {
     }
     if (password.length < 1) {
       alert('Password is required');
-      return;}
-    if (password !== confirmPassword ) {
+      return;
+    }
+    if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
@@ -93,7 +95,7 @@ const CreateUser = () => {
         data-testid={TEST_ID.loadingContainer}
         className={styles.STATUS_CONTAINER}
       >
-        Creating user....
+        Creating user...
       </div>
     );
   }
@@ -113,9 +115,18 @@ const CreateUser = () => {
   return (
     <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
       {redirect && <Navigate to={'/'} />}
-      <form onSubmit={handleSubmit} className={styles.FORM}>
+      <form
+        data-testid={TEST_ID.form}
+        onSubmit={handleSubmit}
+        className={styles.FORM}
+      >
         <h1 className="text-xl font-bold mb-4">Sign up</h1>
-        <div data-testid={TEST_ID.emailInput} className="text-organizerPurple-light mb-4">{email}</div>
+        <div
+          data-testid={TEST_ID.emailInput}
+          className="text-organizerPurple-light mb-4"
+        >
+          {email}
+        </div>
         <div className="text-red-400 mb-2">
           This is not your email?{' '}
           <Link className={styles.LINK} to={'../../email-validation'}>
@@ -129,17 +140,19 @@ const CreateUser = () => {
           onChange={handleUserNameChange}
           data-testid={TEST_ID.userNameInput}
         />
-       <div className={styles.PASSWORD_CONTAINER}>
-       <CredentialsInput
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={handlePasswordChange}
-          data-testid={TEST_ID.passwordInput}
-        />  
-        <div className={styles.INFO_BUTTON} onClick={()=>setInfo(!info)}>i</div>
-       </div>
-       {info && <PasswordInfo/>}
+        <div className={styles.PASSWORD_CONTAINER}>
+          <CredentialsInput
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            data-testid={TEST_ID.passwordInput}
+          />
+          <div className={styles.INFO_BUTTON} onClick={() => setInfo(!info)}>
+            i
+          </div>
+        </div>
+        {info && <PasswordInfo />}
         <CredentialsInput
           name="confirmPassword"
           placeholder="Confirm password"
