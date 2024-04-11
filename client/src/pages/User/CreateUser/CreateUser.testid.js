@@ -2,6 +2,7 @@ import createTestIdFilePath from '../../../utils/createTestIdFilePath';
 
 const TEST_ID = {
   container: `${createTestIdFilePath('pages', 'User', 'CreateUser')}-container`,
+  form: `${createTestIdFilePath('pages', 'User', 'CreateUser')}-form`,
   userNameInput: `${createTestIdFilePath(
     'pages',
     'User',

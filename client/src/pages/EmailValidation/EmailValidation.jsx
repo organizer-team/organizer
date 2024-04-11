@@ -24,7 +24,8 @@ const EmailValidation = () => {
   const [checkingEmail, setCheckingEmail] = useState(false);
 
   const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
+    const re =
+      /^[-!#$%&'*+/=?^_`{|}~A-Za-z0-9]+(?:\.[-!#$%&'*+/=?^_`{|}~A-Za-z0-9]+)*@([A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$/;
     return re.test(email);
   };
 

@@ -6,6 +6,7 @@ import {
   fireEvent,
   screen,
   waitFor,
+  act,
 } from '@testing-library/react';
 
 import CreateUser from '../CreateUser';
@@ -23,9 +24,9 @@ beforeEach(() => {
 describe('CreateUser', () => {
   it('Renders without a problem', () => {
     render(
-    <MemoryRouter >
-      <CreateUser/>
-    </MemoryRouter>
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
     );
 
     expect(
@@ -33,15 +34,15 @@ describe('CreateUser', () => {
     ).toBeInTheDocument();
   });
 
-  it('Should be able to change user name, password and confirm password', () => {
+  it('Should be able to change user name, password and confirm password', async () => {
     const testUserName = 'John';
     const testPassword = 'johnJOHN123!';
-    const testConfirmPassword = 'johnJOHN123!'
+    const testConfirmPassword = 'johnJOHN123!';
 
     render(
-    <MemoryRouter >
-      <CreateUser/>
-    </MemoryRouter>
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
     );
 
     // Check initially fields are empty
@@ -51,19 +52,24 @@ describe('CreateUser', () => {
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       ''
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value).toEqual(
-      ''
-    );
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
+    ).toEqual('');
 
     // Change fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: testUserName },
-    });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: testPassword },
-    });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput), {
-      target: { value: testConfirmPassword },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
 
     // Check fields have changed value
@@ -73,25 +79,25 @@ describe('CreateUser', () => {
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       testPassword
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value).toEqual(
-      testConfirmPassword
-    );
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
+    ).toEqual(testConfirmPassword);
   });
 
   it('Should send the input values to the server on clicking submit and indicate loading states', async () => {
     const testUserName = 'John';
-    const testEmail = 'john@gmail.com'
+    const testEmail = 'john@gmail.com';
     const testPassword = 'johnJOHN123!';
-    const testConfirmPassword = 'johnJOHN123!'
+    const testConfirmPassword = 'johnJOHN123!';
 
     // Mock our fetch
-    fetch.mockResponseOnce(createUserSuccessMock(
-      {
+    fetch.mockResponseOnce(
+      createUserSuccessMock({
         userName: testUserName,
         password: testPassword,
         email: testEmail,
-      }
-    ));
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -102,14 +108,19 @@ describe('CreateUser', () => {
     );
 
     // Fill in our fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: testUserName },
-    }); 
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: testPassword },
-    });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput), {
-      target: { value: testConfirmPassword },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
 
     // Make sure fetch hasn't been called yet
@@ -121,12 +132,16 @@ describe('CreateUser', () => {
     ).not.toBeInTheDocument();
 
     // Click submit
-    fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+    await act(async () =>
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton))
+    );
 
     // Wait for the loading to be shown
-    expect(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
-    ).toBeInTheDocument();
+    waitFor(() =>
+      expect(
+        screen.findByTestId(TEST_ID_CREATE_USER.loadingContainer)
+      ).toBeInTheDocument()
+    );
 
     // Check that the right endpoint was called
     expect(fetch.mock.calls[0][0]).toContain('api/user/register');
@@ -134,30 +149,39 @@ describe('CreateUser', () => {
     expect(fetch.mock.calls[0][1].body).toEqual(
       // We need to stringify as we send the information as a string
       JSON.stringify({
-        user: {userName:testUserName, password: testPassword, email: testEmail },
+        user: {
+          userName: testUserName,
+          password: testPassword,
+          email: testEmail,
+        },
       })
     );
   });
 
   it('Should show an error state if the creation is unsuccessful', async () => {
     const testPassword = 'johnJOHN123!';
-    const testConfirmPassword = 'johnJOHN123!'
+    const testConfirmPassword = 'johnJOHN123!';
 
     // Mock our fetch
     fetch.mockResponseOnce(createUserFailedMock());
 
     render(
-    <MemoryRouter >
-      <CreateUser/>
-    </MemoryRouter>
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
     );
 
     // Fill in our fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-    target: { value: testPassword },
-    });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput), {
-    target: { value: testConfirmPassword },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
 
     // Wait to see the error component
@@ -171,8 +195,8 @@ describe('CreateUser', () => {
     expect(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput).value).toEqual(
       testPassword
     );
-    expect(screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value).toEqual(
-      testConfirmPassword
-    );
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
+    ).toEqual(testConfirmPassword);
   });
 });

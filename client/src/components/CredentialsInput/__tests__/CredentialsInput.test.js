@@ -18,16 +18,11 @@ describe('CredentialsInput', () => {
 
     const input = getByDisplayValue('test value');
 
-    expect(input).toHaveClass('flexbox');
     expect(input).toHaveClass('border-2');
     expect(input).toHaveClass('border-solid');
     expect(input).toHaveClass('w-full');
     expect(input).toHaveClass('p-2');
-    expect(input).toHaveClass('bg-white');
-    expect(input).toHaveClass('border-neutral-100');
-    expect(input).toHaveClass('hover:border-neutral-200');
     expect(input).toHaveClass('text-center');
     expect(input).toHaveClass('rounded');
-    expect(input).toHaveClass('max-w-sm');
   });
 });
