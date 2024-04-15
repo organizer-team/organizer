@@ -52,7 +52,7 @@ const generateToken = (userId) => {
 
 /** GET USERS
  *
- * @route GET /api/user/
+ * @route GET /api/users/
  * @desc Get all users
  */
 export const getUsers = async (request, response) => {
@@ -64,6 +64,24 @@ export const getUsers = async (request, response) => {
     response
       .status(500)
       .json({ success: false, message: 'Unable to get users' });
+  }
+};
+
+/** GET USER BY ID
+ *
+ * @route GET /api/user/_id
+ * @desc Get an user by id
+ */
+export const getUserById = async (request, response) => {
+  try {
+    const { _id } = request.params;
+    const user = await User.findById(_id);
+    response.status(200).json({ success: true, result: user });
+  } catch (error) {
+    logError(error);
+    response
+      .status(500)
+      .json({ success: false, message: 'Unable to get user by id' });
   }
 };
 
