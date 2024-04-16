@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TEST_ID from './Home.testid';
-import { UserContext } from '../../context/UserContext';
 import useFetch from '../../hooks/useFetch';
-import removeTokenCookie from '../../utils/removeToken';
+import LogOutButton from '../../components/LogOutButtons/LogOutButton';
+import LogOutButtonGuest from '../../components/LogOutButtons/LogOutButtonGuest';
 
 /* Styles */
 const HOME_PAGE = 'p-2 my-2';
 
 function Home() {
-  const { setToken } = useContext(UserContext);
+  const [userId, setUserId] = useState('')
   const [user, setUser] = useState({})
 
   const {
@@ -16,7 +16,18 @@ function Home() {
     performFetch: profilePerformFetch
   } = useFetch('/user/profile/', (jsonResult) => {
       if (jsonResult.success) {
-        setUser({...jsonResult.user});
+        setUserId(jsonResult.user.id);
+      } else {
+        alert('Failed to fetch user');
+      }
+    }
+  );
+  const {
+    cancelFetch: getUserCancelFetch, 
+    performFetch: getUserPerformFetch
+  } = useFetch(`/user/${userId}`, (jsonResult) => {
+      if (jsonResult.success) {
+        setUser({...jsonResult.result});
       } else {
         alert('Failed to fetch user');
       }
@@ -24,11 +35,15 @@ function Home() {
   );
 
   useEffect(() => {
-    getUser();
+    getUserId();
     return profileCancelFetch;
   }, []);
+  useEffect(() => {
+    getUser();
+    return getUserCancelFetch;
+  }, [userId]);
 
-  async function getUser() {
+  function getUserId() {
     profilePerformFetch({
       method: 'GET',
       headers: {
@@ -38,22 +53,23 @@ function Home() {
     });
   }
 
+  function getUser() {
+    getUserPerformFetch({
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+  }
 
   return (
     <div data-testid={TEST_ID.container} className={HOME_PAGE}>
       <h1>Homepage</h1>
       <p>This is it!</p>
-      <p>{user.id}</p>
-      {/* temporary log out button */}
-      <button
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => {
-          removeTokenCookie();
-          setToken(null);
-        }}
-      >
-        Log Out
-      </button>
+      <p>{user.userName}</p>
+      <p>{user.email}</p>
+      {/*temporary log out button */}
+      {user.userName?.startsWith('OrganizerGuest2024') ? <LogOutButtonGuest userId={userId} /> : <LogOutButton />}
     </div>
   );
 }

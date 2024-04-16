@@ -76,7 +76,8 @@ export const getUserById = async (request, response) => {
   try {
     const { _id } = request.params;
     const user = await User.findById(_id);
-    response.status(200).json({ success: true, result: user });
+    const { userName, email } = user;
+    response.status(200).json({ success: true, result: { userName, email } });
   } catch (error) {
     logError(error);
     response
@@ -421,8 +422,8 @@ export const updatePassword = async (request, response) => {
 
 /** DELETE USER PROFILE
  *
- * @route DELETE /api/user/
- * @desc Update a user with password
+ * @route DELETE /api/user/delete
+ * @desc Delete a user profile
  */
 export const deleteUser = async (request, response) => {
   try {
