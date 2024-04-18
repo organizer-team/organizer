@@ -1,7 +1,13 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  screen,
+  waitFor,
+  act,
+} from '@testing-library/react';
 
 import CreateUser from '../CreateUser';
 import MockUserProvider from '../../../../__testUtils__/mockUserProvider.js';
@@ -28,7 +34,7 @@ describe('CreateUser', () => {
     ).toBeInTheDocument();
   });
 
-  it('Should be able to change user name, password and confirm password', () => {
+  it('Should be able to change user name, password and confirm password', async () => {
     const testUserName = 'John';
     const testPassword = 'johnJOHN123!';
     const testConfirmPassword = 'johnJOHN123!';
@@ -51,18 +57,20 @@ describe('CreateUser', () => {
     ).toEqual('');
 
     // Change fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: testUserName },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: testPassword },
-    });
-    fireEvent.change(
-      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
-      {
-        target: { value: testConfirmPassword },
-      }
-    );
 
     // Check fields have changed value
     expect(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput).value).toEqual(
@@ -100,18 +108,20 @@ describe('CreateUser', () => {
     );
 
     // Fill in our fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: testUserName },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: testPassword },
-    });
-    fireEvent.change(
-      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
-      {
-        target: { value: testConfirmPassword },
-      }
-    );
 
     // Make sure fetch hasn't been called yet
     expect(fetch.mock.calls.length).toEqual(0);
@@ -122,12 +132,16 @@ describe('CreateUser', () => {
     ).not.toBeInTheDocument();
 
     // Click submit
-    fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+    await act(async () =>
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton))
+    );
 
     // Wait for the loading to be shown
-    expect(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
-    ).toBeInTheDocument();
+    waitFor(() =>
+      expect(
+        screen.findByTestId(TEST_ID_CREATE_USER.loadingContainer)
+      ).toBeInTheDocument()
+    );
 
     // Check that the right endpoint was called
     expect(fetch.mock.calls[0][0]).toContain('api/user/register');
@@ -158,8 +172,16 @@ describe('CreateUser', () => {
     );
 
     // Fill in our fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: testPassword },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
     fireEvent.change(
       screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),

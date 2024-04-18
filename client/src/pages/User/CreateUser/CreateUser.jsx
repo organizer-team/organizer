@@ -95,7 +95,7 @@ const CreateUser = () => {
         data-testid={TEST_ID.loadingContainer}
         className={styles.STATUS_CONTAINER}
       >
-        Creating user....
+        Creating user...
       </div>
     );
   }
@@ -115,7 +115,11 @@ const CreateUser = () => {
   return (
     <div data-testid={TEST_ID.container} className={styles.CONTAINER}>
       {redirect && <Navigate to={'/'} />}
-      <form onSubmit={handleSubmit} className={styles.FORM}>
+      <form
+        data-testid={TEST_ID.form}
+        onSubmit={handleSubmit}
+        className={styles.FORM}
+      >
         <h1 className="text-xl font-bold mb-4">Sign up</h1>
         <div
           data-testid={TEST_ID.emailInput}
