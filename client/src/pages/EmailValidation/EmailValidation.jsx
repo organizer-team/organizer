@@ -86,15 +86,16 @@ const EmailValidation = () => {
         onKeyUp={handleTypingStop}
         onKeyDown={handleTyping}
       />
-      {// go back to the welcome page
-      !checkingEmail && (
-        <Link
-          to="/../welcome"
-          className="text-organizerPurple-primary self-start text-sm flex items-center gap-x-1"
-        >
-          <FaCircleArrowLeft /> Go back
-        </Link>
-      )
+      {
+        // go back to the welcome page
+        !checkingEmail && (
+          <Link
+            to="/../welcome"
+            className="text-organizerPurple-primary self-start text-sm flex items-center gap-x-1"
+          >
+            <FaCircleArrowLeft /> Go back
+          </Link>
+        )
       }
       {checkingEmail && (
         <div className={styles.CHECKING_EMAIL}>Checking email...</div>

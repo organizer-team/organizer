@@ -11,8 +11,7 @@ const styles = {
   TITLE: 'text-3xl font-bold text-organizerPurple-primary mb-4',
   TEXT: 'text-lg text-center text-organizerGray-dark mb-4',
   LINK: 'text-organizerPurple-light hover:underline',
-  BUTTON:
-    'w-full py-2 rounded mt-4 focus:outline-none',
+  BUTTON: 'w-full py-2 rounded mt-4 focus:outline-none',
   GREEN_BUTTON: 'bg-organizerGreen-primary text-white',
   BLUE_BUTTON: 'bg-organizerBlue-primary text-white',
 };
@@ -21,14 +20,17 @@ const WelcomePage = () => {
   const { setToken } = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
 
-  const { cancelFetch, performFetch } = useFetch('/user/register', (jsonResult) => {
-    if (jsonResult.success) {
-      setRedirect(true);
-      setToken(getCookieValue('token'));
-    } else {
-      alert('Sign up failed');
+  const { cancelFetch, performFetch } = useFetch(
+    '/user/register',
+    (jsonResult) => {
+      if (jsonResult.success) {
+        setRedirect(true);
+        setToken(getCookieValue('token'));
+      } else {
+        alert('Sign up failed');
+      }
     }
-  });
+  );
 
   useEffect(() => {
     return cancelFetch;
@@ -41,7 +43,13 @@ const WelcomePage = () => {
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ user: { userName: guestName, password: 'qweQWE123!', email: `${guestName}@guestEmail.com` } }),
+      body: JSON.stringify({
+        user: {
+          userName: guestName,
+          password: 'qweQWE123!',
+          email: `${guestName}@guestEmail.com`,
+        },
+      }),
       credentials: 'include', // save cookies inside react app
     });
   };
@@ -51,10 +59,16 @@ const WelcomePage = () => {
       {redirect && <Navigate to={'/'} />}
       <h1 className={styles.TITLE}>Welcome to Organizer!</h1>
       <p className={styles.TEXT}>This is the welcome page of our app.</p>
-      <Link to={'/email-validation'} className={`${styles.BUTTON} ${styles.GREEN_BUTTON}`}>
+      <Link
+        to={'/email-validation'}
+        className={`${styles.BUTTON} ${styles.GREEN_BUTTON}`}
+      >
         Continue as a user
       </Link>
-      <button onClick={handleGuestClick} className={`${styles.BUTTON} ${styles.BLUE_BUTTON}`}>
+      <button
+        onClick={handleGuestClick}
+        className={`${styles.BUTTON} ${styles.BLUE_BUTTON}`}
+      >
         Continue as a guest
       </button>
     </div>
