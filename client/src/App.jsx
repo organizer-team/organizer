@@ -11,18 +11,23 @@ import Tasks from './pages/Tasks/Tasks';
 import Calendar from './pages/Calendar/Calendar';
 import MainLayout from './layout/MainLayout';
 import { UserContext } from './context/UserContext';
+import WelcomePage from './pages/WelcomePage/WelcomePage';
 
 function App() {
   const { token, emailAfterValidation } = useContext(UserContext);
   return (
     <Routes>
       <Route
+        path="/welcome"
+        element={!token ? <WelcomePage /> : <Navigate to={'/'} />}
+      />
+      <Route
         path="/email-validation"
         element={!token ? <EmailValidation /> : <Navigate to={'/'} />}
       />
       <Route
         path="/"
-        element={token ? <MainLayout /> : <Navigate to={'/email-validation'} />}
+        element={token ? <MainLayout /> : <Navigate to={'/welcome'} />}
       >
         <Route index element={<Home />} />
         <Route path="/tasks" element={<Tasks />} />

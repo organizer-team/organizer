@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, Link } from 'react-router-dom';
+import { FaCircleArrowLeft } from 'react-icons/fa6';
 import TEST_ID from './EmailValidation.testid';
 import { UserContext } from '../../context/UserContext';
 import useFetch from '../../hooks/useFetch';
@@ -86,6 +86,16 @@ const EmailValidation = () => {
         onKeyUp={handleTypingStop}
         onKeyDown={handleTyping}
       />
+      {// go back to the welcome page
+      !checkingEmail && (
+        <Link
+          to="/../welcome"
+          className="text-organizerPurple-primary self-start text-sm flex items-center gap-x-1"
+        >
+          <FaCircleArrowLeft /> Go back
+        </Link>
+      )
+      }
       {checkingEmail && (
         <div className={styles.CHECKING_EMAIL}>Checking email...</div>
       )}

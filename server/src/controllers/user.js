@@ -52,7 +52,7 @@ const generateToken = (userId) => {
 
 /** GET USERS
  *
- * @route GET /api/user/
+ * @route GET /api/users/
  * @desc Get all users
  */
 export const getUsers = async (request, response) => {
@@ -64,6 +64,25 @@ export const getUsers = async (request, response) => {
     response
       .status(500)
       .json({ success: false, message: 'Unable to get users' });
+  }
+};
+
+/** GET USER BY ID
+ *
+ * @route GET /api/user/_id
+ * @desc Get an user by id
+ */
+export const getUserById = async (request, response) => {
+  try {
+    const { _id } = request.params;
+    const user = await User.findById(_id);
+    const { userName, email } = user;
+    response.status(200).json({ success: true, result: { userName, email } });
+  } catch (error) {
+    logError(error);
+    response
+      .status(500)
+      .json({ success: false, message: 'Unable to get user by id' });
   }
 };
 
@@ -403,8 +422,8 @@ export const updatePassword = async (request, response) => {
 
 /** DELETE USER PROFILE
  *
- * @route DELETE /api/user/
- * @desc Update a user with password
+ * @route DELETE /api/user/delete
+ * @desc Delete a user profile
  */
 export const deleteUser = async (request, response) => {
   try {
