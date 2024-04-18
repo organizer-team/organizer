@@ -183,6 +183,12 @@ describe('CreateUser', () => {
         }
       );
     });
+    fireEvent.change(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+      {
+        target: { value: testConfirmPassword },
+      }
+    );
 
     // Wait to see the error component
     waitFor(() =>

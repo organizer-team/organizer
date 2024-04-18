@@ -2,7 +2,77 @@
 
 ## Project Description
 
-Will be soon
+organizer is another approach to creating a simple and easy to use solution for time and task management. The website will provide users with the ability to manage tasks and events on a calendar.
+
+The project is under development. The minimum valuable product must include:
+
+- authorization system
+- creating, viewing, editing and deleting tasks
+- ability to customize status, priority, link tasks to projects
+- CRUD for events
+- customizing colors of events and projects
+- customizing the frequency of events in the calendar
+
+Further development of the project suggests:
+
+- habit and routine management
+- adding a diary function to formally log activity and encourage reflection and mindfulness
+- introduction of prioritization, multitasking, goal and motivation management tools
+- emphasis on visualization and UX/UI design
+
+## Stack
+
+The application built on the MERN stack.
+
+The client part of the application is built on:
+
+- **[React](https://reactjs.org/)**: A JavaScript library for building user interfaces. It's used to build the components of the application.
+
+- **[React Router DOM](https://reactrouter.com/web/guides/quick-start)**: A collection of navigational components that used for routing in the application.
+
+- **[React Icons](https://react-icons.github.io/react-icons/)**: A library that provides popular icons.
+
+- **[Vite](https://vitejs.dev/)**: A build tool that aims to provide a faster and leaner development experience for modern web projects. It's used for building the application and for local development.
+
+- **[Testing Library](https://testing-library.com/)**: A set of helpers that let you test React components without relying on their implementation details. This project uses `@testing-library/react` for React component testing, `@testing-library/user-event` for simulating user events, and `@testing-library/jest-dom` for custom jest matchers.
+
+- **[Tailwind CSS](https://tailwindcss.com/)**: A utility-first CSS framework. It's used to style the application.
+
+- **[Babel](https://babeljs.io/)** used to compile the application.
+
+- **[Autoprefixer](https://github.com/postcss/autoprefixer)**: A tool to parse CSS and add vendor prefixes to CSS rules. It's used to ensure the application's CSS works on all browsers.
+
+The server part of the application is built on:
+
+- **[Express](https://expressjs.com/)**: A fast, unopinionated, and minimalist web framework for Node.js. It's used to build the server for the application.
+
+- **[Mongoose](https://mongoosejs.com/)**: An Object Data Modeling (ODM) library for MongoDB and Node.js. It's used to model the application data.
+
+- **[bcryptjs](https://www.npmjs.com/package/bcryptjs)**: A library to hash and check passwords in Node.js. It's used for password hashing.
+
+- **[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)**: An implementation of JSON Web Tokens. It's used for user authentication.
+
+- **[validator](https://www.npmjs.com/package/validator)**: A library of string validators and sanitizers. It's used for data validation.
+
+- **[cors](https://www.npmjs.com/package/cors)**: A package for providing a Connect/Express middleware that can be used to enable CORS with various options. It's used to handle Cross-Origin Resource Sharing.
+
+- **[cookie-parser](https://www.npmjs.com/package/cookie-parser)**: A middleware which parses cookies attached to the client request object. It's used to handle cookies.
+
+- **[dotenv](https://www.npmjs.com/package/dotenv)**: A zero-dependency module that loads environment variables from a `.env` file into `process.env`. It's used to handle environment variables.
+
+- **[Supertest](https://www.npmjs.com/package/supertest)**: A high-level abstraction for testing HTTP, while still allowing you to drop down to the lower-level API provided by super-agent. It's used for testing HTTP assertions.
+
+- **[Nodemon](https://www.npmjs.com/package/nodemon)**: A utility that will monitor for any changes in your source and automatically restart your server. It's used for development to automatically restart the server when file changes in the directory are detected.
+
+- **[mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server)**: Spins up a real MongoDB Server programmatically from node for testing or mocking during development. It's used for testing database operations.
+
+Technologies also used in the project:
+
+- **[Jest](https://jestjs.io/)**: A JavaScript testing framework. It's used to write tests for the application.
+
+- **[Airbnb's ESLint configuration](https://www.npmjs.com/package/eslint-config-airbnb)**: A widely used ESLint configuration that follows Airbnb's JavaScript style guide. It's used to enforce a consistent style in the codebase.
+
+- **[Concurrently](https://www.npmjs.com/package/concurrently)**: A utility to run multiple commands concurrently. It's used to run the client and server parts of the application simultaneously.
 
 ## Code Formatting with Husky, ESLint, and Prettier
 
@@ -10,9 +80,9 @@ This project uses [Husky](https://typicode.github.io/husky/#/), [ESLint](https:/
 
 In short, the `pre-commit` script is a hook that runs before each commit, triggering the `lint` and `autofix` scripts to ensure that your code is formatted correctly and free of linting errors.
 
-- **Husky** is used to set up Git hooks that automatically format your code and check for linting errors before each commit. It helps to catch issues before they are committed to the repository. You can customize Husky's behavior in the `.husky/` directory.
-- **ESLint** is a tool for identifying and reporting on patterns in JavaScript. It helps to maintain code quality and ensure code consistency. You can customize ESLint's rules in the `.eslintrc.cjs` file.
-- **Prettier** is a code formatter. It enforces a consistent style by parsing your code and reprinting it with its own rules. You can customize Prettier's rules in the `.prettierrc.json` file.
+- **[Husky](https://typicode.github.io/husky/)** is used to set up Git hooks that automatically format your code and check for linting errors before each commit. It helps to catch issues before they are committed to the repository. You can customize Husky's behavior in the `.husky/` directory.
+- **[ESLint](https://eslint.org/)** is a tool for identifying and reporting on patterns in JavaScript. It helps to maintain code quality and ensure code consistency. You can customize ESLint's rules in the `.eslintrc.cjs` file.
+- **[Prettier](https://prettier.io/)** is a code formatter. It enforces a consistent style by parsing your code and reprinting it with its own rules. You can customize Prettier's rules in the `.prettierrc.json` file.
 
 To manually run these tools, use the following npm scripts:
 
@@ -33,3 +103,17 @@ The configuration files contain the following rules:
 - `"jsxSingleQuote": false"`: This rule enforces the use of double quotes in JSX. This is a common convention in the React community and helps distinguish JavaScript code from JSX.
 
 - `"arrowParens": "always"`: This rule enforces the use of parentheses around the argument in arrow functions, regardless of the number of arguments. For example, `(x) => x` instead of `x => x`.
+
+## Getting Started
+
+First, to setup all the directories run the following in the main directory:
+
+`npm run setup`
+
+The command will go into the client and server directories and set those up to be ran.
+
+In the client and server directory there are two .env.example files. Create a copy and rename that to .env. Then follow the instructions in those files to fill in the right values.
+
+To run the app in dev mode you can run the following command in the main directory:
+
+`npm run dev`
