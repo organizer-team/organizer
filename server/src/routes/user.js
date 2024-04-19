@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   createUser,
+  createGuestUser,
   getUsers,
   login,
   logout,
@@ -16,6 +17,7 @@ const userRouter = express.Router();
 
 userRouter.get('/', getUsers);
 userRouter.post('/register', createUser);
+userRouter.post('/registerGuest', createGuestUser);
 userRouter.post('/login', login);
 userRouter.get('/logout', logout);
 userRouter.get('/profile', getProfile);
