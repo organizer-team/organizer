@@ -21,7 +21,7 @@ const WelcomePage = () => {
   const [redirect, setRedirect] = useState(false);
 
   const { cancelFetch, performFetch } = useFetch(
-    '/user/register',
+    '/user/registerGuest',
     (jsonResult) => {
       if (jsonResult.success) {
         setRedirect(true);
@@ -44,11 +44,7 @@ const WelcomePage = () => {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        user: {
-          userName: guestName,
-          password: 'qweQWE123!',
-          email: `${guestName}@guestEmail.com`,
-        },
+        guestName
       }),
       credentials: 'include', // save cookies inside react app
     });

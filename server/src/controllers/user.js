@@ -148,6 +148,74 @@ export const createUser = async (request, response) => {
   }
 };
 
+/** CREATE GUEST USER
+ *
+ * @route POST /api/user/registerGuest/
+ * @desc Create a new guest user with email and password
+ */
+export const createGuestUser = async (request, response) => {
+  try {
+    const { guestName } = request.body;
+
+    const user = {
+      userName: guestName,
+      password: 'qweQWE123!',
+      email: `${guestName}@guestEmail.com`,
+    };
+
+    if (typeof guestName !== 'string') {
+      response.status(400).json({
+        success: false,
+        message: `Provide a 'guestName'. Received: ${JSON.stringify(guestName)}`,
+      });
+
+      return;
+    }
+
+    const errorList = validateUser(user);
+
+    if (errorList.length > 0) {
+      response.status(400).json({
+        success: false,
+        message: validationErrorMessage(errorList),
+      });
+    } else {
+      const { userName, email, password } = user;
+
+      // Check if a user with the same email already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        response.status(409).json({
+          success: false,
+          message: 'A user with this email already exists',
+        });
+        return;
+      }
+
+      const hashedPassword = bcryptjs.hashSync(password, salt);
+
+      const newUser = await User.create({
+        userName,
+        email,
+        password: hashedPassword,
+      });
+
+      // Generate token for the new user
+      const token = await generateToken(newUser._id);
+
+      response.status(201).cookie('token', token).json({
+        success: true,
+        user: newUser,
+      });
+    }
+  } catch (error) {
+    logError(error);
+    response
+      .status(500)
+      .json({ success: false, message: 'Failed to create user' });
+  }
+};
+
 /** LOG IN USER
  *
  * @route POST /api/user/login/
