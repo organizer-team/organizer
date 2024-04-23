@@ -5,22 +5,25 @@ import PropTypes from 'prop-types';
 
 /* Styles */
 const styles = {
-  navButton: 'p-2 bg-accentDarkPurple text-white',
+  navButton:
+    'p-2 bg-organizerPurple-primary text-white ' +
+    'first:rounded-l-md last:rounded-r-md hover:bg-organizerPurple-accentDark',
   navContainer:
     'fixed bottom-0 w-full flex justify-center items-center bg-gray-200 p-4',
   navWrapper: 'w-full flex justify-center',
   popupButton:
-    'w-full bg-accentDarkPurple text-white rounded p-2 mb-1 last:mb-0',
+    'w-full bg-organizerPurple-primary text-white rounded p-2 mb-1 ' +
+    'last:mb-0 hover:bg-organizerPurple-accentDark',
   popupMenu:
-    'absolute bottom-full mb-2 w-32 bg-accentLightPurple shadow-lg rounded-lg p-2',
+    'absolute bottom-full mb-2 w-32 shadow-lg rounded-lg p-2 ' +
+    'border border-organizerPurple-accentLight ',
+  iconSize: '1.5em',
 };
 
 const routes = {
   calendar: '/calendar',
   tasks: '/tasks',
 };
-
-const iconSize = '1.5em';
 
 export const BottomNav = ({ toggleLeftSideMenu }) => {
   const location = useLocation();
@@ -55,14 +58,14 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
     <div className={styles.navWrapper}>
       <div className={styles.navContainer}>
         <button onClick={toggleLeftSideMenu} className={styles.navButton}>
-          <GrList size={iconSize} />
+          <GrList size={styles.iconSize} />
         </button>
         <button
           ref={buttonRef}
           onClick={togglePopup}
           className={styles.navButton}
         >
-          <GrAdd size={iconSize} />
+          <GrAdd size={styles.iconSize} />
         </button>
         {showPopup && (
           <div ref={popupRef} className={styles.popupMenu}>
@@ -76,11 +79,11 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
         )}
         {isCalendar ? (
           <Link to={routes.tasks} className={styles.navButton}>
-            <GrBladesVertical size={iconSize} />
+            <GrBladesVertical size={styles.iconSize} />
           </Link>
         ) : (
           <Link to={routes.calendar} className={styles.navButton}>
-            <GrCalendar size={iconSize} />
+            <GrCalendar size={styles.iconSize} />
           </Link>
         )}
       </div>
