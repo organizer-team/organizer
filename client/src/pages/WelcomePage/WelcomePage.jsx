@@ -44,7 +44,7 @@ const WelcomePage = () => {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        guestName
+        guestName,
       }),
       credentials: 'include', // save cookies inside react app
     });
