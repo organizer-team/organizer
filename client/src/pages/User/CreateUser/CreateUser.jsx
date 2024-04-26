@@ -61,6 +61,10 @@ const CreateUser = () => {
       alert('Name is required');
       return;
     }
+    if (userName.includes('OrganizerGuest2024')) {
+      alert('User name cannot include "OrganizerGuest2024"');
+      return;
+    }
     if (password.length < 1) {
       alert('Password is required');
       return;
