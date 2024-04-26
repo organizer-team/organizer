@@ -62,7 +62,7 @@ export default function LoginPage() {
         data-testid={TEST_ID.errorContainer}
         className={styles.STATUS_CONTAINER}
       >
-        Incorrect password, please check your password and try again.
+        {error}
       </div>
     );
   } else if (isLoading) {

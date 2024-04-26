@@ -28,7 +28,11 @@ afterAll(async () => {
   await closeMockDatabase();
 });
 
-const testUserBase = { email: 'john@doe.com', password: 'qwerty123456' };
+const testUserBase = {
+  email: 'john@doe.com',
+  password: 'Qwerty123456!',
+  userName: 'John Doe',
+};
 
 describe('DELETE /api/user/delete', () => {
   it('Should return a bad request if no token is given', async () => {
@@ -151,7 +155,8 @@ describe('DELETE /api/user/delete', () => {
   it('Should return a success state if a correct token and user object are given', async () => {
     const actingUserId = await addUserToMockDB({
       email: 'actor@test.com',
-      password: 'qwerty123456',
+      password: 'Qwerty123456!',
+      userName: 'Actor',
     });
     const token = await generateTokenInMockDB(actingUserId);
 

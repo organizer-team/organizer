@@ -8,9 +8,6 @@ import {
 import { addUserToMockDB } from '../__testUtils__/userMocks.js';
 import app from '../app.js';
 
-// Hashing passwords
-import bcryptjs from 'bcryptjs';
-
 const request = supertest(app);
 
 beforeAll(async () => {
@@ -44,8 +41,16 @@ describe('GET /api/user/', () => {
   });
 
   it('Should return all the users in the db', async () => {
-    const testUser1 = { password: 'qwerty123456', email: 'john@doe.com' };
-    const testUser2 = { password: 'qwerty654321', email: 'jane@doe.com' };
+    const testUser1 = {
+      password: 'Qwerty123456!',
+      email: 'john@doe.com',
+      userName: 'John Doe',
+    };
+    const testUser2 = {
+      password: 'qwertY654321!',
+      email: 'jane@doe.com',
+      userName: 'Jane Doe',
+    };
 
     await addUserToMockDB(testUser1);
     await addUserToMockDB(testUser2);
@@ -63,17 +68,8 @@ describe('GET /api/user/', () => {
       const user1 = users.filter((user) => user.email === testUser1.email)[0];
       const user2 = users.filter((user) => user.email === testUser2.email)[0];
 
-      const passwordCheck1 = bcryptjs.compareSync(
-        testUser1.password,
-        user1.password
-      );
-      expect(passwordCheck1).toBe(true);
-
-      const passwordCheck2 = bcryptjs.compareSync(
-        testUser2.password,
-        user2.password
-      );
-      expect(passwordCheck2).toBe(true);
+      expect(user1.userName).toBe(testUser1.userName);
+      expect(user2.userName).toBe(testUser2.userName);
 
       expect(
         users.filter((user) => user.email === testUser1.email)

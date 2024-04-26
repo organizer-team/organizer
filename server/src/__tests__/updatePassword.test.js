@@ -28,7 +28,11 @@ afterAll(async () => {
   await closeMockDatabase();
 });
 
-const testUserBase = { email: 'john@doe.com', password: 'qwerty123456' };
+const testUserBase = {
+  email: 'john@doe.com',
+  password: 'Qwerty123456!',
+  userName: 'John Doe',
+};
 
 describe('PUT /api/user/password/update', () => {
   it('Should return a bad request if no token is given', async () => {
@@ -137,7 +141,7 @@ describe('PUT /api/user/password/update', () => {
     const userId = await addUserToMockDB(testUserBase);
     const token = await generateTokenInMockDB(userId);
 
-    const oldPassword = 'qwerty1234567';
+    const oldPassword = 'Qwerty123456!7';
     const newPassword = 'new-password-123=)';
 
     return request

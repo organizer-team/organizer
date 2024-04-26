@@ -30,7 +30,11 @@ afterAll(async () => {
   await closeMockDatabase();
 });
 
-const testUserBase = { email: 'john@doe.com', password: 'qwerty123456' };
+const testUserBase = {
+  email: 'john@doe.com',
+  password: 'Qwerty123456!',
+  userName: 'John Doe',
+};
 
 beforeEach(async () => {
   await addUserToMockDB(testUserBase);
