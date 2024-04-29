@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TEST_ID from './Home.testid';
 import useFetch from '../../hooks/useFetch';
+import { UserContext } from '../../context/UserContext';
 import LogOutButton from '../../components/LogOutButtons/LogOutButton';
 import LogOutButtonGuest from '../../components/LogOutButtons/LogOutButtonGuest';
+import removeTokenCookie from '../../utils/removeToken';
 
 /* Styles */
 const HOME_PAGE = 'p-2 my-2';
 
 function Home() {
+  const { setToken } = useContext(UserContext);
   const [userId, setUserId] = useState('');
   const [user, setUser] = useState({});
 
   const { cancelFetch: profileCancelFetch, performFetch: profilePerformFetch } =
     useFetch('/user/profile/', (jsonResult) => {
-      if (jsonResult.success) {
+      if (jsonResult.success && jsonResult.message === 'User not found') {
+        removeTokenCookie();
+        setToken(null);
+      } else if (jsonResult.success) {
         setUserId(jsonResult.user.id);
-      } else {
-        alert('Failed to fetch user');
       }
     });
   const { cancelFetch: getUserCancelFetch, performFetch: getUserPerformFetch } =

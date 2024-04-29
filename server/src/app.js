@@ -25,11 +25,13 @@ app.use(cors(corsOptions));
 
 // Cookies
 import cookieParser from 'cookie-parser';
+import { deleteUserIfExpired } from './models/User.js';
 app.use(cookieParser());
 
-// use cron to schedule tasks
-cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
+// We use cron to schedule tasks
+cron.schedule('00 * * * *', () => {
+  // running a task every hour
+  deleteUserIfExpired();
 });
 
 /****** Attach routes ******/

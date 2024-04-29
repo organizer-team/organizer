@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import validateAllowedFields from '../util/validateAllowedFields.js';
+import { logError, logInfo } from '../util/logging.js';
 
 const userSchema = new mongoose.Schema({
   userName: { type: String, required: true },
   password: { type: String, required: true, minLength: 7 },
   email: { type: String, required: true, unique: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const User = mongoose.model('users', userSchema);
@@ -45,6 +47,31 @@ export const validateUser = (userObject, passwordRequired = true) => {
   }
 
   return errorList;
+};
+
+export const deleteUserIfExpired = async () => {
+  const currentDate = new Date();
+  const threeDaysAgo = new Date();
+  threeDaysAgo.setSeconds(currentDate.getSeconds() - 3);
+
+  try {
+    const usersToDelete = await User.find({
+      userName: { $regex: 'OrganizerGuest2024' },
+      createdAt: { $lt: threeDaysAgo },
+    });
+
+    if (usersToDelete.length > 0) {
+      for (const user of usersToDelete) {
+        await User.findByIdAndDelete(user._id);
+      }
+
+      logInfo('Users deleted successfully');
+    } else {
+      logInfo('No users to delete');
+    }
+  } catch (error) {
+    logError('Error deleting users:', error);
+  }
 };
 
 export default User;
