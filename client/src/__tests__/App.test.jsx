@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import React from 'react';
 
 import App from '../App';
-import TEST_ID_EMAIL_VALIDATION from '../pages/EmailValidation/EmailValidation.testid';
+import TEST_ID from '../pages/WelcomePage/WelcomePage.testid';
 
 test('renders a react page', () => {
   render(
@@ -11,6 +11,6 @@ test('renders a react page', () => {
       <App />
     </MemoryRouter>
   );
-  const homeElement = screen.getByTestId(TEST_ID_EMAIL_VALIDATION.container);
-  expect(homeElement).toBeInTheDocument();
+  const welcomePage = screen.getByTestId(TEST_ID.container);
+  expect(welcomePage).toBeInTheDocument();
 });

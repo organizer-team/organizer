@@ -25,7 +25,11 @@ afterAll(async () => {
   await closeMockDatabase();
 });
 
-const testUserBase = { email: 'john@doe.com', password: 'qwerty123456' };
+const testUserBase = {
+  email: 'john@doe.com',
+  password: 'Qwerty123456!',
+  userName: 'John Doe',
+};
 
 describe('POST /api/user/register', () => {
   it('Should return a bad request if no user object is given', (done) => {
@@ -47,7 +51,10 @@ describe('POST /api/user/register', () => {
   });
 
   it('Should return a bad request if the user object does not have a password', (done) => {
-    const testUser = { email: testUserBase.email };
+    const testUser = {
+      email: testUserBase.email,
+      userName: testUserBase.userName,
+    };
 
     request
       .post('/api/user/register')

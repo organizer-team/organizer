@@ -108,6 +108,14 @@ export const createUser = async (request, response) => {
       return;
     }
 
+    if (user.password == null) {
+      response.status(400).json({
+        success: false,
+        message: 'Password is a required field',
+      });
+      return;
+    }
+
     const errorList = validateUser(user);
 
     if (errorList.length > 0) {
@@ -238,6 +246,14 @@ export const login = async (request, response) => {
       return;
     }
 
+    if (user.password == null) {
+      response.status(400).json({
+        success: false,
+        message: 'Password is a required field',
+      });
+      return;
+    }
+
     const errorList = validateUser(user);
 
     if (errorList.length > 0) {
@@ -341,7 +357,7 @@ export const getProfile = async (request, response) => {
 /** UPDATE USER PROFILE
  *
  * @route PUT /api/user/update/
- * @desc Update a user with new email
+ * @desc Update a user with new data
  */
 export const updateUser = async (request, response) => {
   try {
@@ -375,11 +391,12 @@ export const updateUser = async (request, response) => {
               message: validationErrorMessage(errorList),
             });
           } else {
-            const { email } = user;
+            const { email, userName } = user;
 
             const userId = info.id;
             const userInDB = await User.findById(userId);
             userInDB.email = email;
+            userInDB.userName = userName;
             const updatedUser = await userInDB.save();
 
             response.status(200).json({

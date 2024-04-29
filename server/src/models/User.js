@@ -22,6 +22,7 @@ export const validateUser = (userObject, passwordRequired = true) => {
     allowedKeys.push('password');
   } else {
     allowedKeys.push('email');
+    allowedKeys.push('userName');
   }
 
   const validatedKeysMessage = validateAllowedFields(userObject, allowedKeys);
@@ -32,14 +33,16 @@ export const validateUser = (userObject, passwordRequired = true) => {
 
   const { email, password } = userObject;
 
-  if (!password && passwordRequired) {
-    errorList.push('Password is a required field');
-  }
-  if (!validator.isLength(password, { min: 8 })) {
-    errorList.push('Password must be at least 8 characters long');
-  }
-  if (!validator.isStrongPassword(password)) {
-    errorList.push('Password is not strong enough');
+  if (passwordRequired) {
+    if (!password) {
+      errorList.push('Password is a required field');
+    }
+    if (!validator.isLength(password, { min: 8 })) {
+      errorList.push('Password must be at least 8 characters long');
+    }
+    if (!validator.isStrongPassword(password)) {
+      errorList.push('Password is not strong enough');
+    }
   }
 
   if (email == null) {

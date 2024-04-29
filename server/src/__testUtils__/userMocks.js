@@ -22,10 +22,10 @@ export const addUserToMockDB = async (newUser) => {
     );
   }
 
-  const { email, password } = newUser;
+  const { password } = newUser;
   const hashedPassword = bcryptjs.hashSync(password, salt);
   const user = new User({
-    email,
+    ...newUser,
     password: hashedPassword,
   });
   await user.save();
