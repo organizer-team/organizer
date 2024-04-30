@@ -62,6 +62,7 @@ const WelcomePage = () => {
         Already have an account or you want to create a new account?
       </p>
       <Link
+        data-testid={TEST_ID.userAccountLink}
         to={'/email-validation'}
         className={`${styles.BUTTON} ${styles.GREEN_BUTTON}`}
       >
@@ -75,6 +76,7 @@ const WelcomePage = () => {
         </span>
       </p>
       <button
+        data-testid={TEST_ID.guestUserButton}
         onClick={handleGuestClick}
         className={`${styles.BUTTON} ${styles.BLUE_BUTTON}`}
       >
