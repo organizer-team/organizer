@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { GrBladesVertical, GrAdd, GrCalendar, GrList } from 'react-icons/gr';
 import PropTypes from 'prop-types';
+import TEST_ID from './BottomNav.testid';
 
 /* Styles */
 const styles = {
@@ -25,7 +26,7 @@ const routes = {
   tasks: '/tasks',
 };
 
-export const BottomNav = ({ toggleLeftSideMenu }) => {
+const BottomNav = ({ toggleLeftSideMenu }) => {
   const location = useLocation();
   const isCalendar = location.pathname === routes.calendar;
 
@@ -56,7 +57,7 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
 
   return (
     <div className={styles.navWrapper}>
-      <div className={styles.navContainer}>
+      <div className={styles.navContainer} data-testid={TEST_ID.container}>
         <button onClick={toggleLeftSideMenu} className={styles.navButton}>
           <GrList size={styles.iconSize} />
         </button>
@@ -64,11 +65,16 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
           ref={buttonRef}
           onClick={togglePopup}
           className={styles.navButton}
+          data-testid={TEST_ID.addButton}
         >
           <GrAdd size={styles.iconSize} />
         </button>
         {showPopup && (
-          <div ref={popupRef} className={styles.popupMenu}>
+          <div
+            ref={popupRef}
+            className={styles.popupMenu}
+            data-testid={TEST_ID.popupMenu}
+          >
             <button onClick={togglePopup} className={styles.popupButton}>
               Task
             </button>
@@ -78,13 +84,20 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
           </div>
         )}
         {isCalendar ? (
-          <Link to={routes.tasks} className={styles.navButton}>
-            <GrBladesVertical size={styles.iconSize} />
-          </Link>
+          <button className={styles.navButton} data-testid={TEST_ID.taskButton}>
+            <Link to={routes.tasks}>
+              <GrBladesVertical size={styles.iconSize} />
+            </Link>
+          </button>
         ) : (
-          <Link to={routes.calendar} className={styles.navButton}>
-            <GrCalendar size={styles.iconSize} />
-          </Link>
+          <button
+            className={styles.navButton}
+            data-testid={TEST_ID.calendarButton}
+          >
+            <Link to={routes.calendar}>
+              <GrCalendar size={styles.iconSize} />
+            </Link>
+          </button>
         )}
       </div>
     </div>
@@ -96,3 +109,5 @@ export const BottomNav = ({ toggleLeftSideMenu }) => {
 BottomNav.propTypes = {
   toggleLeftSideMenu: PropTypes.func.isRequired,
 };
+
+export default BottomNav;
