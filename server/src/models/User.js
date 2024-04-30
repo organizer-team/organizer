@@ -55,7 +55,7 @@ export const validateUser = (userObject, passwordRequired = true) => {
 export const deleteUserIfExpired = async () => {
   const currentDate = new Date();
   const threeDaysAgo = new Date();
-  threeDaysAgo.setSeconds(currentDate.getSeconds() - 3);
+  threeDaysAgo.setDate(currentDate.getDate() - 3);
 
   try {
     const usersToDelete = await User.find({
