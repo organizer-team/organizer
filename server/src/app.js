@@ -29,8 +29,8 @@ import { deleteUserIfExpired } from './models/User.js';
 app.use(cookieParser());
 
 // We use cron to schedule tasks
-cron.schedule('00 * * * *', () => {
-  // running a task every hour
+cron.schedule('00 12 * * *', () => {
+  // running a task every day at 12:00
   deleteUserIfExpired();
 });
 
