@@ -76,6 +76,10 @@ export const getUserById = async (request, response) => {
   try {
     const { _id } = request.params;
     const user = await User.findById(_id);
+    if (!user) {
+      response.status(404).json({ success: false, message: 'User not found' });
+      return;
+    }
     const { userName, email } = user;
     response.status(200).json({ success: true, result: { userName, email } });
   } catch (error) {
@@ -317,16 +321,23 @@ export const getProfile = async (request, response) => {
     const { token } = request.cookies;
 
     if (token) {
-      jwt.verify(token, secret, {}, (error, info) => {
+      jwt.verify(token, secret, {}, async (error, info) => {
         if (error) {
           response
             .status(498)
             .json({ success: false, message: 'Invalid token' });
         } else {
-          response.status(200).json({
-            success: true,
-            user: info,
-          });
+          const user = await User.findById(info.id);
+          if (!user) {
+            response
+              .status(200)
+              .json({ success: true, message: 'User not found' });
+          } else {
+            response.status(200).json({
+              success: true,
+              user: info,
+            });
+          }
         }
       });
     } else {

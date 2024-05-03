@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+// node-cron is a tool that allows you to schedule tasks to run at specific times or intervals.
+import cron from 'node-cron';
 
 // Load our .env variables
 import dotenv from 'dotenv';
@@ -23,7 +25,14 @@ app.use(cors(corsOptions));
 
 // Cookies
 import cookieParser from 'cookie-parser';
+import { deleteUserIfExpired } from './models/User.js';
 app.use(cookieParser());
+
+// We use cron to schedule tasks
+cron.schedule('00 12 * * *', () => {
+  // running a task every day at 12:00
+  deleteUserIfExpired();
+});
 
 /****** Attach routes ******/
 /**
