@@ -205,4 +205,99 @@ describe('CreateUser', () => {
       screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput).value
     ).toEqual(testConfirmPassword);
   });
+
+  it('Should show an alert if the name field is empty', async () => {
+    // Mock the alert function
+    window.alert = jest.fn();
+
+    render(
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
+    );
+
+    // Leave the userName input empty
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: '' },
+    });
+
+    // Submit the form
+    await act(async () => {
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+    });
+
+    // Check if the alert was called
+    expect(window.alert).toHaveBeenCalledWith('Name is required');
+
+    // Optionally, check that the form has not been submitted (e.g., no fetch call)
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('Should show an alert if the password field is empty', async () => {
+    // Mock the alert function
+    window.alert = jest.fn();
+
+    render(
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
+    );
+
+    // Assume the username field is filled correctly
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: 'ValidName' },
+    });
+
+    // Leave the password input empty
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+      target: { value: '' },
+    });
+
+    // Submit the form
+    await act(async () => {
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+    });
+
+    // Check if the alert was called
+    expect(window.alert).toHaveBeenCalledWith('Password is required');
+
+    // Optionally, check that the form has not been submitted (e.g., no fetch call)
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('Should show an alert if the passwords do not match', async () => {
+    // Mock the alert function
+    window.alert = jest.fn();
+
+    render(
+      <MemoryRouter>
+        <CreateUser />
+      </MemoryRouter>
+    );
+
+    // Fill in the username, password, and confirmPassword fields
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+      target: { value: 'ValidName' },
+    });
+    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+      target: { value: 'Password123!' },
+    });
+    fireEvent.change(
+      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+      {
+        target: { value: 'DifferentPassword123!' },
+      }
+    );
+
+    // Submit the form
+    await act(async () => {
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+    });
+
+    // Check if the alert was called with the correct message
+    expect(window.alert).toHaveBeenCalledWith('Passwords do not match');
+
+    // Optionally, check that the form has not been submitted (e.g., no fetch call)
+    expect(fetch).not.toHaveBeenCalled();
+  });
 });
