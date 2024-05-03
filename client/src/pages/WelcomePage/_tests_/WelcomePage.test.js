@@ -18,4 +18,42 @@ describe('WelcomePage', () => {
       screen.getByTestId(TEST_ID_WELCOME_PAGE.container)
     ).toBeInTheDocument();
   });
+  it('Redirects to /email-validation when userAccountLink is clicked', async () => {
+    await act(async () => {
+      render(
+        <Router>
+          <WelcomePage />
+        </Router>
+      );
+    });
+    const userAccountLink = screen.getByTestId(
+      TEST_ID_WELCOME_PAGE.userAccountLink
+    );
+    userAccountLink.click();
+    expect(window.location.pathname).toBe('/email-validation');
+  });
+  // guestUserButton should be clicked and the fetch should be successful
+  it('Clicking guestUserButton should fetch', async () => {
+    const fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ success: true }),
+      })
+    );
+    global.fetch = fetch;
+
+    await act(async () => {
+      render(
+        <Router>
+          <WelcomePage />
+        </Router>
+      );
+    });
+
+    const guestUserButton = screen.getByTestId(
+      TEST_ID_WELCOME_PAGE.guestUserButton
+    );
+    guestUserButton.click();
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
 });
