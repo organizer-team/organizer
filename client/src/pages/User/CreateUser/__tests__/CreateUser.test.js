@@ -15,6 +15,7 @@ import TEST_ID_CREATE_USER from '../CreateUser.testid.js';
 import {
   createUserSuccessMock,
   createUserFailedMock,
+  createUserFailedValidationMock,
 } from '../../../../__testUtils__/fetchUserMocks';
 
 beforeEach(() => {
@@ -96,6 +97,7 @@ describe('CreateUser', () => {
         userName: testUserName,
         password: testPassword,
         email: testEmail,
+        confirmPassword: testConfirmPassword,
       })
     );
 
@@ -152,6 +154,7 @@ describe('CreateUser', () => {
         user: {
           userName: testUserName,
           password: testPassword,
+          confirmPassword: testConfirmPassword,
           email: testEmail,
         },
       })
@@ -206,98 +209,251 @@ describe('CreateUser', () => {
     ).toEqual(testConfirmPassword);
   });
 
-  it('Should show an alert if the name field is empty', async () => {
-    // Mock the alert function
-    window.alert = jest.fn();
+  it('Should display server error if the name field is empty', async () => {
+    const testUserName = '';
+    const testEmail = 'john@gmail.com';
+    const testPassword = 'johnJOHN123!';
+    const testConfirmPassword = 'johnJOHN123!';
+    const testError = 'Name is a required field';
+
+    // Mock our fetch
+    fetch.mockResponseOnce(
+      createUserFailedValidationMock({
+        userName: testUserName,
+        email: testEmail,
+        confirmPassword: testConfirmPassword,
+        password: testPassword,
+      })
+    );
 
     render(
       <MemoryRouter>
-        <CreateUser />
+        <MockUserProvider emailAfterValidation={testEmail}>
+          <CreateUser />
+        </MockUserProvider>
       </MemoryRouter>
     );
 
-    // Leave the userName input empty
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: '' },
-    });
-
-    // Submit the form
+    // Fill in our fields
     await act(async () => {
-      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
 
-    // Check if the alert was called
-    expect(window.alert).toHaveBeenCalledWith('Name is required');
+    // Make sure fetch hasn't been called yet
+    expect(fetch.mock.calls.length).toEqual(0);
 
-    // Optionally, check that the form has not been submitted (e.g., no fetch call)
-    expect(fetch).not.toHaveBeenCalled();
+    // Click submit
+    await act(async () =>
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton))
+    );
+
+    // Wait for the error to be shown
+    waitFor(() =>
+      expect(
+        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer)
+      ).toBeInTheDocument()
+    );
+
+    // Check that the error message is displayed and it is valid
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.errorContainer).textContent
+    ).toEqual(testError);
   });
 
-  it('Should show an alert if the password field is empty', async () => {
-    // Mock the alert function
-    window.alert = jest.fn();
+  it('Should display server error if the password field is empty', async () => {
+    const testUserName = 'John';
+    const testEmail = 'john@gmail.com';
+    const testPassword = '';
+    const testConfirmPassword = 'johnJOHN123!';
+    const testError = 'Password is a required field';
+
+    // Mock our fetch
+    fetch.mockResponseOnce(
+      createUserFailedValidationMock({
+        userName: testUserName,
+        email: testEmail,
+        confirmPassword: testConfirmPassword,
+        password: testPassword,
+      })
+    );
 
     render(
       <MemoryRouter>
-        <CreateUser />
+        <MockUserProvider emailAfterValidation={testEmail}>
+          <CreateUser />
+        </MockUserProvider>
       </MemoryRouter>
     );
 
-    // Assume the username field is filled correctly
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: 'ValidName' },
-    });
-
-    // Leave the password input empty
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: '' },
-    });
-
-    // Submit the form
+    // Fill in our fields
     await act(async () => {
-      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
 
-    // Check if the alert was called
-    expect(window.alert).toHaveBeenCalledWith('Password is required');
+    // Make sure fetch hasn't been called yet
+    expect(fetch.mock.calls.length).toEqual(0);
 
-    // Optionally, check that the form has not been submitted (e.g., no fetch call)
-    expect(fetch).not.toHaveBeenCalled();
+    // Click submit
+    await act(async () =>
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton))
+    );
+
+    // Wait for the error to be shown
+    waitFor(() =>
+      expect(
+        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer)
+      ).toBeInTheDocument()
+    );
+
+    // Check that the error message is displayed and it is valid
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.errorContainer).textContent
+    ).toEqual(testError);
   });
 
-  it('Should show an alert if the passwords do not match', async () => {
-    // Mock the alert function
-    window.alert = jest.fn();
+  it('Should display server error if the confirm password field is empty', async () => {
+    const testUserName = 'John';
+    const testEmail = 'john@gmail.com';
+    const testPassword = 'johnJOHN123!';
+    const testConfirmPassword = '';
+    const testError = 'Confirm password is a required field';
+
+    // Mock our fetch
+    fetch.mockResponseOnce(
+      createUserFailedValidationMock({
+        userName: testUserName,
+        email: testEmail,
+        confirmPassword: testConfirmPassword,
+        password: testPassword,
+      })
+    );
 
     render(
       <MemoryRouter>
-        <CreateUser />
+        <MockUserProvider emailAfterValidation={testEmail}>
+          <CreateUser />
+        </MockUserProvider>
       </MemoryRouter>
     );
 
-    // Fill in the username, password, and confirmPassword fields
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
-      target: { value: 'ValidName' },
+    // Fill in our fields
+    await act(async () => {
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
-    fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
-      target: { value: 'Password123!' },
-    });
-    fireEvent.change(
-      screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
-      {
-        target: { value: 'DifferentPassword123!' },
-      }
+
+    // Make sure fetch hasn't been called yet
+    expect(fetch.mock.calls.length).toEqual(0);
+
+    // Click submit
+    await act(async () =>
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton))
     );
 
-    // Submit the form
+    // Wait for the error to be shown
+    waitFor(() =>
+      expect(
+        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer)
+      ).toBeInTheDocument()
+    );
+
+    // Check that the error message is displayed and it is valid
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.errorContainer).textContent
+    ).toEqual(testError);
+  });
+
+  it('Should display server error if the password and the confirm password do not match', async () => {
+    const testUserName = 'John';
+    const testEmail = 'john@gmail.com';
+    const testPassword = 'johnJOHN123!';
+    const testConfirmPassword = 'john';
+    const testError = 'Passwords do not match';
+
+    // Mock our fetch
+    fetch.mockResponseOnce(
+      createUserFailedValidationMock({
+        userName: testUserName,
+        email: testEmail,
+        confirmPassword: testConfirmPassword,
+        password: testPassword,
+      })
+    );
+
+    render(
+      <MemoryRouter>
+        <MockUserProvider emailAfterValidation={testEmail}>
+          <CreateUser />
+        </MockUserProvider>
+      </MemoryRouter>
+    );
+
+    // Fill in our fields
     await act(async () => {
-      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton));
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.userNameInput), {
+        target: { value: testUserName },
+      });
+      fireEvent.change(screen.getByTestId(TEST_ID_CREATE_USER.passwordInput), {
+        target: { value: testPassword },
+      });
+      fireEvent.change(
+        screen.getByTestId(TEST_ID_CREATE_USER.confirmPasswordInput),
+        {
+          target: { value: testConfirmPassword },
+        }
+      );
     });
 
-    // Check if the alert was called with the correct message
-    expect(window.alert).toHaveBeenCalledWith('Passwords do not match');
+    // Make sure fetch hasn't been called yet
+    expect(fetch.mock.calls.length).toEqual(0);
 
-    // Optionally, check that the form has not been submitted (e.g., no fetch call)
-    expect(fetch).not.toHaveBeenCalled();
+    // Click submit
+    await act(async () =>
+      fireEvent.click(screen.getByTestId(TEST_ID_CREATE_USER.submitButton))
+    );
+
+    // Wait for the error to be shown
+    waitFor(() =>
+      expect(
+        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer)
+      ).toBeInTheDocument()
+    );
+
+    // Check that the error message is displayed and it is valid
+    expect(
+      screen.getByTestId(TEST_ID_CREATE_USER.errorContainer).textContent
+    ).toEqual(testError);
   });
 });
