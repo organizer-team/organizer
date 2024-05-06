@@ -108,10 +108,34 @@ export const createUser = async (request, response) => {
       return;
     }
 
-    if (user.password == null) {
+    if (user.userName.length < 1) {
+      response.status(400).json({
+        success: false,
+        message: 'Name is a required field',
+      });
+      return;
+    }
+
+    if (user.password.length < 1) {
       response.status(400).json({
         success: false,
         message: 'Password is a required field',
+      });
+      return;
+    }
+
+    if (user.confirmPassword.length < 1) {
+      response.status(400).json({
+        success: false,
+        message: 'Confirm password is a required field',
+      });
+      return;
+    }
+
+    if (user.password !== user.confirmPassword) {
+      response.status(400).json({
+        success: false,
+        message: 'Passwords do not match',
       });
       return;
     }
