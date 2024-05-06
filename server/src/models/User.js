@@ -20,6 +20,7 @@ export const validateUser = (userObject, passwordRequired = true) => {
     allowedKeys.push('userName');
     allowedKeys.push('email');
     allowedKeys.push('password');
+    allowedKeys.push('confirmPassword');
   } else {
     allowedKeys.push('email');
     allowedKeys.push('userName');

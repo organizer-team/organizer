@@ -55,34 +55,6 @@ const CreateUser = () => {
     return cancelFetch;
   }, []);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (userName.length < 1) {
-      alert('Name is required');
-      return;
-    }
-    if (userName.includes('OrganizerGuest2024')) {
-      alert('User name cannot include "OrganizerGuest2024"');
-      return;
-    }
-    if (password.length < 1) {
-      alert('Password is required');
-      return;
-    }
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-    performFetch({
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ user: { userName, password, email } }),
-      credentials: 'include', // save cookies inside react app
-    });
-  }
-
   let statusComponent = null;
   if (error != null) {
     statusComponent = (
@@ -102,6 +74,20 @@ const CreateUser = () => {
         Creating user...
       </div>
     );
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    performFetch({
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: { userName, password, confirmPassword, email },
+      }),
+      credentials: 'include', // save cookies inside react app
+    });
   }
 
   const handleUserNameChange = (event) => {
