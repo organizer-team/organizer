@@ -31,3 +31,31 @@ export const loginSuccessMock = () => {
 export const loginFailedMock = () => {
   return JSON.stringify({ success: false, message: 'Failed to log in' });
 };
+
+// Mock of a failing validation of a new user
+export const createUserFailedValidationMock = (user) => {
+  if (user.userName.length < 1) {
+    return JSON.stringify({
+      success: false,
+      message: 'Name is a required field',
+    });
+  }
+  if (user.password.length < 1) {
+    return JSON.stringify({
+      success: false,
+      message: 'Password is a required field',
+    });
+  }
+  if (user.confirmPassword.length < 1) {
+    return JSON.stringify({
+      success: false,
+      message: 'Confirm password is a required field',
+    });
+  }
+  if (user.confirmEmail !== user.password) {
+    return JSON.stringify({
+      success: false,
+      message: 'Passwords do not match',
+    });
+  }
+};
