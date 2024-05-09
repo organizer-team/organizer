@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test-leaks": "jest --detectOpenHandles",
     "setup": "npm install",
     "dev": "nodemon ./src/index",
     "code-style-check": "npm run prettier && npm run lint",

@@ -28,6 +28,7 @@ afterAll(async () => {
 const testUserBase = {
   email: 'john@doe.com',
   password: 'Qwerty123456!',
+  confirmPassword: 'Qwerty123456!',
   userName: 'John Doe',
 };
 

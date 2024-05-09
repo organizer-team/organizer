@@ -20,6 +20,7 @@
     "test": "npm run test:client && npm run test:server",
     "test:client": "cd client && npm run test && cd ..",
     "test:server": "cd server && npm run test && cd ..",
+    "test:server-leaks": "cd server && npm run test-leaks && cd ..",
     "pre-commit": "npm run pre-commit:client && npm run pre-commit:server",
     "pre-commit:client": "cd client && npm run pre-commit && cd ..",
     "pre-commit:server": "cd server && npm run pre-commit && cd ..",
