@@ -108,7 +108,7 @@ export const createUser = async (request, response) => {
       return;
     }
 
-    if (user.userName.length < 1) {
+    if (!user.userName || user.userName.length < 1) {
       response.status(400).json({
         success: false,
         message: 'Name is a required field',
@@ -116,7 +116,7 @@ export const createUser = async (request, response) => {
       return;
     }
 
-    if (user.password.length < 1) {
+    if (!user.password || user.password.length < 1) {
       response.status(400).json({
         success: false,
         message: 'Password is a required field',
@@ -124,7 +124,7 @@ export const createUser = async (request, response) => {
       return;
     }
 
-    if (user.confirmPassword.length < 1) {
+    if (!user.confirmPassword || user.confirmPassword.length < 1) {
       response.status(400).json({
         success: false,
         message: 'Confirm password is a required field',

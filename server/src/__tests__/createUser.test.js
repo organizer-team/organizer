@@ -28,6 +28,7 @@ afterAll(async () => {
 const testUserBase = {
   email: 'john@doe.com',
   password: 'Qwerty123456!',
+  confirmPassword: 'Qwerty123456!',
   userName: 'John Doe',
 };
 
@@ -168,6 +169,25 @@ describe('POST /api/user/register', () => {
         const { body } = response;
         expect(body.success).toBe(false);
         expect(body.message).toBe('A user with this email already exists');
+      });
+  });
+
+  it('Should return a bad request if the passwords do not match', async () => {
+    const testUser = { ...testUserBase, confirmPassword: 'new-password-123=)' };
+
+    // Create the first user
+    await request.post('/api/user/register').send({ user: testUser });
+
+    // Try to create a second user with the same email
+    return request
+      .post('/api/user/register')
+      .send({ user: testUser })
+      .then((response) => {
+        expect(response.status).toBe(400);
+
+        const { body } = response;
+        expect(body.success).toBe(false);
+        expect(body.message).toBe('Passwords do not match');
       });
   });
 });

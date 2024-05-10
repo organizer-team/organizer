@@ -29,7 +29,7 @@ describe('WelcomePage', () => {
     const userAccountLink = screen.getByTestId(
       TEST_ID_WELCOME_PAGE.userAccountLink
     );
-    userAccountLink.click();
+    act(() => userAccountLink.click());
     expect(window.location.pathname).toBe('/email-validation');
   });
   // guestUserButton should be clicked and the fetch should be successful
@@ -52,8 +52,7 @@ describe('WelcomePage', () => {
     const guestUserButton = screen.getByTestId(
       TEST_ID_WELCOME_PAGE.guestUserButton
     );
-    guestUserButton.click();
-
+    await act(async () => guestUserButton.click());
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
