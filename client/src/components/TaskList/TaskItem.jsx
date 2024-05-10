@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const TaskItem = ({ task }) => {
   return (
-    <div className="flex items-center p-4 rounded-md bg-white shadow-md">
+    <div className="flex items-center p-4 rounded-md bg-lightBg shadow-md w-max mt-10">
       <input type="checkbox" className="mr-4" />
       <div className="flex-grow">
         <h3 className="text-lg font-medium">{task.title}</h3>

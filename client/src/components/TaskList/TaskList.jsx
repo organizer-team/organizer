@@ -20,7 +20,7 @@ const TaskList = ({ tasks }) => {
   const taskData = tasks || staticTasks;
 
   return (
-    <div className="task-list">
+    <div className="task-list sm:w-12 lg:w-max">
       {taskData.map((task) => (
         <TaskItem key={task.id} task={task} />
       ))}
