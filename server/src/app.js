@@ -8,6 +8,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import userRouter from './routes/user.js';
+import taskRouter from './routes/task.js';
+import colorRouter from './routes/color.js';
+import areaRouter from './routes/area.js';
 
 // Create an express server
 const app = express();
@@ -40,5 +43,8 @@ cron.schedule('00 12 * * *', () => {
  * As we also host our client code on heroku we want to separate the API endpoints.
  */
 app.use('/api/user', userRouter);
+app.use('/api/task', taskRouter);
+app.use('/api/color', colorRouter);
+app.use('/api/area', areaRouter);
 
 export default app;
