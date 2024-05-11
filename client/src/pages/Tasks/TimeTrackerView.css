@@ -1,0 +1,19 @@
+.time-tracker-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: bisque;
+}
+
+.date-view {
+  margin-right: auto;
+  padding-left: 20px;
+  font-size: 16px;
+}
+
+.days-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}

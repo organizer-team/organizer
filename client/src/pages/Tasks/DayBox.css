@@ -1,0 +1,21 @@
+.day-box {
+  border: none;
+  text-align: center;
+  width: calc(100% / 7);
+  box-sizing: border-box;
+  padding: 3px;
+}
+
+.day-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.date {
+  font-size: 14px;
+}
+
+.today {
+  background-color: navy;
+  color: white;
+}
