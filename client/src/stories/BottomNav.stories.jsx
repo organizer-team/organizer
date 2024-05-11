@@ -1,4 +1,3 @@
-// BottomNav.stories.js
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BottomNav from '../components/BottomNav/BottomNav';

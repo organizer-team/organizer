@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Navigate, Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import useFetch from '../../../hooks/useFetch';
@@ -17,10 +18,10 @@ const styles = {
   STATUS_CONTAINER: 'mt-4 text-red-500',
 };
 
-export default function LoginPage() {
-  const { emailAfterValidation, setToken } = useContext(UserContext);
+export default function LoginPage({ emailAfterValidation }) {
+  const { setToken } = useContext(UserContext);
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(emailAfterValidation);
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
 
@@ -125,3 +126,7 @@ export default function LoginPage() {
     </div>
   );
 }
+
+LoginPage.propTypes = {
+  emailAfterValidation: PropTypes.string,
+};

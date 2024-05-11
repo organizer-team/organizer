@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Link, Navigate } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import CredentialsInput from '../../../components/CredentialsInput/CredentialsInput';
@@ -20,11 +21,11 @@ const styles = {
   STATUS_CONTAINER: 'mt-4 text-red-500',
 };
 
-const CreateUser = () => {
-  const { emailAfterValidation, setToken } = useContext(UserContext);
+const CreateUser = ({ emailAfterValidation }) => {
+  const { setToken } = useContext(UserContext);
 
   const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(emailAfterValidation);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -164,3 +165,7 @@ const CreateUser = () => {
 };
 
 export default CreateUser;
+
+CreateUser.propTypes = {
+  emailAfterValidation: PropTypes.string,
+};

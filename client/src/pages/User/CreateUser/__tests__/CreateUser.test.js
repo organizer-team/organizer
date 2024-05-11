@@ -104,7 +104,7 @@ describe('CreateUser', () => {
     render(
       <MemoryRouter>
         <MockUserProvider emailAfterValidation={testEmail}>
-          <CreateUser />
+          <CreateUser emailAfterValidation={testEmail} />
         </MockUserProvider>
       </MemoryRouter>
     );
