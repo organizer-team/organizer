@@ -9,7 +9,6 @@ dotenv.config();
 
 import userRouter from './routes/user.js';
 import taskRouter from './routes/task.js';
-import colorRouter from './routes/color.js';
 import areaRouter from './routes/area.js';
 
 // Create an express server
@@ -44,7 +43,6 @@ cron.schedule('00 12 * * *', () => {
  */
 app.use('/api/user', userRouter);
 app.use('/api/task', taskRouter);
-app.use('/api/color', colorRouter);
 app.use('/api/area', areaRouter);
 
 export default app;
