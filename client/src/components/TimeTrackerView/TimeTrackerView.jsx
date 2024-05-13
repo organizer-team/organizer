@@ -4,7 +4,7 @@ import DateView from './DateView';
 import DaysView from './DaysView';
 const TimeTrackerView = () => {
   return (
-    <div className="time-tracker-view">
+    <div className="flex flex-col items-center bg-bisque">
       <DateView />
       <DaysView />
     </div>

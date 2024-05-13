@@ -18,7 +18,7 @@ const DaysView = () => {
     currentDate.getDate() - currentDay + (currentDay === 0 ? -6 : 1); // calculate the date of the first day of the week
 
   return (
-    <div className="days-view">
+    <div className="flex flex-row justify-between gap-10">
       {daysOfWeek.map((day, index) => {
         const date = new Date(currentDate);
         date.setDate(firstDayOfWeek + index); // calculate the date for each day of the week

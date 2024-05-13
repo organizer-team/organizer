@@ -1,6 +1,6 @@
 import React from 'react';
 import TEST_ID from './Tasks.testid.js';
-import TimeTrackerView from './TimeTrackerView.jsx';
+import TimeTrackerView from '../../components/TimeTrackerView/TimeTrackerView.jsx';
 
 const Tasks = () => {
   return (

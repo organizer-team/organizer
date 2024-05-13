@@ -6,7 +6,7 @@ const DateView = () => {
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
 
   return (
-    <div className="date-view">
+    <div className="mr-auto pl-20 text-base">
       <h2>{formattedDate}</h2>
     </div>
   );
