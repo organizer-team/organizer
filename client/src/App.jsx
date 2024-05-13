@@ -42,7 +42,7 @@ function App() {
           path="/user/signup"
           element={
             emailAfterValidation ? (
-              <CreateUser />
+              <CreateUser emailAfterValidation={emailAfterValidation} />
             ) : (
               <Navigate to={'/email-validation'} />
             )
@@ -52,7 +52,7 @@ function App() {
           path="/user/login"
           element={
             emailAfterValidation ? (
-              <LoginPage />
+              <LoginPage emailAfterValidation={emailAfterValidation} />
             ) : (
               <Navigate to={'/email-validation'} />
             )
