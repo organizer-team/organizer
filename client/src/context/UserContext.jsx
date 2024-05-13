@@ -8,6 +8,7 @@ export function UserContextProvider({ children }) {
   const [emailAfterValidation, setEmailAfterValidation] = useState('');
   const [userInfo, setUserInfo] = useState({});
   const [token, setToken] = useState(getCookieValue('token'));
+  const [user, setUser] = useState({});
 
   useEffect(() => {}, [token]);
 
@@ -20,6 +21,8 @@ export function UserContextProvider({ children }) {
         setEmailAfterValidation,
         token,
         setToken,
+        user,
+        setUser,
       }}
     >
       {children}
