@@ -4,7 +4,7 @@ import TaskList from '../../components/TaskList/TaskList';
 
 const Tasks = () => {
   return (
-    <div data-testid={TEST_ID.container}>
+    <div data-testid={TEST_ID.container} className="bg-blue-200">
       <TaskList />
     </div>
   );

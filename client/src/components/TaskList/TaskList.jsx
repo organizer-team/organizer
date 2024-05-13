@@ -4,15 +4,24 @@ import PropTypes from 'prop-types';
 
 // Static tasks data
 const staticTasks = [
-  { id: 1, title: 'Write the doc', duration: '1 hour', area: 'Work' },
+  {
+    id: 1,
+    title: 'Write the doc',
+    duration: { start: '13:00', end: '14:00' },
+    area: 'Work',
+  },
   {
     id: 2,
     title: 'Household chores',
-    duration: '30 minutes',
+    duration: { start: '09:00', end: '09:30' },
     area: 'Personal',
   },
-  { id: 3, title: 'Do groceries', duration: '45 minutes', area: 'Shopping' },
-  // Add more static tasks as needed
+  {
+    id: 3,
+    title: 'Do groceries',
+    duration: { start: '15:00', end: '15:45' },
+    area: 'Shopping',
+  },
 ];
 
 const TaskList = ({ tasks }) => {
@@ -20,7 +29,7 @@ const TaskList = ({ tasks }) => {
   const taskData = tasks || staticTasks;
 
   return (
-    <div className="task-list sm:w-12 lg:w-max">
+    <div className="">
       {taskData.map((task) => (
         <TaskItem key={task.id} task={task} />
       ))}
