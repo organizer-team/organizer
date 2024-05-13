@@ -1,5 +1,4 @@
 import React from 'react';
-import './TimeTrackerView.css';
 import DateView from './DateView';
 import DaysView from './DaysView';
 const TimeTrackerView = () => {
