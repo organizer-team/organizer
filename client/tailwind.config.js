@@ -5,21 +5,25 @@ export default {
     extend: {
       colors: {
         organizerPurple: {
-          primary:'#9747FF',
+          primary: '#9747FF',
           light: '#B580FF',
           dark: '#6E24B1',
           accentLight: '#C996FF',
-          accentDark: '#7A1FC3',},
+          accentDark: '#7A1FC3',
+        },
 
         organizerGray: {
-          primary:'#E5E5E5',
+          primary: '#E5E5E5',
           light: '#F2F2F2',
-          dark: '#333333',},
-          
-        organizerRed: {primary: '#FF5C5C',},
-        organizerBlue: {primary: '#4A90E2',},
-        organizerGreen: {primary: '#00C48C',},
-        
+          dark: '#333333',
+        },
+
+        organizerRed: { primary: '#FF5C5C' },
+        organizerBlue: { primary: '#4A90E2' },
+        organizerGreen: { primary: '#00C48C' },
+
+        textPrimary: '#4338ca',
+        lightBg: '#f0f9ff',
       },
     },
   },
