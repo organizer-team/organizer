@@ -123,33 +123,24 @@ describe('POST /api/user/register', () => {
     return request
       .post('/api/user/register')
       .send({ user: testUser })
-      .then((response) => {
+      .then(async (response) => {
         expect(response.status).toBe(201);
 
         const { body } = response;
         expect(body.success).toBe(true);
 
+        // Retrieve the newly created user from the database
+        const newUser = await findUserInMockDB(body.user.userId);
+
+        // Compare the hashed passwords
         const passwordCheck = bcryptjs.compareSync(
           testUser.password,
-          body.user.password
+          newUser.password
         );
 
         expect(passwordCheck).toBe(true);
 
         expect(body.user.email).toEqual(testUser.email);
-
-        // Check that it was added to the DB
-        return findUserInMockDB(body.user._id);
-      })
-      .then((userInMockDb) => {
-        expect(userInMockDb.email).toEqual(testUser.email);
-
-        const hashedPassword = userInMockDb.password;
-        const passwordCheck = bcryptjs.compareSync(
-          testUser.password,
-          hashedPassword
-        );
-        expect(passwordCheck).toBe(true);
       });
   });
 
