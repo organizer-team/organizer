@@ -8,7 +8,7 @@ describe('Component', () => {
   it('renders the Component component', () => {
     render(
       <MemoryRouter>
-        <Component toggleLeftSideMenu={() => {}} />
+        <Component />
       </MemoryRouter>
     );
 
