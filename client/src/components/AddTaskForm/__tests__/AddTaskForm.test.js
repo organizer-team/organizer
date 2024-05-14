@@ -1,6 +1,6 @@
 import React from 'react';
 import AddTaskForm from '../AddTaskForm';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import TEST_ID from '../AddTaskForm.testid';
 
@@ -42,6 +42,12 @@ describe('AddTaskForm', () => {
     const areaSelector = screen.getByTestId(TEST_ID.areaSelector);
     expect(areaSelector).toBeInTheDocument();
     expect(areaSelector).toHaveValue('Inbox');
+  });
+
+  it('changes area when a different option is selected', async () => {
+    const areaSelector = screen.getByTestId(TEST_ID.areaSelector);
+    fireEvent.change(areaSelector, { target: { value: 'Area2' } });
+    expect(areaSelector.value).toBe('Area2');
   });
 
   it('renders close button', () => {
