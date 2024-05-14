@@ -19,7 +19,7 @@ const styles = {
 };
 
 const WelcomePage = () => {
-  const { setToken } = useContext(UserContext);
+  const { setToken, setUser } = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
 
   const { cancelFetch, performFetch } = useFetch(
@@ -28,6 +28,7 @@ const WelcomePage = () => {
       if (jsonResult.success) {
         setRedirect(true);
         setToken(getCookieValue('token'));
+        setUser(jsonResult.user);
       } else {
         alert('Sign up failed');
       }

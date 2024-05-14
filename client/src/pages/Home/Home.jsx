@@ -10,9 +10,8 @@ import removeTokenCookie from '../../utils/removeToken';
 const HOME_PAGE = 'p-2 my-2';
 
 function Home() {
-  const { setToken } = useContext(UserContext);
+  const { setToken, user, setUser } = useContext(UserContext);
   const [userId, setUserId] = useState('');
-  const [user, setUser] = useState({});
 
   const { cancelFetch: profileCancelFetch, performFetch: profilePerformFetch } =
     useFetch('/user/profile/', (jsonResult) => {
@@ -66,6 +65,7 @@ function Home() {
       <p>This is it!</p>
       <p>{user.userName}</p>
       <p>{user.email}</p>
+      <p>{user.userId}</p>
       {/*temporary log out button */}
       {user.userName?.startsWith('OrganizerGuest2024') ? (
         <LogOutButtonGuest userId={userId} />
