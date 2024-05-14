@@ -25,3 +25,23 @@ export const getAreasByUserId = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+/** CREATE AREA
+ *
+ * @route POST /api/area/create
+ * @desc Create a new area with the given user id
+ */
+
+export const createArea = async (req, res) => {
+  try {
+    // Get the user id from the request
+    const { userId } = req.body;
+    // Create a new area with the user id
+    const area = await Area.create({ ...req.body, user_id: userId });
+    // Send the area back to the client
+    res.status(201).json({ success: true, area });
+  } catch (err) {
+    // If there is an error, send a 500 status code
+    res.status(500).json({ message: err.message });
+  }
+};
