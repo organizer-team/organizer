@@ -81,7 +81,9 @@ export const getUserById = async (request, response) => {
       return;
     }
     const { userName, email } = user;
-    response.status(200).json({ success: true, result: { userName, email } });
+    response
+      .status(200)
+      .json({ success: true, result: { userId: user._id, userName, email } });
   } catch (error) {
     logError(error);
     response
@@ -171,10 +173,17 @@ export const createUser = async (request, response) => {
       // Generate token for the new user
       const token = await generateToken(newUser._id);
 
-      response.status(201).cookie('token', token).json({
-        success: true,
-        user: newUser,
-      });
+      response
+        .status(201)
+        .cookie('token', token)
+        .json({
+          success: true,
+          user: {
+            userId: newUser._id,
+            userName: newUser.userName,
+            email: newUser.email,
+          },
+        });
     }
   } catch (error) {
     logError(error);
@@ -239,10 +248,17 @@ export const createGuestUser = async (request, response) => {
       // Generate token for the new user
       const token = await generateToken(newUser._id);
 
-      response.status(201).cookie('token', token).json({
-        success: true,
-        user: newUser,
-      });
+      response
+        .status(201)
+        .cookie('token', token)
+        .json({
+          success: true,
+          user: {
+            userId: newUser._id,
+            userName: newUser.userName,
+            email: newUser.email,
+          },
+        });
     }
   } catch (error) {
     logError(error);
@@ -295,9 +311,17 @@ export const login = async (request, response) => {
         );
         if (verificationResult) {
           const token = await generateToken(userInDB._id);
-          response.status(200).cookie('token', token).json({
-            success: true,
-          });
+          response
+            .status(200)
+            .cookie('token', token)
+            .json({
+              success: true,
+              user: {
+                userId: userInDB._id,
+                userName: userInDB.userName,
+                email: userInDB.email,
+              },
+            });
         } else {
           response
             .status(400)

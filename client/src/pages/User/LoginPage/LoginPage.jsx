@@ -19,7 +19,7 @@ const styles = {
 };
 
 export default function LoginPage({ emailAfterValidation }) {
-  const { setToken } = useContext(UserContext);
+  const { setToken, setUser } = useContext(UserContext);
 
   const [email, setEmail] = useState(emailAfterValidation);
   const [password, setPassword] = useState('');
@@ -31,6 +31,7 @@ export default function LoginPage({ emailAfterValidation }) {
       if (jsonResult.success) {
         setRedirect(true);
         setToken(getCookieValue('token'));
+        setUser(jsonResult.user);
       } else {
         alert('Login failed');
       }

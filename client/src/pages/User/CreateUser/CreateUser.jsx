@@ -22,7 +22,7 @@ const styles = {
 };
 
 const CreateUser = ({ emailAfterValidation }) => {
-  const { setToken } = useContext(UserContext);
+  const { setToken, setUser } = useContext(UserContext);
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState(emailAfterValidation);
@@ -45,6 +45,7 @@ const CreateUser = ({ emailAfterValidation }) => {
       if (jsonResult.success) {
         onSuccess();
         setToken(getCookieValue('token'));
+        setUser(jsonResult.user);
       } else {
         alert('Sign up failed');
       }
