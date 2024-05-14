@@ -1,5 +1,5 @@
 import React from 'react';
-import AddTaskIcon from '../../assets/add-task.SVG'; // Import the SVG file
+import AddTaskIcon from '../../assets/add-task.svg';
 
 const AddTaskButton = () => {
   const handleClick = () => {
