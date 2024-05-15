@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 
 const TaskItem = ({ task }) => {
@@ -14,7 +15,7 @@ const TaskItem = ({ task }) => {
   const endTime = formatTime(end_time);
 
   return (
-    <div className="flex items-center p-4 rounded-md bg-lightBg shadow-md w-4/5 mt-10 mx-auto">
+    <div className="flex items-center p-4 rounded-xl bg-lightBg shadow-md w-4/5 mt-6 mx-auto">
       <button
         className="bg-transparent border-blue-500 border-2 p-4 rounded-md"
         style={{ backgroundColor: area.color_code }}
@@ -22,10 +23,15 @@ const TaskItem = ({ task }) => {
         <span className="sr-only">Button Label</span>
       </button>
 
-      <div className="flex flex-col justify-start flex-grow">
+      <div className="flex flex-col items-start justify-between ml-8 space-y-2">
         <h3 className="text-lg font-medium text-blue-700">{title}</h3>
-        <p className="text-sm text-gray-500">{`${startTime}-${endTime}`}</p>
-        <p className="text-sm text-gray-500">{area.title}</p>
+        <p className="text-sm font-bold text-gray-500">{`${startTime}-${endTime}`}</p>
+        <div className="flex items-center">
+          <div
+            className={`rounded-md w-4 h-4 mr-2 bg-${area.color_code}`}
+          ></div>
+          <p className="text-sm font-bold text-black">{area.title}</p>
+        </div>
       </div>
     </div>
   );

@@ -29,7 +29,7 @@ const DaysView = ({ onDayBoxClick }) => {
   };
 
   return (
-    <div className="flex flex-row justify-between gap-10">
+    <div className="flex flex-row justify-between">
       {daysOfWeek.map((day, index) => {
         const date = new Date(currentDate);
         date.setDate(firstDayOfWeek + index); // calculate the date for each day of the week

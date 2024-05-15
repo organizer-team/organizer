@@ -9,8 +9,10 @@ const DayBox = ({ name, date, onDayBoxClick, isSelected }) => {
 
   return (
     <div
-      className={`border border-none text-center box-content w-1/7 box-content p-3 ${
-        isSelected ? 'bg-today text-white' : ''
+      className={`border border-none text-center box-content w-8 box-content p-3 mx-1 ${
+        isSelected
+          ? 'bg-gradient-to-br from-blue-500 to-emerald-500 text-white rounded-xl'
+          : 'rounded-md'
       }`}
       onClick={handleClick}
     >

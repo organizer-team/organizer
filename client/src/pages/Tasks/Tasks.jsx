@@ -75,7 +75,7 @@ const Tasks = () => {
   }, []);
 
   return (
-    <div data-testid={TEST_ID.container}>
+    <div data-testid={TEST_ID.container} className="bg-indigo-200">
       <TimeTrackerView onDayBoxClick={handleDayBoxClick} />
       <TaskList tasks={filteredTasks} />
       <AddTaskButton />
