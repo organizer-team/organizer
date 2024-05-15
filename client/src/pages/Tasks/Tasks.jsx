@@ -46,11 +46,11 @@ const Tasks = () => {
 
       // filter tasks based on the selected date
       const filteredTasks = tasks.filter((task) => {
-        const taskDueTime = new Date(task.due_time);
-        const taskYear = taskDueTime.getFullYear();
-        const taskMonth = taskDueTime.getMonth();
-        const taskDay = taskDueTime.getDate();
-        // check if the selected date falls within the start time and due time of the task
+        const taskEndTime = new Date(task.end_time);
+        const taskYear = taskEndTime.getFullYear();
+        const taskMonth = taskEndTime.getMonth();
+        const taskDay = taskEndTime.getDate();
+        // check if the selected date falls within the end time of the task
         return (
           selectedYear === taskYear &&
           selectedMonth === taskMonth &&
