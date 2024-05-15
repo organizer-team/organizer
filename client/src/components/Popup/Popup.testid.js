@@ -1,7 +1,8 @@
 import createTestIdFilePath from '../../utils/createTestIdFilePath';
 
 const TEST_ID = {
-  element: `${createTestIdFilePath('components', 'Popup')}-element`,
+  overlay: `${createTestIdFilePath('components', 'Popup')}-overlay`,
+  content: `${createTestIdFilePath('components', 'Popup')}-content`,
 };
 
 export default TEST_ID;
