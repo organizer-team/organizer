@@ -4,9 +4,10 @@ import propTypes from 'prop-types';
 
 const styles = {
   container:
-    'w-full border border-solid border-organizerGray flex flex-col min-h-0',
+    'w-full border border-solid border-organizerGray-primary flex flex-col min-h-0',
   quickOptions: 'm-3 flex flex-col',
-  optionButton: 'px-2 py-1 border',
+  optionButton:
+    'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
   optionButtonsRow: 'flex justify-between py-1',
   calendarView: 'm-3',
 };
@@ -59,7 +60,7 @@ const Scheduler = () => {
     <div className={styles.container} data-testid={TEST_ID.element}>
       {/* Quick options list */}
       <div className={styles.quickOptions}>
-        <div className={styles.optionButtonsRow}>
+        <div className={`${styles.optionButtonsRow} group`}>
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('Today')}
