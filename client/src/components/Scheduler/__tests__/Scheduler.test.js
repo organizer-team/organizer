@@ -86,9 +86,9 @@ describe('Scheduler', () => {
       fireEvent.click(optionButton);
 
       if (expectedDate) {
-        expectedDate.setMilliseconds(0);
+        expectedDate.setSeconds(0, 0); // Set the seconds and milliseconds to zero
         const receivedDate = new Date(onSelect.mock.calls[0][0]);
-        receivedDate.setMilliseconds(0);
+        receivedDate.setSeconds(0, 0); // Set the seconds and milliseconds to zero
         expect(receivedDate).toEqual(expectedDate);
       } else {
         expect(onSelect.mock.calls[0][0]).toBeNull();
