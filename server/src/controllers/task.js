@@ -48,10 +48,9 @@ export const getTasksByUserId = async (req, res) => {
 
 export const createTask = async (req, res) => {
   try {
-    // Get the user id from the request
-    const { userId } = req.body;
     // Create a new task with the user id
     const {
+      userId,
       title,
       description,
       completed,
@@ -75,15 +74,10 @@ export const createTask = async (req, res) => {
     res.status(201).json({
       success: true,
       task: {
-        user_id: task.user_id,
-        title: task.title,
-        description: task.description,
-        completed: task.completed,
+        ...task._doc,
         date: task.date.toISOString().split('T')[0], // Convert date to YYYY-MM-DD format
         start_time: task.start_time.toISOString().split('T')[1].slice(0, 5), // Extract time portion HH:MM
         end_time: task.end_time.toISOString().split('T')[1].slice(0, 5), // Extract time portion HH:MM
-        area_id: task.area_id,
-        createdAt: task.createdAt,
       },
     });
   } catch (err) {
