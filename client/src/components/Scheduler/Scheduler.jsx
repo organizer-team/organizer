@@ -10,7 +10,7 @@ const styles = {
   optionButton:
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
   optionButtonsRow: 'flex justify-between py-1',
-  calendarView: 'm-3',
+  calendarView: 'my-3',
 };
 
 const Scheduler = ({ onSelect }) => {
@@ -43,30 +43,32 @@ const Scheduler = ({ onSelect }) => {
         newDate = null;
         break;
     }
-    setSelectedDate(newDate);
-    onSelect(newDate);
+    handleDateSelection(newDate);
   };
 
   return (
-    <div className={styles.container} data-testid={TEST_ID.element}>
+    <div className={styles.container} data-testid={TEST_ID.container}>
       {/* Quick options list */}
-      <div className={styles.quickOptions}>
+      <div className={styles.quickOptions} data-testid={TEST_ID.quickOptions}>
         <div className={`${styles.optionButtonsRow} group`}>
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('Today')}
+            data-testid={TEST_ID.todayButton}
           >
             Today
           </button>
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('Tomorrow')}
+            data-testid={TEST_ID.tomorrowButton}
           >
             Tomorrow
           </button>
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('This weekend')}
+            data-testid={TEST_ID.thisWeekendButton}
           >
             This weekend
           </button>
@@ -75,22 +77,26 @@ const Scheduler = ({ onSelect }) => {
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('Next week')}
+            data-testid={TEST_ID.nextWeekButton}
           >
             Next week
           </button>
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('No date')}
+            data-testid={TEST_ID.noDateButton}
           >
             No date
           </button>
         </div>
       </div>
-
-      <CalendarMonthView
-        selectedDate={selectedDate}
-        onDateSelection={handleDateSelection}
-      />
+      {/* Calendar view */}
+      <div className={styles.calendarView} data-testid={TEST_ID.calendarView}>
+        <CalendarMonthView
+          onSelect={handleDateSelection}
+          selectedDate={selectedDate}
+        />
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ describe('Scheduler', () => {
     );
 
     // Assert that the component is rendered
-    const schedulerElement = screen.getByTestId(TEST_ID.element);
-    expect(schedulerElement).toBeInTheDocument();
+    const schedulerContainer = screen.getByTestId(TEST_ID.container);
+    expect(schedulerContainer).toBeInTheDocument();
   });
 });

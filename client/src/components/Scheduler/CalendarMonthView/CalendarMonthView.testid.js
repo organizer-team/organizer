@@ -1,7 +1,7 @@
 import createTestIdFilePath from '../../../utils/createTestIdFilePath';
 
 const TEST_ID = {
-  element: `${createTestIdFilePath('components', 'CalendarMonthView')}-element`,
+  container: `${createTestIdFilePath('components', 'CalendarMonthView')}-container`,
 };
 
 export default TEST_ID;
