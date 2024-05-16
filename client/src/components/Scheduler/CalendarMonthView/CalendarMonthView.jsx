@@ -9,7 +9,7 @@ const CalendarMonthView = ({ selectedDate, onSelect }) => {
   return (
     <div data-testid={TEST_ID.container}>
       <Calendar
-        value={selectedDate}
+        value={selectedDate || undefined}
         onChange={onSelect}
         calendarType={'iso8601'}
       />
@@ -20,6 +20,9 @@ const CalendarMonthView = ({ selectedDate, onSelect }) => {
 export default CalendarMonthView;
 
 CalendarMonthView.propTypes = {
-  selectedDate: propTypes.instanceOf(Date).isRequired,
+  selectedDate: propTypes.oneOfType([
+    propTypes.instanceOf(Date),
+    propTypes.oneOf([null]),
+  ]),
   onSelect: propTypes.func.isRequired,
 };
