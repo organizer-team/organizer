@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TEST_ID from './Scheduler.testid';
-import propTypes from 'prop-types';
+import CalendarMonthView from './CalendarMonthView/CalendarMonthView';
 
 const styles = {
   container:
@@ -10,18 +10,6 @@ const styles = {
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
   optionButtonsRow: 'flex justify-between py-1',
   calendarView: 'm-3',
-};
-
-const CalendarMonthView = ({ selectedDate }) => {
-  return (
-    <div
-      className={styles.calendarView}
-      data-testid={TEST_ID.calendarMonthView}
-    >
-      {/* Calendar month view */}
-      {selectedDate?.toString()}
-    </div>
-  );
 };
 
 const Scheduler = () => {
@@ -106,8 +94,3 @@ const Scheduler = () => {
 };
 
 export default Scheduler;
-
-CalendarMonthView.propTypes = {
-  selectedDate: propTypes.instanceOf(Date).isRequired,
-  onDateSelection: propTypes.func.isRequired,
-};
