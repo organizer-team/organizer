@@ -1,15 +1,17 @@
 import React from 'react';
-import TEST_ID from './CalendarMonthView.testid';
 import propTypes from 'prop-types';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import './calendarStyle.css';
 
 const CalendarMonthView = ({ selectedDate, onDateSelection }) => {
   return (
-    <div
-      className={styles.calendarView}
-      data-testid={TEST_ID.calendarMonthView}
-    >
-      {/* Calendar month view */}
-      {selectedDate?.toString()}
+    <div className="custom-calendar">
+      <Calendar
+        value={selectedDate}
+        onChange={onDateSelection}
+        calendarType={'iso8601'}
+      />
     </div>
   );
 };

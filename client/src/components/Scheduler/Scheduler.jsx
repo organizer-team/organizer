@@ -4,7 +4,7 @@ import CalendarMonthView from './CalendarMonthView/CalendarMonthView';
 
 const styles = {
   container:
-    'w-full border border-solid border-organizerGray-primary flex flex-col min-h-0',
+    'w-fit border border-solid border-organizerGray-primary flex flex-col min-h-0',
   quickOptions: 'm-3 flex flex-col',
   optionButton:
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
