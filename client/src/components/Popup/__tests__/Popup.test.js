@@ -3,12 +3,13 @@ import Popup from '../Popup';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import TEST_ID from '../Popup.testid';
+import { act } from 'react-dom/test-utils';
 
 describe('Popup', () => {
   it('renders the Popup component', () => {
     render(
       <MemoryRouter>
-        <Popup>
+        <Popup isOpen={true} onClose={() => {}}>
           <div>Test content</div>
         </Popup>
       </MemoryRouter>
@@ -21,30 +22,49 @@ describe('Popup', () => {
   });
 
   it('closes the Popup when clicking outside', () => {
-    render(
+    let isOpen = true;
+    const onClose = jest.fn(() => {
+      isOpen = false;
+    });
+
+    let { rerender } = render(
       <MemoryRouter>
-        <Popup>
+        <Popup isOpen={isOpen} onClose={onClose}>
           <div>Test content</div>
         </Popup>
       </MemoryRouter>
     );
 
     // Assert that the Popup is initially open
-    let popupElement = screen.getByTestId(TEST_ID.content);
-    expect(popupElement).toBeInTheDocument();
+    let popupContent = screen.getByTestId(TEST_ID.content);
+    expect(popupContent).toBeInTheDocument();
 
     // Simulate a click outside the Popup
-    fireEvent.click(screen.getByTestId(TEST_ID.overlay));
+    act(() => {
+      fireEvent.click(screen.getByTestId(TEST_ID.overlay));
+    });
 
-    // Assert that the Popup is closed
-    popupElement = screen.queryByTestId(TEST_ID.content);
-    expect(popupElement).not.toBeInTheDocument();
+    // Assert that onClose has been called
+    expect(onClose).toHaveBeenCalled();
+
+    // Rerender the Popup with the new isOpen value
+    rerender(
+      <MemoryRouter>
+        <Popup isOpen={isOpen} onClose={onClose}>
+          <div>Test content</div>
+        </Popup>
+      </MemoryRouter>
+    );
+
+    // Assert that the Popup is now closed
+    popupContent = screen.queryByTestId(TEST_ID.content);
+    expect(popupContent).not.toBeInTheDocument();
   });
 
   it('darkens the environment when the darken prop is true', () => {
     render(
       <MemoryRouter>
-        <Popup darken={true}>
+        <Popup isOpen={true} onClose={() => {}} darken={true}>
           <div>Test content</div>
         </Popup>
       </MemoryRouter>
@@ -58,7 +78,7 @@ describe('Popup', () => {
   it('does not darken the environment when the darken prop is false', () => {
     render(
       <MemoryRouter>
-        <Popup darken={false}>
+        <Popup isOpen={true} onClose={() => {}} darken={false}>
           <div>Test content</div>
         </Popup>
       </MemoryRouter>

@@ -93,7 +93,11 @@ const AddTaskForm = () => {
             {dueDate ? dueDate.toLocaleDateString() : 'Due Date'}
           </button>
           {showScheduler && (
-            <Popup onClose={toggleScheduler} darken={false}>
+            <Popup
+              isOpen={showScheduler}
+              onClose={toggleScheduler}
+              darken={false}
+            >
               <Scheduler onSelect={handleDateSelect} />
             </Popup>
           )}

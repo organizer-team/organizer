@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import LoginPage from '../pages/User/LoginPage/LoginPage';
@@ -17,7 +17,10 @@ export default {
   ],
 };
 
-const Template = (args) => <Popup {...args} />;
+const Template = (args) => {
+  const [isOpen, setIsOpen] = useState(true);
+  return <Popup {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {
@@ -37,7 +40,7 @@ TransparentOverlay.args = {
 
 export const LoginPageInPopup = () => (
   <UserContext.Provider value={{ setToken: () => {} }}>
-    <Popup>
+    <Popup isOpen={true} onClose={() => {}}>
       <LoginPage emailAfterValidation="sample@example.com" />
     </Popup>
   </UserContext.Provider>
@@ -46,7 +49,7 @@ export const LoginPageInPopup = () => (
 export const LoginPageWithPopup = () => (
   <UserContext.Provider value={{ setToken: () => {} }}>
     <LoginPage emailAfterValidation="sample@example.com" />
-    <Popup>
+    <Popup isOpen={true} onClose={() => {}}>
       <div>Popup content</div>
     </Popup>
   </UserContext.Provider>

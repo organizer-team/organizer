@@ -11,12 +11,10 @@ const styles = {
     'bg-white p-5 rounded-lg max-w-4/5 max-h-4/5 overflow-auto border border-organizerGray shadow-md',
 };
 
-const Popup = ({ children, darken = true }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
-
+const Popup = ({ children, darken = true, isOpen, onClose }) => {
   const handleClose = (e) => {
     if (e.target.id === 'overlay') {
-      setIsOpen(false);
+      onClose();
     }
   };
 
@@ -39,4 +37,6 @@ export default Popup;
 Popup.propTypes = {
   children: PropTypes.node.isRequired,
   darken: PropTypes.bool,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
