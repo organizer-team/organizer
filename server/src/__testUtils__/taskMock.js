@@ -7,3 +7,8 @@ export const addTaskToMockDB = async (newTask) => {
   const taskId = task._id;
   return taskId.toString();
 };
+
+export const findTaskInMockDB = async (taskId) => {
+  const task = await Task.findById(taskId);
+  return task;
+};
