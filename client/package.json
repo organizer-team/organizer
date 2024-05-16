@@ -16,7 +16,7 @@
     "lint:fix": "eslint ./src --fix",
     "prettier": "prettier ./src --check",
     "prettier:fix": "prettier ./src --write",
-    "storybook": "storybook dev -p 6006 --host 192.168.2.5",
+    "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
