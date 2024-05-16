@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TEST_ID from './AddTaskForm.testid';
+import Popup from '../Popup/Popup';
+import Scheduler from '../Scheduler/Scheduler';
 
 const styles = {
   container:
@@ -21,6 +23,18 @@ const AddTaskForm = () => {
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
   const [area, setArea] = useState('Inbox');
+
+  const [dueDate, setDueDate] = useState(null);
+  const [showScheduler, setShowScheduler] = useState(false);
+
+  const handleDateSelect = (date) => {
+    setDueDate(date);
+    setShowScheduler(false);
+  };
+
+  const toggleScheduler = () => {
+    setShowScheduler(!showScheduler);
+  };
 
   const formRef = useRef(null);
 
@@ -72,12 +86,17 @@ const AddTaskForm = () => {
         <div className={styles.buttonRow}>
           <button
             type="button"
-            onClick={() => {}}
+            onClick={toggleScheduler}
             className={styles.dueDate}
             data-testid={TEST_ID.dueDateSelector}
           >
-            Due date
+            {dueDate ? dueDate.toLocaleDateString() : 'Due Date'}
           </button>
+          {showScheduler && (
+            <Popup onClose={toggleScheduler} darken={false}>
+              <Scheduler onSelect={handleDateSelect} />
+            </Popup>
+          )}
           <button
             type="button"
             onClick={() => {}}

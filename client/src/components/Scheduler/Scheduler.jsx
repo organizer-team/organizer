@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TEST_ID from './Scheduler.testid';
 import CalendarMonthView from './CalendarMonthView/CalendarMonthView';
+import propTypes from 'prop-types';
 
 const styles = {
   container:
@@ -12,11 +13,12 @@ const styles = {
   calendarView: 'm-3',
 };
 
-const Scheduler = () => {
+const Scheduler = ({ onSelect }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateSelection = (date) => {
     setSelectedDate(date);
+    onSelect(date);
   };
 
   const handleQuickOptionSelection = (option) => {
@@ -42,6 +44,7 @@ const Scheduler = () => {
         break;
     }
     setSelectedDate(newDate);
+    onSelect(newDate);
   };
 
   return (
@@ -84,7 +87,6 @@ const Scheduler = () => {
         </div>
       </div>
 
-      {/* Calendar month view */}
       <CalendarMonthView
         selectedDate={selectedDate}
         onDateSelection={handleDateSelection}
@@ -94,3 +96,7 @@ const Scheduler = () => {
 };
 
 export default Scheduler;
+
+Scheduler.propTypes = {
+  onSelect: propTypes.func.isRequired,
+};
