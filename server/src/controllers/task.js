@@ -59,6 +59,21 @@ export const createTask = async (req, res) => {
       end_time,
       area_id,
     } = req.body;
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'User id is required' });
+    }
+    if (!title) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Title is required' });
+    }
+    if (!description) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Description is required' });
+    }
     const task = await Task.create({
       user_id: userId,
       title,
@@ -82,6 +97,6 @@ export const createTask = async (req, res) => {
     });
   } catch (err) {
     // If there is an error, send a 500 status code
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
