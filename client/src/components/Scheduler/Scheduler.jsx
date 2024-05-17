@@ -18,6 +18,9 @@ const Scheduler = ({ onSelect }) => {
 
   // Function to format the date object's time into HH:MM format
   const formatTime = (date) => {
+    if (!date) {
+      return '';
+    }
     let hours = date.getHours();
     let minutes = date.getMinutes();
     hours = hours < 10 ? '0' + hours : hours;
@@ -34,9 +37,6 @@ const Scheduler = ({ onSelect }) => {
   }, [selectedDate]);
 
   const handleDateSelection = (date) => {
-    if (isNaN(Date.parse(date))) {
-      return;
-    }
     let newDate = new Date(date);
     newDate.setHours(selectedDate.getHours());
     newDate.setMinutes(selectedDate.getMinutes());
@@ -66,7 +66,12 @@ const Scheduler = ({ onSelect }) => {
         newDate = null;
         break;
     }
-    handleDateSelection(newDate);
+    if (newDate && selectedDate) {
+      newDate.setHours(selectedDate.getHours());
+      newDate.setMinutes(selectedDate.getMinutes());
+    }
+    setSelectedDate(newDate);
+    onSelect(newDate);
   };
 
   const handleTimeSelection = (event) => {
