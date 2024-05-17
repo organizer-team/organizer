@@ -6,7 +6,6 @@ import {
   clearMockDatabase,
 } from '../__testUtils__/dbMock.js';
 import app from '../app.js';
-// import { addTaskToMockDB } from '../__testUtils__/taskMock.js';
 
 const request = supertest(app);
 

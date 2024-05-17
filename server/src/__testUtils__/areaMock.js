@@ -7,3 +7,10 @@ export const addAreaToMockDB = async (newArea) => {
   const areaId = area._id;
   return areaId.toString();
 };
+
+// Mock the Area.create method to throw an error
+export const serverErrorMock = async () => {
+  jest.spyOn(Area, 'create').mockImplementation(() => {
+    throw new Error('Server error');
+  });
+};
