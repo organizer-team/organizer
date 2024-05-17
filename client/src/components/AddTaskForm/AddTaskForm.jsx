@@ -106,7 +106,7 @@ const AddTaskForm = () => {
               onClose={toggleScheduler}
               darken={false}
             >
-              <Scheduler onSelect={handleDateSelect} />
+              <Scheduler dueDate={dueDate} onSelect={handleDateSelect} />
             </Popup>
           )}
           <button
@@ -141,8 +141,9 @@ const AddTaskForm = () => {
               Close
             </button>
             <button
-              type="submit"
+              type="button"
               className={styles.sendButton}
+              onClick={() => {}}
               data-testid={TEST_ID.sendButton}
             >
               Send

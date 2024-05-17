@@ -1,40 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TEST_ID from './Scheduler.testid';
 import CalendarMonthView from './CalendarMonthView/CalendarMonthView';
+import TimeSelector from './TimeSelector/TimeSelector';
 import propTypes from 'prop-types';
 
-const styles = {
+export const styles = {
   container:
     'w-fit border border-solid border-organizerGray-primary flex flex-col min-h-0',
   quickOptions: 'm-3 flex flex-col',
   optionButton:
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
-  optionButtonsRow: 'flex justify-between py-1',
+  optionButtonsRow: 'flex justify-between py-1 group',
   calendarView: 'my-3',
 };
 
-const Scheduler = ({ onSelect }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  // Function to format the date object's time into HH:MM format
-  const formatTime = (date) => {
-    if (!date) {
-      return '';
-    }
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    return hours + ':' + minutes;
-  };
-
-  // State for the time input
-  const [time, setTime] = useState(formatTime(selectedDate));
-
-  // Update the time state whenever selectedDate changes
-  useEffect(() => {
-    setTime(formatTime(selectedDate));
-  }, [selectedDate]);
+const Scheduler = ({ dueDate, onSelect }) => {
+  const [selectedDate, setSelectedDate] = useState(
+    dueDate ? dueDate : new Date()
+  );
 
   const handleDateSelection = (date) => {
     let newDate = new Date(date);
@@ -46,6 +29,8 @@ const Scheduler = ({ onSelect }) => {
 
   const handleQuickOptionSelection = (option) => {
     let newDate;
+    newDate = new Date();
+    newDate.setSeconds(0);
     switch (option) {
       case 'Today':
         newDate = new Date();
@@ -55,7 +40,6 @@ const Scheduler = ({ onSelect }) => {
         newDate.setDate(newDate.getDate() + 1);
         break;
       case 'This weekend':
-        newDate = new Date();
         newDate.setDate(newDate.getDate() + (6 - newDate.getDay()));
         break;
       case 'Next week':
@@ -74,29 +58,17 @@ const Scheduler = ({ onSelect }) => {
     onSelect(newDate);
   };
 
-  const handleTimeSelection = (event) => {
-    const newTime = event.target.value;
-    let newDate = new Date(selectedDate);
-    newDate.setHours(newTime.split(':')[0]);
-    newDate.setMinutes(newTime.split(':')[1]);
-    setSelectedDate(newDate);
-    setTime(newTime);
-  };
-
   return (
     <div className={styles.container} data-testid={TEST_ID.container}>
       <div>
-        {' '}
-        <input
-          aria-label="Time"
-          type="time"
-          value={time}
-          onChange={handleTimeSelection}
-        />{' '}
+        <TimeSelector
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
       </div>
       {/* Quick options list */}
       <div className={styles.quickOptions} data-testid={TEST_ID.quickOptions}>
-        <div className={`${styles.optionButtonsRow} group`}>
+        <div className={styles.optionButtonsRow}>
           <button
             className={styles.optionButton}
             onClick={() => handleQuickOptionSelection('Today')}
@@ -150,5 +122,6 @@ const Scheduler = ({ onSelect }) => {
 export default Scheduler;
 
 Scheduler.propTypes = {
+  dueDate: propTypes.instanceOf(Date),
   onSelect: propTypes.func.isRequired,
 };
