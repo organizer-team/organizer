@@ -90,7 +90,15 @@ const AddTaskForm = () => {
             className={styles.dueDate}
             data-testid={TEST_ID.dueDateSelector}
           >
-            {dueDate ? dueDate.toLocaleDateString() : 'Due Date'}
+            {dueDate
+              ? dueDate.toLocaleDateString(undefined, {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })
+              : 'Due date'}
           </button>
           {showScheduler && (
             <Popup

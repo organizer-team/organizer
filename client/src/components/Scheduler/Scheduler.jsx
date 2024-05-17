@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TEST_ID from './Scheduler.testid';
 import CalendarMonthView from './CalendarMonthView/CalendarMonthView';
 import propTypes from 'prop-types';
@@ -16,9 +16,32 @@ const styles = {
 const Scheduler = ({ onSelect }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  // Function to format the date object's time into HH:MM format
+  const formatTime = (date) => {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return hours + ':' + minutes;
+  };
+
+  // State for the time input
+  const [time, setTime] = useState(formatTime(selectedDate));
+
+  // Update the time state whenever selectedDate changes
+  useEffect(() => {
+    setTime(formatTime(selectedDate));
+  }, [selectedDate]);
+
   const handleDateSelection = (date) => {
-    setSelectedDate(date);
-    onSelect(date);
+    if (isNaN(Date.parse(date))) {
+      return;
+    }
+    let newDate = new Date(date);
+    newDate.setHours(selectedDate.getHours());
+    newDate.setMinutes(selectedDate.getMinutes());
+    setSelectedDate(newDate);
+    onSelect(newDate);
   };
 
   const handleQuickOptionSelection = (option) => {
@@ -46,8 +69,26 @@ const Scheduler = ({ onSelect }) => {
     handleDateSelection(newDate);
   };
 
+  const handleTimeSelection = (event) => {
+    const newTime = event.target.value;
+    let newDate = new Date(selectedDate);
+    newDate.setHours(newTime.split(':')[0]);
+    newDate.setMinutes(newTime.split(':')[1]);
+    setSelectedDate(newDate);
+    setTime(newTime);
+  };
+
   return (
     <div className={styles.container} data-testid={TEST_ID.container}>
+      <div>
+        {' '}
+        <input
+          aria-label="Time"
+          type="time"
+          value={time}
+          onChange={handleTimeSelection}
+        />{' '}
+      </div>
       {/* Quick options list */}
       <div className={styles.quickOptions} data-testid={TEST_ID.quickOptions}>
         <div className={`${styles.optionButtonsRow} group`}>
