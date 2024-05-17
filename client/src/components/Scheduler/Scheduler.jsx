@@ -7,11 +7,14 @@ import propTypes from 'prop-types';
 export const styles = {
   container:
     'w-fit border border-solid border-organizerGray-primary flex flex-col min-h-0',
+
+  timeSelector: 'w-full border-b  border-b-organizerGray-primary',
+  quickOptionsContainer: 'w-full border-b border-b-organizerGray-primary',
   quickOptions: 'm-3 flex flex-col',
   optionButton:
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
   optionButtonsRow: 'flex justify-between py-1 group',
-  calendarView: 'my-3',
+  calendarView: 'm-3',
 };
 
 const Scheduler = ({ dueDate, onSelect }) => {
@@ -60,52 +63,55 @@ const Scheduler = ({ dueDate, onSelect }) => {
 
   return (
     <div className={styles.container} data-testid={TEST_ID.container}>
-      <div>
-        <TimeSelector
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
-      </div>
+      <TimeSelector
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
       {/* Quick options list */}
-      <div className={styles.quickOptions} data-testid={TEST_ID.quickOptions}>
-        <div className={styles.optionButtonsRow}>
-          <button
-            className={styles.optionButton}
-            onClick={() => handleQuickOptionSelection('Today')}
-            data-testid={TEST_ID.todayButton}
-          >
-            Today
-          </button>
-          <button
-            className={styles.optionButton}
-            onClick={() => handleQuickOptionSelection('Tomorrow')}
-            data-testid={TEST_ID.tomorrowButton}
-          >
-            Tomorrow
-          </button>
-          <button
-            className={styles.optionButton}
-            onClick={() => handleQuickOptionSelection('This weekend')}
-            data-testid={TEST_ID.thisWeekendButton}
-          >
-            This weekend
-          </button>
-        </div>
-        <div className={styles.optionButtonsRow}>
-          <button
-            className={styles.optionButton}
-            onClick={() => handleQuickOptionSelection('Next week')}
-            data-testid={TEST_ID.nextWeekButton}
-          >
-            Next week
-          </button>
-          <button
-            className={styles.optionButton}
-            onClick={() => handleQuickOptionSelection('No date')}
-            data-testid={TEST_ID.noDateButton}
-          >
-            No date
-          </button>
+      <div
+        className={styles.quickOptionsContainer}
+        data-testid={TEST_ID.quickOptionsContainer}
+      >
+        <div className={styles.quickOptions} data-testid={TEST_ID.quickOptions}>
+          <div className={styles.optionButtonsRow}>
+            <button
+              className={styles.optionButton}
+              onClick={() => handleQuickOptionSelection('Today')}
+              data-testid={TEST_ID.todayButton}
+            >
+              Today
+            </button>
+            <button
+              className={styles.optionButton}
+              onClick={() => handleQuickOptionSelection('Tomorrow')}
+              data-testid={TEST_ID.tomorrowButton}
+            >
+              Tomorrow
+            </button>
+            <button
+              className={styles.optionButton}
+              onClick={() => handleQuickOptionSelection('This weekend')}
+              data-testid={TEST_ID.thisWeekendButton}
+            >
+              This weekend
+            </button>
+          </div>
+          <div className={styles.optionButtonsRow}>
+            <button
+              className={styles.optionButton}
+              onClick={() => handleQuickOptionSelection('Next week')}
+              data-testid={TEST_ID.nextWeekButton}
+            >
+              Next week
+            </button>
+            <button
+              className={styles.optionButton}
+              onClick={() => handleQuickOptionSelection('No date')}
+              data-testid={TEST_ID.noDateButton}
+            >
+              No date
+            </button>
+          </div>
         </div>
       </div>
       {/* Calendar view */}

@@ -1,7 +1,14 @@
 import React from 'react';
 import TEST_ID from './TimeSelector.testid';
 import propTypes from 'prop-types';
-import { styles } from '../Scheduler';
+
+export const styles = {
+  quickOptions: 'm-3 flex flex-col',
+  optionButton:
+    'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
+  optionButtonsRow: 'flex justify-between py-1 group',
+  timeSelector: 'w-full border-b  border-b-organizerGray-primary',
+};
 
 // Function to format the date object's time into HH:MM format
 const formatTime = (date) => {
@@ -33,21 +40,43 @@ const TimeSelector = ({ selectedDate, setSelectedDate }) => {
         newDate.setSeconds(0);
         break;
       case 'Morning':
+        newDate.setDate(selectedDate.getDate());
+        newDate.setMonth(selectedDate.getMonth());
+        newDate.setFullYear(selectedDate.getFullYear());
         newDate.setHours(9, 0, 0);
+        break;
+      case 'Afternoon':
+        newDate.setDate(selectedDate.getDate());
+        newDate.setMonth(selectedDate.getMonth());
+        newDate.setFullYear(selectedDate.getFullYear());
+        newDate.setHours(12, 0, 0);
+        break;
+      case 'Evening':
+        newDate.setDate(selectedDate.getDate());
+        newDate.setMonth(selectedDate.getMonth());
+        newDate.setFullYear(selectedDate.getFullYear());
+        newDate.setHours(18, 0, 0);
+        break;
+      case 'Night':
+        newDate.setDate(selectedDate.getDate());
+        newDate.setMonth(selectedDate.getMonth());
+        newDate.setFullYear(selectedDate.getFullYear());
+        newDate.setHours(21, 0, 0);
         break;
     }
     setSelectedDate(newDate);
   };
 
   return (
-    <div data-testid={TEST_ID.container}>
-      <input
-        type="time"
-        value={formatTime(selectedDate)}
-        onChange={handleTimeChange}
-      />
+    <div data-testid={TEST_ID.container} className={styles.timeSelector}>
       <div className={styles.quickOptions}>
         <div className={styles.optionButtonsRow}>
+          <input
+            className={styles.optionButton}
+            type="time"
+            value={formatTime(selectedDate)}
+            onChange={handleTimeChange}
+          />
           <button
             className={styles.optionButton}
             type={'button'}
@@ -63,6 +92,32 @@ const TimeSelector = ({ selectedDate, setSelectedDate }) => {
             data-testid={TEST_ID.morningButton}
           >
             Morning
+          </button>
+        </div>
+        <div className={styles.optionButtonsRow}>
+          <button
+            className={styles.optionButton}
+            type={'button'}
+            onClick={() => handleQuickOptionSelection('Afternoon')}
+            data-testid={TEST_ID.afternoonButton}
+          >
+            Afternoon
+          </button>
+          <button
+            className={styles.optionButton}
+            type={'button'}
+            onClick={() => handleQuickOptionSelection('Evening')}
+            data-testid={TEST_ID.eveningButton}
+          >
+            Evening
+          </button>
+          <button
+            className={styles.optionButton}
+            type={'button'}
+            onClick={() => handleQuickOptionSelection('Night')}
+            data-testid={TEST_ID.nightButton}
+          >
+            Night
           </button>
         </div>
       </div>
