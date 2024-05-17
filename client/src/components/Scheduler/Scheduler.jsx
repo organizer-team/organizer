@@ -6,15 +6,16 @@ import propTypes from 'prop-types';
 
 export const styles = {
   container:
-    'w-fit border border-solid border-organizerGray-primary flex flex-col min-h-0',
+    'w-full max-w-sm min-w-max border border-solid border-organizerGray-primary flex flex-col min-h-0',
 
   timeSelector: 'w-full border-b  border-b-organizerGray-primary',
-  quickOptionsContainer: 'w-full border-b border-b-organizerGray-primary',
-  quickOptions: 'm-3 flex flex-col',
+  quickOptionsContainer:
+    'w-full border-b border-b-organizerGray-primary flex-wrap',
+  quickOptions: 'm-3 flex flex-col flex-wrap',
   optionButton:
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
-  optionButtonsRow: 'flex justify-between py-1 group',
-  calendarView: 'm-3',
+  optionButtonsRow: 'flex justify-between py-1 group flex-wrap',
+  calendarView: 'm-3 flex justify-center items-center',
 };
 
 const Scheduler = ({ dueDate, onSelect }) => {

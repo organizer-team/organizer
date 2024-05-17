@@ -8,7 +8,7 @@ const styles = {
       darken ? 'bg-black bg-opacity-50' : 'bg-transparent'
     }`,
   popup:
-    'bg-white p-5 rounded-lg max-w-4/5 max-h-4/5 overflow-auto border border-organizerGray shadow-md',
+    'bg-white p-5 min-w-max overflow-auto border border-organizerGray shadow-md flex justify-center items-center',
 };
 
 const Popup = ({ children, darken = true, isOpen, onClose }) => {

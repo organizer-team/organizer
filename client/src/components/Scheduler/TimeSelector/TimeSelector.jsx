@@ -6,7 +6,7 @@ export const styles = {
   quickOptions: 'm-3 flex flex-col',
   optionButton:
     'px-2 py-1 border-2 border-transparent hover:border-organizerGray-primary rounded-md cursor-pointer',
-  optionButtonsRow: 'flex justify-between py-1 group',
+  optionButtonsRow: 'flex justify-between py-1 group flex-wrap',
   timeSelector: 'w-full border-b  border-b-organizerGray-primary',
 };
 

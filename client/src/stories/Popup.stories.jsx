@@ -38,19 +38,31 @@ TransparentOverlay.args = {
   darken: false,
 };
 
-export const LoginPageInPopup = () => (
-  <UserContext.Provider value={{ setToken: () => {} }}>
-    <Popup isOpen={true} onClose={() => {}}>
-      <LoginPage emailAfterValidation="sample@example.com" />
-    </Popup>
-  </UserContext.Provider>
-);
+export const LoginPageInPopup = () => {
+  const [isOpen, setIsOpen] = useState(true);
 
-export const LoginPageWithPopup = () => (
-  <UserContext.Provider value={{ setToken: () => {} }}>
-    <LoginPage emailAfterValidation="sample@example.com" />
-    <Popup isOpen={true} onClose={() => {}}>
-      <div>Popup content</div>
-    </Popup>
-  </UserContext.Provider>
-);
+  return (
+    <UserContext.Provider value={{ setToken: () => {} }}>
+      {isOpen && (
+        <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <LoginPage emailAfterValidation="sample@example.com" />
+        </Popup>
+      )}
+    </UserContext.Provider>
+  );
+};
+
+export const LoginPageWithPopup = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <UserContext.Provider value={{ setToken: () => {} }}>
+      <LoginPage emailAfterValidation="sample@example.com" />
+      {isOpen && (
+        <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <div>Popup content</div>
+        </Popup>
+      )}
+    </UserContext.Provider>
+  );
+};
