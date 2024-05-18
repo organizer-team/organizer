@@ -1,3 +1,9 @@
+// We should mock the logging util to prevent errors while logging.js is not available in the client side.
+
+jest.mock('../../../server/src/util/logging.js', () => ({
+  logError: jest.fn(),
+}));
+
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import React from 'react';

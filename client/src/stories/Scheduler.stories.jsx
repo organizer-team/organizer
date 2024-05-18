@@ -17,3 +17,8 @@ export default {
 const Template = (args) => <Scheduler {...args} />;
 
 export const Default = Template.bind({});
+
+Default.args = {
+  dueDate: new Date(), // pass a Date object to simulate a selected date
+  onSelect: () => {}, // pass a function to simulate the setSelectedDate function
+};

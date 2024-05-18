@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import LoginPage from '../pages/User/LoginPage/LoginPage';
@@ -17,7 +17,10 @@ export default {
   ],
 };
 
-const Template = (args) => <Popup {...args} />;
+const Template = (args) => {
+  const [isOpen, setIsOpen] = useState(true);
+  return <Popup {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {
@@ -35,19 +38,31 @@ TransparentOverlay.args = {
   darken: false,
 };
 
-export const LoginPageInPopup = () => (
-  <UserContext.Provider value={{ setToken: () => {} }}>
-    <Popup>
-      <LoginPage emailAfterValidation="sample@example.com" />
-    </Popup>
-  </UserContext.Provider>
-);
+export const LoginPageInPopup = () => {
+  const [isOpen, setIsOpen] = useState(true);
 
-export const LoginPageWithPopup = () => (
-  <UserContext.Provider value={{ setToken: () => {} }}>
-    <LoginPage emailAfterValidation="sample@example.com" />
-    <Popup>
-      <div>Popup content</div>
-    </Popup>
-  </UserContext.Provider>
-);
+  return (
+    <UserContext.Provider value={{ setToken: () => {} }}>
+      {isOpen && (
+        <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <LoginPage emailAfterValidation="sample@example.com" />
+        </Popup>
+      )}
+    </UserContext.Provider>
+  );
+};
+
+export const LoginPageWithPopup = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <UserContext.Provider value={{ setToken: () => {} }}>
+      <LoginPage emailAfterValidation="sample@example.com" />
+      {isOpen && (
+        <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <div>Popup content</div>
+        </Popup>
+      )}
+    </UserContext.Provider>
+  );
+};

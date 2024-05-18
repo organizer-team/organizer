@@ -1,7 +1,7 @@
 import createTestIdFilePath from '../../utils/createTestIdFilePath';
 
 const TEST_ID = {
-  container: `${createTestIdFilePath('components', 'Component')}-container`,
+  element: `${createTestIdFilePath('components', 'ColourSelector')}-element`,
 };
 
 export default TEST_ID;
