@@ -112,7 +112,7 @@ describe('Scheduler', () => {
     fireEvent.click(dateButton);
 
     expect(mockOnSelect).toHaveBeenCalledTimes(1);
-    expect(mockOnSelect).toHaveBeenCalledWith(date);
+    expect(mockOnSelect).toHaveBeenCalledWith(date, null);
 
     const otherDate = new Date();
     otherDate.setDate(otherDate.getDate() + 1);
