@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddTaskForm from '../components/AddTaskForm/AddTaskForm';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -12,8 +12,15 @@ export default {
       </MemoryRouter>
     ),
   ],
+  argTypes: {
+    onClose: { action: 'closed' },
+  },
 };
 
-const Template = (args) => <AddTaskForm {...args} />;
+const Template = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  return isOpen ? <AddTaskForm onClose={() => setIsOpen(false)} /> : null;
+};
 
 export const Default = Template.bind({});
+Default.args = {};

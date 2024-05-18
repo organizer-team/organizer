@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import propTypes from 'prop-types';
+
 import TEST_ID from './AddTaskForm.testid';
 import Popup from '../Popup/Popup';
 import Scheduler from '../Scheduler/Scheduler';
@@ -34,10 +36,23 @@ const styles = {
   },
 };
 
-const AddTaskForm = () => {
+const AddTaskForm = ({ onClose }) => {
   // Task details
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
+
+  const handleClose = () => {
+    if (taskName || description) {
+      const confirmClose = window.confirm(
+        'You have unsaved changes. Are you sure you want to close?'
+      );
+      if (!confirmClose) {
+        return;
+      }
+    }
+    // Close the window
+    onClose();
+  };
 
   // Scheduler
   const [dueDate, setDueDate] = useState(null);
@@ -172,7 +187,7 @@ const AddTaskForm = () => {
             <div>
               <button
                 type="button"
-                onClick={() => {}}
+                onClick={handleClose}
                 className={styles.closeButton}
                 data-testid={TEST_ID.closeButton}
               >
@@ -221,6 +236,10 @@ const AddTaskForm = () => {
       )}
     </>
   );
+};
+
+AddTaskForm.propTypes = {
+  onClose: propTypes.func,
 };
 
 export default AddTaskForm;
