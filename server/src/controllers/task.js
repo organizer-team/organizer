@@ -48,7 +48,6 @@ export const getTasksByUserId = async (req, res) => {
 
 export const createTask = async (req, res) => {
   try {
-    // Create a new task with the user id
     const {
       userId,
       title,
@@ -59,21 +58,20 @@ export const createTask = async (req, res) => {
       end_time,
       area_id,
     } = req.body;
+
+    // Validate userId and title
     if (!userId) {
       return res
         .status(400)
         .json({ success: false, message: 'User id is required' });
     }
+
     if (!title) {
       return res
         .status(400)
-        .json({ success: false, message: 'Title is required' });
+        .json({ success: false, message: 'Task title is required' });
     }
-    if (!description) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Description is required' });
-    }
+
     const task = await Task.create({
       user_id: userId,
       title,
@@ -85,18 +83,13 @@ export const createTask = async (req, res) => {
       area_id,
     });
 
-    // Return the task in the desired format
     res.status(201).json({
       success: true,
       task: {
         ...task._doc,
-        date: task.date.toISOString().split('T')[0], // Convert date to YYYY-MM-DD format
-        start_time: task.start_time.toISOString().split('T')[1].slice(0, 5), // Extract time portion HH:MM
-        end_time: task.end_time.toISOString().split('T')[1].slice(0, 5), // Extract time portion HH:MM
       },
     });
   } catch (err) {
-    // If there is an error, send a 500 status code
-    res.status(500).json({ success: false, message: err.message });
+    return res.status(500).json({ success: false, message: err.message });
   }
 };

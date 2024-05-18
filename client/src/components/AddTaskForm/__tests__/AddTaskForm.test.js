@@ -3,6 +3,7 @@ import AddTaskForm from '../AddTaskForm';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import TEST_ID from '../AddTaskForm.testid';
+import TEST_ID_SCHEDULER from '../../Scheduler/Scheduler.testid';
 
 describe('AddTaskForm', () => {
   beforeEach(() => {
@@ -58,5 +59,41 @@ describe('AddTaskForm', () => {
   it('renders send button', () => {
     const sendButton = screen.getByTestId(TEST_ID.sendButton);
     expect(sendButton).toBeInTheDocument();
+  });
+
+  it('opens scheduler on date selection button click', () => {
+    const dateSelectionButton = screen.getByTestId(TEST_ID.dueDateSelector);
+    fireEvent.click(dateSelectionButton);
+    const scheduler = screen.getByTestId(TEST_ID_SCHEDULER.container);
+    expect(scheduler).toBeInTheDocument();
+  });
+
+  it('renders quick options list and calendar month view in scheduler', () => {
+    const dateSelectionButton = screen.getByTestId(TEST_ID.dueDateSelector);
+    fireEvent.click(dateSelectionButton);
+    const quickOptions = screen.getByTestId(TEST_ID_SCHEDULER.quickOptions);
+    const calendarMonthView = screen.getByTestId(
+      TEST_ID_SCHEDULER.calendarView
+    );
+    expect(quickOptions).toBeInTheDocument();
+    expect(calendarMonthView).toBeInTheDocument();
+  });
+
+  it('The component should return the date (change the state of the passed object) according to the users choice.', async () => {
+    const dateSelectionButton = screen.getByTestId(TEST_ID.dueDateSelector);
+    fireEvent.click(dateSelectionButton);
+    const date = screen.getByTestId(TEST_ID_SCHEDULER.nextWeekButton);
+    fireEvent.click(date);
+
+    const dateText = () => {
+      const date = new Date();
+      // Next monday
+      date.setDate(date.getDate() + ((1 + 7 - date.getDay()) % 7));
+      return date.toLocaleDateString();
+    };
+
+    const updatedDates = await screen.queryAllByText(dateText);
+
+    expect(updatedDates.length).toBeGreaterThan(0);
   });
 });

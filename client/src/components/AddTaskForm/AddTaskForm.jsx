@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TEST_ID from './AddTaskForm.testid';
+import Popup from '../Popup/Popup';
+import Scheduler from '../Scheduler/Scheduler';
 
 const styles = {
-  container:
-    'w-full border border-solid border-organizerGray flex flex-col min-h-0',
+  container: 'w-full border border-solid border-organizerGray flex flex-col ',
   form: 'm-3 flex flex-col space-y-4 overflow-hidden max-h-[80vh]',
   nameInput: 'w-full focus:outline-none',
   description: 'w-full focus:outline-none resize-none min-h-0',
@@ -21,6 +22,20 @@ const AddTaskForm = () => {
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
   const [area, setArea] = useState('Inbox');
+
+  const [dueDate, setDueDate] = useState(null);
+  const [dueTime, setDueTime] = useState(null);
+  const [showScheduler, setShowScheduler] = useState(false);
+
+  const handleDateSelect = (date, time) => {
+    setDueDate(date);
+    setDueTime(time);
+    setShowScheduler(false);
+  };
+
+  const toggleScheduler = () => {
+    setShowScheduler(!showScheduler);
+  };
 
   const formRef = useRef(null);
 
@@ -50,76 +65,101 @@ const AddTaskForm = () => {
   }, [description]);
 
   return (
-    <div className={styles.container} data-testid={TEST_ID.container}>
-      <form ref={formRef} className={styles.form} data-testid={TEST_ID.form}>
-        <input
-          type="text"
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
-          placeholder="Task name"
-          className={styles.nameInput}
-          data-testid={TEST_ID.nameInput}
-        />
-        <textarea
-          ref={textAreaRef}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
-          style={{ minHeight: '20px', maxHeight: '100vh', overflow: 'auto' }}
-          className={styles.description}
-          data-testid={TEST_ID.description}
-        />
-        <div className={styles.buttonRow}>
-          <button
-            type="button"
-            onClick={() => {}}
-            className={styles.dueDate}
-            data-testid={TEST_ID.dueDateSelector}
-          >
-            Due date
-          </button>
-          <button
-            type="button"
-            onClick={() => {}}
-            className={styles.colourSelector}
-            data-testid={TEST_ID.colourSelector}
-          >
-            Colour
-          </button>
-        </div>
-        <div className={styles.areaRow}>
-          <select
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-            className={styles.areaSelector}
-            data-testid={TEST_ID.areaSelector}
-          >
-            <option value="Inbox">Inbox</option>
-            {/* Add other areas */}
-            <option value="Area1">Area1</option>
-            <option value="Area2">Area2</option>
-            <option value="Area3">Area3</option>
-          </select>
-          <div>
+    <>
+      <div className={styles.container} data-testid={TEST_ID.container}>
+        <form ref={formRef} className={styles.form} data-testid={TEST_ID.form}>
+          <input
+            type="text"
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+            placeholder="Task name"
+            className={styles.nameInput}
+            data-testid={TEST_ID.nameInput}
+          />
+          <textarea
+            ref={textAreaRef}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
+            style={{ minHeight: '20px', maxHeight: '100vh', overflow: 'auto' }}
+            className={styles.description}
+            data-testid={TEST_ID.description}
+          />
+          <div className={styles.buttonRow}>
+            <button
+              type="button"
+              onClick={toggleScheduler}
+              className={styles.dueDate}
+              data-testid={TEST_ID.dueDateSelector}
+            >
+              {dueDate
+                ? `${dueDate.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })} ${
+                    dueTime
+                      ? dueTime.toLocaleTimeString(undefined, {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : ''
+                  }`
+                : 'Due date'}
+            </button>
             <button
               type="button"
               onClick={() => {}}
-              className={styles.closeButton}
-              data-testid={TEST_ID.closeButton}
+              className={styles.colourSelector}
+              data-testid={TEST_ID.colourSelector}
             >
-              Close
-            </button>
-            <button
-              type="submit"
-              className={styles.sendButton}
-              data-testid={TEST_ID.sendButton}
-            >
-              Send
+              Colour
             </button>
           </div>
-        </div>
-      </form>
-    </div>
+          <div className={styles.areaRow}>
+            <select
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              className={styles.areaSelector}
+              data-testid={TEST_ID.areaSelector}
+            >
+              <option value="Inbox">Inbox</option>
+              {/* Add other areas */}
+              <option value="Area1">Area1</option>
+              <option value="Area2">Area2</option>
+              <option value="Area3">Area3</option>
+            </select>
+            <div>
+              <button
+                type="button"
+                onClick={() => {}}
+                className={styles.closeButton}
+                data-testid={TEST_ID.closeButton}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className={styles.sendButton}
+                onClick={() => {}}
+                data-testid={TEST_ID.sendButton}
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {showScheduler && (
+        <Popup isOpen={showScheduler} onClose={toggleScheduler} darken={false}>
+          <Scheduler
+            dueDate={dueDate}
+            dueTime={dueTime}
+            onSelect={handleDateSelect}
+          />
+        </Popup>
+      )}
+    </>
   );
 };
 
