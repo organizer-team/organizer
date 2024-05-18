@@ -24,10 +24,12 @@ const AddTaskForm = () => {
   const [area, setArea] = useState('Inbox');
 
   const [dueDate, setDueDate] = useState(null);
+  const [dueTime, setDueTime] = useState(null);
   const [showScheduler, setShowScheduler] = useState(false);
 
-  const handleDateSelect = (date) => {
+  const handleDateSelect = (date, time) => {
     setDueDate(date);
+    setDueTime(time);
     setShowScheduler(false);
   };
 
@@ -91,13 +93,18 @@ const AddTaskForm = () => {
               data-testid={TEST_ID.dueDateSelector}
             >
               {dueDate
-                ? dueDate.toLocaleDateString(undefined, {
+                ? `${dueDate.toLocaleDateString(undefined, {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })
+                  })} ${
+                    dueTime
+                      ? dueTime.toLocaleTimeString(undefined, {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : ''
+                  }`
                 : 'Due date'}
             </button>
             <button
@@ -145,7 +152,11 @@ const AddTaskForm = () => {
       </div>
       {showScheduler && (
         <Popup isOpen={showScheduler} onClose={toggleScheduler} darken={false}>
-          <Scheduler dueDate={dueDate} onSelect={handleDateSelect} />
+          <Scheduler
+            dueDate={dueDate}
+            dueTime={dueTime}
+            onSelect={handleDateSelect}
+          />
         </Popup>
       )}
     </>

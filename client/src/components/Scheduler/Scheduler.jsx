@@ -18,55 +18,46 @@ export const styles = {
   calendarView: 'm-3 flex justify-center items-center',
 };
 
-const Scheduler = ({ dueDate, onSelect }) => {
+const Scheduler = ({ dueDate, dueTime, onSelect }) => {
   const [selectedDate, setSelectedDate] = useState(
     dueDate ? dueDate : new Date()
   );
+  const [selectedTime, setSelectedTime] = useState(dueTime ? dueTime : null);
 
   const handleDateSelection = (date) => {
     let newDate = new Date(date);
-    newDate.setHours(selectedDate.getHours());
-    newDate.setMinutes(selectedDate.getMinutes());
     setSelectedDate(newDate);
-    onSelect(newDate);
+    onSelect(newDate, selectedTime);
   };
 
   const handleQuickOptionSelection = (option) => {
     let newDate;
     newDate = new Date();
-    newDate.setSeconds(0);
     switch (option) {
       case 'Today':
-        newDate = new Date();
         break;
       case 'Tomorrow':
-        newDate = new Date();
         newDate.setDate(newDate.getDate() + 1);
         break;
       case 'This weekend':
         newDate.setDate(newDate.getDate() + (6 - newDate.getDay()));
         break;
       case 'Next week':
-        newDate = new Date();
         newDate.setDate(newDate.getDate() + (8 - newDate.getDay()));
         break;
       case 'No date':
         newDate = null;
         break;
     }
-    if (newDate && selectedDate) {
-      newDate.setHours(selectedDate.getHours());
-      newDate.setMinutes(selectedDate.getMinutes());
-    }
     setSelectedDate(newDate);
-    onSelect(newDate);
+    onSelect(newDate, selectedTime);
   };
 
   return (
     <div className={styles.container} data-testid={TEST_ID.container}>
       <TimeSelector
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
+        selectedTime={selectedTime}
+        setSelectedTime={setSelectedTime}
       />
       {/* Quick options list */}
       <div
@@ -130,5 +121,6 @@ export default Scheduler;
 
 Scheduler.propTypes = {
   dueDate: propTypes.instanceOf(Date),
+  dueTime: propTypes.instanceOf(Date),
   onSelect: propTypes.func.isRequired,
 };

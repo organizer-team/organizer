@@ -10,61 +10,46 @@ export const styles = {
   timeSelector: 'w-full border-b  border-b-organizerGray-primary',
 };
 
-// Function to format the date object's time into HH:MM format
-const formatTime = (date) => {
-  if (!date) {
-    return '';
-  }
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  return hours + ':' + minutes;
-};
+const TimeSelector = ({ selectedTime, setSelectedTime }) => {
+  const formattedTime = selectedTime
+    ? `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}`
+    : '';
 
-const TimeSelector = ({ selectedDate, setSelectedDate }) => {
   const handleTimeChange = (event) => {
     const time = event.target.value.split(':');
-    const newDate = selectedDate
-      ? new Date(selectedDate.getTime())
+    const newTime = selectedTime
+      ? new Date(selectedTime.getTime())
       : new Date();
-    newDate.setHours(time[0], time[1], 0);
-    setSelectedDate(newDate);
+    newTime.setHours(time[0], time[1], 0);
+    setSelectedTime(newTime);
   };
 
   const handleQuickOptionSelection = (option) => {
-    let newDate = new Date();
+    let newTime = null; // set to null initially
     switch (option) {
+      case 'No time':
+        break;
       case 'Now':
-        newDate = new Date();
-        newDate.setSeconds(0);
+        newTime = new Date();
         break;
       case 'Morning':
-        newDate.setDate(selectedDate.getDate());
-        newDate.setMonth(selectedDate.getMonth());
-        newDate.setFullYear(selectedDate.getFullYear());
-        newDate.setHours(9, 0, 0);
+        newTime = new Date();
+        newTime.setHours(9, 0, 0);
         break;
       case 'Afternoon':
-        newDate.setDate(selectedDate.getDate());
-        newDate.setMonth(selectedDate.getMonth());
-        newDate.setFullYear(selectedDate.getFullYear());
-        newDate.setHours(12, 0, 0);
+        newTime = new Date();
+        newTime.setHours(12, 0, 0);
         break;
       case 'Evening':
-        newDate.setDate(selectedDate.getDate());
-        newDate.setMonth(selectedDate.getMonth());
-        newDate.setFullYear(selectedDate.getFullYear());
-        newDate.setHours(18, 0, 0);
+        newTime = new Date();
+        newTime.setHours(18, 0, 0);
         break;
       case 'Night':
-        newDate.setDate(selectedDate.getDate());
-        newDate.setMonth(selectedDate.getMonth());
-        newDate.setFullYear(selectedDate.getFullYear());
-        newDate.setHours(21, 0, 0);
+        newTime = new Date();
+        newTime.setHours(21, 0, 0);
         break;
     }
-    setSelectedDate(newDate);
+    setSelectedTime(newTime);
   };
 
   return (
@@ -74,9 +59,17 @@ const TimeSelector = ({ selectedDate, setSelectedDate }) => {
           <input
             className={styles.optionButton}
             type="time"
-            value={formatTime(selectedDate)}
+            value={formattedTime}
             onChange={handleTimeChange}
           />
+          <button
+            className={styles.optionButton}
+            type={'button'}
+            onClick={() => handleQuickOptionSelection('No time')}
+            data-testid={TEST_ID.noTimeButton}
+          >
+            No time
+          </button>
           <button
             className={styles.optionButton}
             type={'button'}
@@ -85,6 +78,8 @@ const TimeSelector = ({ selectedDate, setSelectedDate }) => {
           >
             Now
           </button>
+        </div>
+        <div className={styles.optionButtonsRow}>
           <button
             className={styles.optionButton}
             type={'button'}
@@ -93,8 +88,6 @@ const TimeSelector = ({ selectedDate, setSelectedDate }) => {
           >
             Morning
           </button>
-        </div>
-        <div className={styles.optionButtonsRow}>
           <button
             className={styles.optionButton}
             type={'button'}
@@ -128,6 +121,6 @@ const TimeSelector = ({ selectedDate, setSelectedDate }) => {
 export default TimeSelector;
 
 TimeSelector.propTypes = {
-  selectedDate: propTypes.instanceOf(Date),
-  setSelectedDate: propTypes.func.isRequired,
+  selectedTime: propTypes.instanceOf(Date),
+  setSelectedTime: propTypes.func.isRequired,
 };
