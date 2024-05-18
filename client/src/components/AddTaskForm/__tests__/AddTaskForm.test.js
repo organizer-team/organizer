@@ -42,13 +42,7 @@ describe('AddTaskForm', () => {
   it('renders area selector with default value as Inbox', () => {
     const areaSelector = screen.getByTestId(TEST_ID.areaSelector);
     expect(areaSelector).toBeInTheDocument();
-    expect(areaSelector).toHaveValue('Inbox');
-  });
-
-  it('changes area when a different option is selected', async () => {
-    const areaSelector = screen.getByTestId(TEST_ID.areaSelector);
-    fireEvent.change(areaSelector, { target: { value: 'Area2' } });
-    expect(areaSelector.value).toBe('Area2');
+    expect(areaSelector).toHaveTextContent('Inbox');
   });
 
   it('renders close button', () => {

@@ -3,6 +3,7 @@ import TEST_ID from './AddTaskForm.testid';
 import Popup from '../Popup/Popup';
 import Scheduler from '../Scheduler/Scheduler';
 import ColourSelector from '../ColourSelector/ColourSelector';
+import AreaSelector from '../AreaSelector/AreaSelector';
 
 const styles = {
   container: 'w-full border border-solid border-organizerGray flex flex-col ',
@@ -37,7 +38,6 @@ const AddTaskForm = () => {
   // Task details
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
-  const [area, setArea] = useState('Inbox');
 
   // Scheduler
   const [dueDate, setDueDate] = useState(null);
@@ -65,6 +65,19 @@ const AddTaskForm = () => {
   const handleColourSelect = (colour) => {
     setColour(colour);
     setShowColourSelector(false);
+  };
+
+  // Area selector
+  const [area, setArea] = useState('Inbox');
+  const [showAreaSelector, setShowAreaSelector] = useState(false);
+
+  const toggleAreaSelector = () => {
+    setShowAreaSelector(!showAreaSelector);
+  };
+
+  const handleAreaSelect = (area) => {
+    setArea(area);
+    setShowAreaSelector(false);
   };
 
   // Resize form
@@ -148,18 +161,14 @@ const AddTaskForm = () => {
             </button>
           </div>
           <div className={styles.areaRow}>
-            <select
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
+            <button
+              type="button"
+              onClick={toggleAreaSelector}
               className={styles.areaSelector}
               data-testid={TEST_ID.areaSelector}
             >
-              <option value="Inbox">Inbox</option>
-              {/* Add other areas */}
-              <option value="Area1">Area1</option>
-              <option value="Area2">Area2</option>
-              <option value="Area3">Area3</option>
-            </select>
+              {area}
+            </button>
             <div>
               <button
                 type="button"
@@ -197,6 +206,17 @@ const AddTaskForm = () => {
           darken={false}
         >
           <ColourSelector setColour={handleColourSelect} />
+        </Popup>
+      )}
+      {showAreaSelector && (
+        <Popup
+          isOpen={showAreaSelector}
+          onClose={toggleAreaSelector}
+          darken={false}
+        >
+          <div>
+            <AreaSelector setArea={handleAreaSelect} />
+          </div>
         </Popup>
       )}
     </>
