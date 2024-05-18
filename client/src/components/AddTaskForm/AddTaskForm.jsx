@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
+import useFetch from '../../hooks/useFetch';
 
 import TEST_ID from './AddTaskForm.testid';
 import Popup from '../Popup/Popup';
@@ -41,6 +42,15 @@ const AddTaskForm = ({ onClose }) => {
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
 
+  const { performFetch } = useFetch(
+    '/task/create',
+    () => {
+      // Close the form
+      onClose();
+    },
+    'POST'
+  );
+
   const handleClose = () => {
     if (taskName || description) {
       const confirmClose = window.confirm(
@@ -52,6 +62,29 @@ const AddTaskForm = ({ onClose }) => {
     }
     // Close the window
     onClose();
+  };
+
+  const handleSend = () => {
+    let endTime = dueDate ? dueDate.toISOString() : null;
+    if (dueTime) {
+      endTime = new Date(endTime);
+      endTime.setHours(dueTime.getHours());
+      endTime.setMinutes(dueTime.getMinutes());
+      endTime.setSeconds(0);
+      endTime = endTime.toISOString();
+    }
+
+    // Create the task object
+    const task = {
+      name: taskName,
+      description: description,
+      colour: colour,
+      start_time: new Date().toISOString(),
+      due_time: endTime,
+      area: area, // areadId
+    };
+    // Send the task
+    performFetch(task);
   };
 
   // Scheduler
@@ -195,8 +228,9 @@ const AddTaskForm = ({ onClose }) => {
               </button>
               <button
                 type="button"
+                disabled={!taskName}
                 className={styles.sendButton}
-                onClick={() => {}}
+                onClick={handleSend}
                 data-testid={TEST_ID.sendButton}
               >
                 Send
