@@ -11,9 +11,9 @@ export const styles = {
 };
 
 const TimeSelector = ({ selectedTime, setSelectedTime }) => {
-  const formattedTime = selectedTime
-    ? `${selectedTime.getHours().toString().padStart(2, '0')}:${selectedTime.getMinutes().toString().padStart(2, '0')}`
-    : '';
+  const hours = selectedTime?.getHours().toString().padStart(2, '0');
+  const minutes = selectedTime?.getMinutes().toString().padStart(2, '0');
+  const formattedTime = selectedTime ? `${hours}:${minutes}` : '';
 
   const handleTimeChange = (event) => {
     const time = event.target.value.split(':');
@@ -61,6 +61,7 @@ const TimeSelector = ({ selectedTime, setSelectedTime }) => {
             type="time"
             value={formattedTime}
             onChange={handleTimeChange}
+            data-testid={TEST_ID.timeInput}
           />
           <button
             className={styles.optionButton}
