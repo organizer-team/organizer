@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import TEST_ID from './AddTaskForm.testid';
 import Popup from '../Popup/Popup';
 import Scheduler from '../Scheduler/Scheduler';
+import ColourSelector from '../ColourSelector/ColourSelector';
 
 const styles = {
   container: 'w-full border border-solid border-organizerGray flex flex-col ',
@@ -16,13 +17,29 @@ const styles = {
   sendButton: 'inline-block px-2 py-1 border border-solid border-organizerGray',
   dueDate: 'border px-2 py-1 border-solid border-organizerGray',
   colourSelector: 'border px-2 py-1 border-solid border-organizerGray',
+  colourButton: {
+    Red: 'bg-red-500 border-red-700 hover:bg-red-600 hover:border-red-600',
+    Green:
+      'bg-green-500 border-green-700 hover:bg-green-600 hover:border-green-600',
+    Blue: 'bg-blue-500 border-blue-700 hover:bg-blue-600 hover:border-blue-600',
+    Yellow:
+      'bg-yellow-500 border-yellow-700 hover:bg-yellow-600 hover:border-yellow-600',
+    Purple:
+      'bg-purple-500 border-purple-700 hover:bg-purple-600 hover:border-purple-600',
+    Orange:
+      'bg-orange-500 border-orange-700 hover:bg-orange-600 hover:border-orange-600',
+    Black:
+      'bg-black border-black hover:bg-gray-700 hover:border-gray-700 text-white',
+  },
 };
 
 const AddTaskForm = () => {
+  // Task details
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
   const [area, setArea] = useState('Inbox');
 
+  // Scheduler
   const [dueDate, setDueDate] = useState(null);
   const [dueTime, setDueTime] = useState(null);
   const [showScheduler, setShowScheduler] = useState(false);
@@ -37,6 +54,20 @@ const AddTaskForm = () => {
     setShowScheduler(!showScheduler);
   };
 
+  // Colour selector
+  const [colour, setColour] = useState(null);
+  const [showColourSelector, setShowColourSelector] = useState(false);
+
+  const toggleColourSelector = () => {
+    setShowColourSelector(!showColourSelector);
+  };
+
+  const handleColourSelect = (colour) => {
+    setColour(colour);
+    setShowColourSelector(false);
+  };
+
+  // Resize form
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -109,11 +140,11 @@ const AddTaskForm = () => {
             </button>
             <button
               type="button"
-              onClick={() => {}}
-              className={styles.colourSelector}
+              onClick={toggleColourSelector}
+              className={`${styles.colourSelector} ${colour ? styles.colourButton[colour] : ''}`}
               data-testid={TEST_ID.colourSelector}
             >
-              Colour
+              {colour ? colour : 'Colour'}
             </button>
           </div>
           <div className={styles.areaRow}>
@@ -157,6 +188,15 @@ const AddTaskForm = () => {
             dueTime={dueTime}
             onSelect={handleDateSelect}
           />
+        </Popup>
+      )}
+      {showColourSelector && (
+        <Popup
+          isOpen={showColourSelector}
+          onClose={toggleColourSelector}
+          darken={false}
+        >
+          <ColourSelector setColour={handleColourSelect} />
         </Popup>
       )}
     </>
