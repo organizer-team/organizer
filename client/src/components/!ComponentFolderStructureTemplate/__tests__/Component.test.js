@@ -13,7 +13,7 @@ describe('Component', () => {
     );
 
     // Assert that the component is rendered
-    const componentElement = screen.getByTestId(TEST_ID.element);
-    expect(componentElement).toBeInTheDocument();
+    const componentContainer = screen.getByTestId(TEST_ID.container);
+    expect(componentContainer).toBeInTheDocument();
   });
 });
