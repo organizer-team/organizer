@@ -37,6 +37,16 @@ export const createArea = async (req, res) => {
     // Get the user id from the request
     const { userId } = req.body;
     // Create a new area with the user id
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'User id is required' });
+    }
+    if (!req.body.title) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Title is required' });
+    }
     const area = await Area.create({ ...req.body, user_id: userId });
     // Send the area back to the client
     res.status(201).json({ success: true, area });
