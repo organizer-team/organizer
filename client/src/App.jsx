@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import CreateUser from './pages/User/CreateUser/CreateUser';
 import UserList from './pages/User/UserList/UserList';
@@ -33,11 +33,11 @@ function App() {
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/calendar" element={<Calendar />} />
       </Route>
-      <Route
-        path="/user"
-        element={!token ? <AuthLayout /> : <Navigate to={'/'} />}
-      >
-        <Route path="/user/list" element={<UserList />} />
+      <Route path="/user" element={token ? <Outlet /> : <AuthLayout />}>
+        <Route
+          path="/user/list"
+          element={token ? <UserList /> : <Navigate to={'/user/login'} />}
+        />
         <Route
           path="/user/signup"
           element={
