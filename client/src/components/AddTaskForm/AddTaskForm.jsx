@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import propTypes from 'prop-types';
+import useFetch from '../../hooks/useFetch';
+
 import TEST_ID from './AddTaskForm.testid';
 import Popup from '../Popup/Popup';
 import Scheduler from '../Scheduler/Scheduler';
+import ColourSelector from '../ColourSelector/ColourSelector';
+import AreaSelector from '../AreaSelector/AreaSelector';
 
 const styles = {
   container: 'w-full border border-solid border-organizerGray flex flex-col ',
@@ -16,13 +21,73 @@ const styles = {
   sendButton: 'inline-block px-2 py-1 border border-solid border-organizerGray',
   dueDate: 'border px-2 py-1 border-solid border-organizerGray',
   colourSelector: 'border px-2 py-1 border-solid border-organizerGray',
+  colourButton: {
+    Red: 'bg-red-500 border-red-700 hover:bg-red-600 hover:border-red-600',
+    Green:
+      'bg-green-500 border-green-700 hover:bg-green-600 hover:border-green-600',
+    Blue: 'bg-blue-500 border-blue-700 hover:bg-blue-600 hover:border-blue-600',
+    Yellow:
+      'bg-yellow-500 border-yellow-700 hover:bg-yellow-600 hover:border-yellow-600',
+    Purple:
+      'bg-purple-500 border-purple-700 hover:bg-purple-600 hover:border-purple-600',
+    Orange:
+      'bg-orange-500 border-orange-700 hover:bg-orange-600 hover:border-orange-600',
+    Black:
+      'bg-black border-black hover:bg-gray-700 hover:border-gray-700 text-white',
+  },
 };
 
-const AddTaskForm = () => {
+const AddTaskForm = ({ onClose }) => {
+  // Task details
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
-  const [area, setArea] = useState('Inbox');
 
+  const { performFetch } = useFetch(
+    '/task/create',
+    () => {
+      // Close the form
+      onClose();
+    },
+    'POST'
+  );
+
+  const handleClose = () => {
+    if (taskName || description) {
+      const confirmClose = window.confirm(
+        'You have unsaved changes. Are you sure you want to close?'
+      );
+      if (!confirmClose) {
+        return;
+      }
+    }
+    // Close the window
+    onClose();
+  };
+
+  const handleSend = () => {
+    let endTime = dueDate ? dueDate.toISOString() : null;
+    if (dueTime) {
+      endTime = new Date(endTime);
+      endTime.setHours(dueTime.getHours());
+      endTime.setMinutes(dueTime.getMinutes());
+      endTime.setSeconds(0);
+      endTime = endTime.toISOString();
+    }
+
+    // Create the task object
+    const task = {
+      name: taskName,
+      description: description,
+      colour: colour,
+      start_time: new Date().toISOString(),
+      due_time: endTime,
+      area: area, // areadId
+    };
+    // Send the task
+    performFetch(task);
+  };
+
+  // Scheduler
   const [dueDate, setDueDate] = useState(null);
   const [dueTime, setDueTime] = useState(null);
   const [showScheduler, setShowScheduler] = useState(false);
@@ -37,6 +102,33 @@ const AddTaskForm = () => {
     setShowScheduler(!showScheduler);
   };
 
+  // Colour selector
+  const [colour, setColour] = useState(null);
+  const [showColourSelector, setShowColourSelector] = useState(false);
+
+  const toggleColourSelector = () => {
+    setShowColourSelector(!showColourSelector);
+  };
+
+  const handleColourSelect = (colour) => {
+    setColour(colour);
+    setShowColourSelector(false);
+  };
+
+  // Area selector
+  const [area, setArea] = useState('Inbox');
+  const [showAreaSelector, setShowAreaSelector] = useState(false);
+
+  const toggleAreaSelector = () => {
+    setShowAreaSelector(!showAreaSelector);
+  };
+
+  const handleAreaSelect = (area) => {
+    setArea(area);
+    setShowAreaSelector(false);
+  };
+
+  // Resize form
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -109,30 +201,26 @@ const AddTaskForm = () => {
             </button>
             <button
               type="button"
-              onClick={() => {}}
-              className={styles.colourSelector}
+              onClick={toggleColourSelector}
+              className={`${styles.colourSelector} ${colour ? styles.colourButton[colour] : ''}`}
               data-testid={TEST_ID.colourSelector}
             >
-              Colour
+              {colour ? colour : 'Colour'}
             </button>
           </div>
           <div className={styles.areaRow}>
-            <select
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
+            <button
+              type="button"
+              onClick={toggleAreaSelector}
               className={styles.areaSelector}
               data-testid={TEST_ID.areaSelector}
             >
-              <option value="Inbox">Inbox</option>
-              {/* Add other areas */}
-              <option value="Area1">Area1</option>
-              <option value="Area2">Area2</option>
-              <option value="Area3">Area3</option>
-            </select>
+              {area}
+            </button>
             <div>
               <button
                 type="button"
-                onClick={() => {}}
+                onClick={handleClose}
                 className={styles.closeButton}
                 data-testid={TEST_ID.closeButton}
               >
@@ -140,8 +228,9 @@ const AddTaskForm = () => {
               </button>
               <button
                 type="button"
+                disabled={!taskName}
                 className={styles.sendButton}
-                onClick={() => {}}
+                onClick={handleSend}
                 data-testid={TEST_ID.sendButton}
               >
                 Send
@@ -159,8 +248,32 @@ const AddTaskForm = () => {
           />
         </Popup>
       )}
+      {showColourSelector && (
+        <Popup
+          isOpen={showColourSelector}
+          onClose={toggleColourSelector}
+          darken={false}
+        >
+          <ColourSelector setColour={handleColourSelect} />
+        </Popup>
+      )}
+      {showAreaSelector && (
+        <Popup
+          isOpen={showAreaSelector}
+          onClose={toggleAreaSelector}
+          darken={false}
+        >
+          <div>
+            <AreaSelector setArea={handleAreaSelect} />
+          </div>
+        </Popup>
+      )}
     </>
   );
+};
+
+AddTaskForm.propTypes = {
+  onClose: propTypes.func,
 };
 
 export default AddTaskForm;

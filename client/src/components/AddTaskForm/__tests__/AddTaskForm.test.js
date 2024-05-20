@@ -1,6 +1,6 @@
 import React from 'react';
 import AddTaskForm from '../AddTaskForm';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import TEST_ID from '../AddTaskForm.testid';
 import TEST_ID_SCHEDULER from '../../Scheduler/Scheduler.testid';
@@ -42,13 +42,7 @@ describe('AddTaskForm', () => {
   it('renders area selector with default value as Inbox', () => {
     const areaSelector = screen.getByTestId(TEST_ID.areaSelector);
     expect(areaSelector).toBeInTheDocument();
-    expect(areaSelector).toHaveValue('Inbox');
-  });
-
-  it('changes area when a different option is selected', async () => {
-    const areaSelector = screen.getByTestId(TEST_ID.areaSelector);
-    fireEvent.change(areaSelector, { target: { value: 'Area2' } });
-    expect(areaSelector.value).toBe('Area2');
+    expect(areaSelector).toHaveTextContent('Inbox');
   });
 
   it('renders close button', () => {
@@ -59,6 +53,34 @@ describe('AddTaskForm', () => {
   it('renders send button', () => {
     const sendButton = screen.getByTestId(TEST_ID.sendButton);
     expect(sendButton).toBeInTheDocument();
+  });
+
+  it('send button is disabled by default', () => {
+    const sendButton = screen.getByTestId(TEST_ID.sendButton);
+    expect(sendButton).toBeDisabled();
+  });
+
+  it('send button is enabled when task name is entered', async () => {
+    const nameInput = screen.getByTestId(TEST_ID.nameInput);
+    const sendButton = screen.getByTestId(TEST_ID.sendButton);
+    await act(async () => {
+      fireEvent.change(nameInput, { target: { value: 'Task name' } });
+    });
+    expect(sendButton).toBeEnabled();
+  });
+
+  it('send button sends fetch to the server', async () => {
+    const nameInput = screen.getByTestId(TEST_ID.nameInput);
+    const sendButton = screen.getByTestId(TEST_ID.sendButton);
+    fireEvent.change(nameInput, { target: { value: 'Task name' } });
+
+    const fetch = jest.spyOn(global, 'fetch');
+
+    await act(async () => {
+      fireEvent.click(sendButton);
+    });
+
+    expect(fetch).toHaveBeenCalled();
   });
 
   it('opens scheduler on date selection button click', () => {
