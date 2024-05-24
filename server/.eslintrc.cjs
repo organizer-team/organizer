@@ -12,12 +12,20 @@ module.exports = {
     es2021: true,
     jest: true,
   },
-  extends: ['eslint:recommended'],
-  plugins: ['prettier'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 13,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
+  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     // prettier does single quotes so make that the default
     quotes: ['error', 'single'],
@@ -32,4 +40,13 @@ module.exports = {
     // added the rule that you should always have arrow parens
     'arrow-parens': ['error', 'always'],
   },
+  overrides: [
+    {
+      // Apply the following rules to TypeScript files only
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        // TypeScript-specific rules
+      },
+    },
+  ],
 };
