@@ -1,3 +1,5 @@
+import isPlainObject from './isPlainObject';
+
 /**
  * This function will return a string describing the error if the given object has properties not in the allowed list.
  * If there is no error, it will return an empty string.
@@ -5,8 +7,19 @@
  * object - The object to check
  * allowedFields - An array of strings denoting the properties that are allowed
  */
-const validateAllowedFields = (object, allowedFields) => {
-  const invalidFields = [];
+const validateAllowedFields = (
+  object: Record<string, unknown>,
+  allowedFields: string[]
+): string => {
+  if (!isPlainObject(object)) {
+    throw new Error('object must be a plain object');
+  }
+
+  if (!Array.isArray(allowedFields)) {
+    throw new Error('allowedFields must be an array');
+  }
+
+  const invalidFields: string[] = [];
 
   Object.keys(object).forEach((key) => {
     if (!allowedFields.includes(key)) {

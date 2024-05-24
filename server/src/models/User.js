@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import validateAllowedFields from '../util/validateAllowedFields.js';
+import validateAllowedFields from '../util/validateAllowedFields.ts';
 import { logError, logInfo } from '../util/logging.js';
 
 const userSchema = new mongoose.Schema({
