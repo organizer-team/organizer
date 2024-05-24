@@ -13,9 +13,7 @@ describe('TasksPage', () => {
         </Router>
       );
     });
-    expect(
-      screen.getByTestId(TEST_ID.container)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId(TEST_ID.container)).toBeInTheDocument();
   });
 
   it('tasks fetch correctly', async () => {
@@ -33,7 +31,5 @@ describe('TasksPage', () => {
         </Router>
       );
     });
-
   });
-  
 });
