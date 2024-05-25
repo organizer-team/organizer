@@ -7,7 +7,7 @@ import UserList from './pages/User/UserList/UserList';
 import AuthLayout from './layout/AuthLayout';
 import LoginPage from './pages/User/LoginPage/LoginPage';
 import EmailValidation from './pages/EmailValidation/EmailValidation';
-import Tasks from './pages/Tasks/Tasks';
+import Tasks from './pages/Tasks/Tasks.tsx';
 import Calendar from './pages/Calendar/Calendar';
 import MainLayout from './layout/MainLayout';
 import { UserContext } from './context/UserContext';
