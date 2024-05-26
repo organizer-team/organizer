@@ -13,7 +13,14 @@ module.exports = {
     es2021: true,
     jest: true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:storybook/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+  ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -23,7 +30,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.jsx', '*.js'],
+      files: ['*.ts', '*.tsx'],
     },
   ],
   plugins: ['react'],
