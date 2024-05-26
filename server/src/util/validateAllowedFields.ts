@@ -4,8 +4,10 @@ import isPlainObject from './isPlainObject';
  * This function will return a string describing the error if the given object has properties not in the allowed list.
  * If there is no error, it will return an empty string.
  *
- * object - The object to check
- * allowedFields - An array of strings denoting the properties that are allowed
+ * @param object - The object to validate.
+ * @param allowedFields - An array of strings denoting the properties that are allowed
+ * @returns A string indicating the properties that are not allowed to be set, or an empty string if all properties are allowed.
+ * @throws Error if the object is not a plain object or if allowedFields is not an array.
  */
 const validateAllowedFields = (
   object: Record<string, unknown>,
