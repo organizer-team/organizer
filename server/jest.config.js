@@ -1,7 +1,15 @@
 export default {
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.json',
+      },
+    ],
   },
-  modulePathIgnorePatterns: ["__testUtils__"],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  modulePathIgnorePatterns: ['__testUtils__'],
   transformIgnorePatterns: [],
+  testEnvironment: 'node',
 };

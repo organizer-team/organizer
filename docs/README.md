@@ -85,3 +85,5 @@ The configuration files contain the following rules:
 - `"jsxSingleQuote": false"`: This rule enforces the use of double quotes in JSX. This is a common convention in the React community and helps distinguish JavaScript code from JSX.
 
 - `"arrowParens": "always"`: This rule enforces the use of parentheses around the argument in arrow functions, regardless of the number of arguments. For example, `(x) => x` instead of `x => x`.
+
+- **[TypeScript](https://www.typescriptlang.org/)**: TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript. In this project, TypeScript is used to improve code quality and developer productivity. It adds static typing, which helps catch errors at compile time rather than at runtime. The project is configured to use TypeScript with ESLint and Prettier for code formatting. The TypeScript configuration is defined in the `tsconfig.json`.
