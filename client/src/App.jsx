@@ -7,7 +7,6 @@ import UserList from './pages/User/UserList/UserList';
 import AuthLayout from './layout/AuthLayout';
 import LoginPage from './pages/User/LoginPage/LoginPage';
 import EmailValidation from './pages/EmailValidation/EmailValidation';
-import Tasks from './pages/Tasks/Tasks.tsx';
 import Calendar from './pages/Calendar/Calendar';
 import MainLayout from './layout/MainLayout';
 import { UserContext } from './context/UserContext';
@@ -30,7 +29,6 @@ function App() {
         element={token ? <MainLayout /> : <Navigate to={'/welcome'} />}
       >
         <Route index element={<Home />} />
-        <Route path="/tasks" element={<Tasks />} />
         <Route path="/calendar" element={<Calendar />} />
       </Route>
       <Route path="/user" element={token ? <Outlet /> : <AuthLayout />}>

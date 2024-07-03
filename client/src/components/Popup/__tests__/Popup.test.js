@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { act } from 'react';
 import Popup from '../Popup';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import TEST_ID from '../Popup.testid';
-import { act } from 'react-dom/test-utils';
 
 describe('Popup', () => {
   it('renders the Popup component', () => {

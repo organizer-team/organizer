@@ -19,10 +19,8 @@ export const styles = {
 };
 
 const Scheduler = ({ dueDate, dueTime, onSelect }) => {
-  const [selectedDate, setSelectedDate] = useState(
-    dueDate ? dueDate : new Date()
-  );
-  const [selectedTime, setSelectedTime] = useState(dueTime ? dueTime : null);
+  const [selectedDate, setSelectedDate] = useState(dueDate || new Date());
+  const [selectedTime, setSelectedTime] = useState(dueTime || null);
 
   const handleDateSelection = (date) => {
     let newDate = new Date(date);

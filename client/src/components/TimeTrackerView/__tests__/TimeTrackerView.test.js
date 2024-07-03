@@ -6,10 +6,34 @@ import TimeTrackerView from '../TimeTrackerView';
 const mockOnDayBoxClick = jest.fn();
 
 describe('TimeTrackerView', () => {
+  // Define an array of month names
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  // Get the current month and year
+  const date = new Date();
+  const currentMonthName = monthNames[date.getMonth()];
+  const currentYear = date.getFullYear();
+
+  // Format the expected string (adjust this based on how your component displays the date)
+  const expectedMonthYearString = `${currentMonthName} ${currentYear}`;
+
   it('renders DateView correctly', () => {
     render(<TimeTrackerView onDayBoxClick={mockOnDayBoxClick} />);
 
-    expect(screen.getByText(/may 2024/i)).toBeInTheDocument();
+    expect(screen.getByText(expectedMonthYearString)).toBeInTheDocument();
   });
 
   it('renders DaysView correctly', () => {

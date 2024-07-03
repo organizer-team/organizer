@@ -18,9 +18,4 @@ MockUserProvider.propTypes = {
   emailAfterValidation: PropTypes.string,
 };
 
-// Provide default props in case they are not passed
-MockUserProvider.defaultProps = {
-  emailAfterValidation: '', // Default value if not provided
-};
-
 export default MockUserProvider;

@@ -6,6 +6,7 @@ import TEST_ID from '../CalendarMonthView.testid';
 
 describe('CalendarMonthView', () => {
   const mockDate = new Date();
+  mockDate.setDate(15);
   const mockOnSelect = jest.fn();
 
   beforeEach(() => {

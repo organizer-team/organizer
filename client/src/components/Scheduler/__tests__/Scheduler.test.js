@@ -108,15 +108,15 @@ describe('Scheduler', () => {
 
     const date = new Date();
     date.setHours(0, 0, 0, 0); // Set the time to midnight
+    date.setDate(15); // Set the date to the 15th day of the month
     const dateButton = screen.getByText(date.getDate());
     fireEvent.click(dateButton);
 
     expect(mockOnSelect).toHaveBeenCalledTimes(1);
     expect(mockOnSelect).toHaveBeenCalledWith(date, null);
 
-    const otherDate = new Date();
-    otherDate.setDate(otherDate.getDate() + 1);
-    otherDate.setHours(0, 0, 0, 0);
+    const otherDate = date;
+    otherDate.setDate(20);
     const otherDateButton = screen.getByText(otherDate.getDate());
     fireEvent.click(otherDateButton);
   });
